@@ -75,6 +75,16 @@
                     <a href=""><i class="bi bi-search"></i></a>
                   </span>
                 </div>
+                <!-- <b-navbar-form class="ml-auto" @submit.stop.prevent="search">
+                  <b-form-input
+                    v-model="searchQuery"
+                    placeholder="Search..."
+                    class="mr-sm-2"
+                  ></b-form-input>
+                  <b-button type="submit" variant="outline-success"
+                    >Search</b-button
+                  >
+                </b-navbar-form> -->
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/login">

@@ -143,7 +143,7 @@ export default {
         .post("http://localhost:3838/login", this.userLogin)
         .then((res) => {
           console.log("thanh cong", res);
-          if (res.data.status === 200) {
+          if (res.data.status === 200 && res.data.data.user) {
             this.$swal.fire({
               position: "top-end",
               icon: "success",
@@ -151,10 +151,17 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            if ((res.data.user.role = "administrator")) {
+            localStorage.setItem(
+              "userData",
+              JSON.stringify(res.data.data.user)
+            );
+            if (res.data.data.user.role === "administrator") {
+              console.log("Chạy 1");
+              this.$router.push({ name: "products" });
+            } else {
               this.$router.push({ name: "home" });
+              console.log("Chạy 2");
             }
-            this.$router.push({ name: "home" });
           }
         })
         .catch((err) => {

@@ -76,6 +76,7 @@
                       @ok="handleOk"
                     >
                       <form ref="form" @submit.stop.prevent="handleSubmit">
+                        <!-- Tên sản phẩm -->
                         <b-form-group
                           label="Tên sản phẩm"
                           label-for="name-input"
@@ -89,16 +90,18 @@
                             required
                           ></b-form-input>
                         </b-form-group>
+
+                        <!-- Thương hiệu -->
                         <b-form-group
                           label="Thương hiệu"
                           label-for="name-input"
-                          invalid-feedback="Name is required"
-                          :state="nameState"
+                          invalid-feedback="Vui lòng chọn Thương hiệu !"
+                          :state="brandState"
                         >
                           <div>
                             <b-form-select
-                              v-model="selected"
-                              :options="options"
+                              v-model="selectedBrand"
+                              :options="optionsBrand"
                               class="mb-3"
                             >
                               <!-- This slot appears above the options from 'options' prop -->
@@ -108,16 +111,86 @@
                                   --</b-form-select-option
                                 >
                               </template>
-
-                              <!-- These options will appear after the ones from 'options' prop -->
-                              <!-- <b-form-select-option value="C"
-                                >Option C</b-form-select-option
-                              >
-                              <b-form-select-option value="D"
-                                >Option D</b-form-select-option
-                              > -->
                             </b-form-select>
                           </div>
+                        </b-form-group>
+
+                        <!-- Size -->
+                        <b-form-group
+                          label="Size"
+                          label-for="name-input"
+                          invalid-feedback="Vui lòng chọn Size !"
+                          :state="sizeState"
+                        >
+                          <div>
+                            <b-form-select
+                              v-model="selectedSize"
+                              :options="optionsSize"
+                              class="mb-3"
+                            >
+                              <!-- This slot appears above the options from 'options' prop -->
+                              <template #first>
+                                <b-form-select-option :value="null" disabled
+                                  >-- Vui lòng chọn Size sản phẩm
+                                  --</b-form-select-option
+                                >
+                              </template>
+                            </b-form-select>
+                          </div>
+                        </b-form-group>
+
+                        <!-- Mô tả -->
+                        <b-form-group
+                          label="Mô tả"
+                          label-for="name-input"
+                          invalid-feedback=""
+                          :state="DescriptionState"
+                        >
+                          <b-form-textarea
+                            id="textarea-default"
+                            placeholder="Thông tin mô tả"
+                          ></b-form-textarea>
+                        </b-form-group>
+
+                        <!-- Image -->
+                        <b-form-group
+                          label="Mô tả"
+                          label-for="name-input"
+                          invalid-feedback=""
+                          :state="ImgState"
+                        >
+                          <b-form-file v-model="files" multiple>
+                            <template slot="file-name" slot-scope="{ names }">
+                              <div>
+                                <b-badge
+                                  v-for="(name, index) in names"
+                                  :key="index"
+                                  variant="dark"
+                                  class="mr-1"
+                                >
+                                  {{ name }}
+                                  <b-icon-trash-fill
+                                    @click.stop="removeFile(index)"
+                                    class="ml-1"
+                                  ></b-icon-trash-fill>
+                                </b-badge>
+                              </div>
+                            </template>
+                          </b-form-file>
+                        </b-form-group>
+
+                        <!-- Gía bán -->
+                        <b-form-group label="Giá tiền:" label-for="price">
+                          <b-input-group prepend="$">
+                            <b-form-input
+                              id="price"
+                              v-model="price"
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              required
+                            ></b-form-input>
+                          </b-input-group>
                         </b-form-group>
                       </form>
                     </b-modal>
@@ -127,7 +200,6 @@
               <table class="table">
                 <thead>
                   <tr style="background-color: #e0e0e0">
-                    <th scope="col">id</th>
                     <th scope="col">Tên sản phẩm</th>
                     <th scope="col">Thương hiệu</th>
                     <th scope="col">Mô tả</th>
@@ -138,35 +210,21 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
+                  <tr v-for="item in listProduct" :key="item.id">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.brand_id }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.size_id }}</td>
+                    <td>{{ item.price }}</td>
+                    <!-- <td><img :src="item.image" alt="" /></td> -->
+                    <td>
+                      <img
+                        :src="'http://localhost:3838/' + item.image"
+                        alt=""
+                      />
+                    </td>
+
+                    <td>{{ item.status }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -180,7 +238,7 @@
 
 <script>
 import SideBar from "@/components/SideBar.vue";
-
+import axios from "axios";
 export default {
   name: "products",
   components: {
@@ -188,17 +246,41 @@ export default {
   },
   data() {
     return {
+      file: [],
+      listProduct: {
+        name: "",
+        description: "",
+        status: "",
+        image: "", // Lưu trữ đường dẫn của hình ảnh
+        price: "",
+        brand_id: "",
+        size_id: "",
+      },
       name: "",
       nameState: null,
-      selected: null,
+      sizeState: null,
+      brandState: null,
+      selectedBrand: null,
+      selectedSize: null,
       submittedNames: [],
-      options: [
+
+      optionsBrand: [
         { value: "A", text: "NIKE" },
         { value: "B", text: "ADIDAS" },
         { value: "C", text: "JORDAN" },
         { value: "D", text: "YEEZY" },
       ],
+      optionsSize: [
+        { value: "A", text: "37" },
+        { value: "B", text: "38" },
+        { value: "C", text: "39" },
+        { value: "D", text: "40" },
+      ],
     };
+  },
+  created() {
+    // Khởi tạo dữ liệu hoặc đăng ký sự kiện
+    this.getAllProduct();
   },
   methods: {
     checkFormValidity() {
@@ -228,38 +310,23 @@ export default {
         this.$bvModal.hide("modal-prevent-closing");
       });
     },
+    getAllProduct() {
+      axios
+        .get("http://localhost:3838/products")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("thanh cong", res);
+            this.listProduct = res.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    removeFile(index) {
+      this.files.splice(index, 1);
+    },
   },
-
-  // methods: {
-  //   dropdown() {
-  //     const dropdowns = document.querySelectorAll(".dropdown");
-  //     dropdowns.forEach((dropdowns) => {
-  //       const select = dropdowns.querySelector(".select");
-  //       const caret = dropdowns.querySelector(".caret");
-  //       const menu = dropdowns.querySelector("menu");
-  //       const options = dropdowns.querySelectorAll(".menu li");
-  //       const selected = dropdowns.querySelector(".selected");
-  //       select.addEventListener("click", () => {
-  //         select.classList.toggle("select-clicked");
-  //         caret.classList.toggle("caret-rotate");
-  //         menu.classList.toggle("menu-open");
-  //       });
-
-  //       options.forEach((options) => {
-  //         options.addEventListener("click", () => {
-  //           select.innerHTML = options.innerHTML;
-  //           select.classList.remove("select-clicked");
-  //           caret.classList.remove("caret-rotate");
-  //           menu.classList.remove("menu-open");
-  //           options.forEach((options) => {
-  //             options.classList.remove("active");
-  //           });
-  //           options.classList.add("active");
-  //         });
-  //       });
-  //     });
-  //   },
-  // },
 };
 </script>
 
@@ -298,86 +365,4 @@ table td {
 table tr:hover {
   background-color: #ddd;
 }
-
-/* DROPDOWN */
-/* .dropdown {
-  min-width: 15em;
-  position: relative;
-  margin: 2em;
-}
-
-.dropdown * {
-  box-sizing: border-box;
-}
-
-.select {
-  background: #2a2f3b;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px #2a2f3b solid;
-  border-radius: 0.5em;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.select-clicked {
-  border: 2px #24689a solid;
-  box-shadow: 0 0 0.8em #26489a;
-}
-
-.select:hover {
-  background: #323741;
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid #fff;
-  transition: 0.3s;
-}
-
-.caret-rotate {
-  transform: rotate(180deg);
-}
-
-.menu {
-  list-style: none;
-  padding: 0.2em 0.5em;
-  background: #ffd600;
-  border: 1px #363a43 solid;
-  box-shadow: 0 0.5em 1em rgb(0, 0, 0, 0.2);
-  border-radius: 0.5em;
-  color: #9fa5b5;
-  position: absolute;
-  top: 3em;
-  left: 50%;
-  width: 100%;
-  transform: translateX(-50%);
-  opacity: 0;
-  display: none;
-  transition: 0.2s;
-  z-index: 1;
-}
-
-.menu li {
-  padding: 0.7em 0.5em;
-  margin: 0.3em 0;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-
-.menu li:hove {
-  background: #2a2d35;
-}
-.active {
-  background: #23242a;
-}
-.menu-open {
-  display: block;
-  opacity: 1;
-} */
 </style>
