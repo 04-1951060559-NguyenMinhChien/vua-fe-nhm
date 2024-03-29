@@ -5,17 +5,18 @@ import PageHome from '../components/PageHome.vue'
 
 
 //Nguoi dung
-import PageAdidas from '@/views/user/PageAdidas.vue'
-import PageNike from '@/views/user/PageNike.vue'
-import PageJordan from '@/views/user/PageJordan.vue'
-import PageYeezy from '@/views/user/PageYeezy.vue'
-import PageAbout from '@/views/user/PageAbout.vue'
-import PageContact from '@/views/user/PageContact.vue'
-import PageSpa from '@/views/user/PageSpa.vue'
-import PageCart from '@/views/user/PageCart.vue'
-// import PageUser from '@/views/user/PageUser.vue'
+import PageLogin from '../views/user/Login/PageLogin.vue'
+import PageAbout from '../views/user/About/PageAbout.vue'
+import PageSpa from '../views/user/Spa/PageSpa.vue'
+import PageContact from '../views/user/Contact/PageContact.vue'
+import PageCart from '../views/user/Cart/PageCart.vue'
 
-import PageLogin from '@/views/user/PageLogin.vue'
+
+import PageAdidas from '../views/user/Products/PageAdidas.vue'
+import PageNike from '../views/user/Products/PageNike.vue'
+import PageJordan from '../views/user/Products/PageJordan.vue'
+import PageYeezy from '../views/user/Products/PageYeezy.vue'
+
 
 //Admin
 import AdminOrder from '../views/admin/orders/index.vue'

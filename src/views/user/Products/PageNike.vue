@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card text-left">
-                            <img class="card-img-top" src="../../assets/NIKE/nike1.jpg" alt="">
+                            <img class="card-img-top" src="../../../assets/NIKE/nike1.jpg" alt="">
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <a href="product-detail.html">PEGASUS 38</a>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-left">
-                            <img class="card-img-top" src="../../assets/NIKE/nike8.jpeg" alt="">
+                            <img class="card-img-top" src="../../../assets/NIKE/nike8.jpeg" alt="">
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <a href="product-detail.html">AIR MAX AP</a>
@@ -99,7 +99,7 @@
             <div class="col-4">
                 <div class="aside">
                     <div class="aside aside-footwate">
-                        <a href=""><img src="../../assets/bannersitebar01.jpg" alt=""></a>
+                        <a href=""><img src="../../../assets/bannersitebar01.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="aside aside-news">
@@ -109,7 +109,7 @@
                                     <h3><b>TIN TỨC MỚI</b></h3>
                                 </div>
                                 <div class="aside-news-conten">
-                                    <img src="../../assets/footwate/pt1.jpg" alt="">
+                                    <img src="../../../assets/footwate/pt1.jpg" alt="">
                                     <p>Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình - Kingshoesvn
                                     </p>
                                 </div>
@@ -125,8 +125,8 @@
 </template>
         
   <script>
-import TheHeader from "../../components/TheHeader.vue";
-import TheFooter from "../../components/TheFooter.vue";
+import TheHeader from "../../../components/TheHeader.vue";
+import TheFooter from "../../../components/TheFooter.vue";
 export default {
   name: "PageAbout",
   props: {

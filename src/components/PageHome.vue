@@ -68,7 +68,7 @@
   
 
 <!-- Nội dung -->
-    x  <div class="container">
+     <div class="container">
 
 
 
@@ -437,6 +437,85 @@
                                   </div>
                               </div>
                           </div>
+                          <!-- YEEZY -->
+                          <div id="menu3" class="container tab-pane fade"><br>
+                              <div class="row">
+                                  <div class="col-md-3">
+                                      <div class="card text-left">
+                                          <img class="card-img-top" src="../assets/JORDAN/jd1.jpeg" alt="">
+                                          <div class="card-body">
+                                              <h4 class="card-title">
+                                                  <a href="product-detail.html">DUNK HIGH UP PASTELS</a>
+                                              </h4>
+                                              <p class="card-text">
+                                              <div class="star ">
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                              </div>
+                                              <strong>4,800,000 đ</strong>
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <div class="card text-left">
+                                          <img class="card-img-top" src="../assets/JORDAN/jd2.jpeg" alt="">
+                                          <div class="card-body">
+                                              <h4 class="card-title">
+                                                  <a href="product-detail.html">DUNK LOW PAISLEY</a>
+                                              </h4>
+                                              <p class="card-text">
+                                              <h5>____________</h5>
+                                              <strong>7,200,000 đ</strong>
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <div class="card text-left">
+                                          <img class="card-img-top" src="../assets/JORDAN/jd3.jpg" alt="">
+                                          <div class="card-body">
+                                              <h4 class="card-title">
+                                                  <a href="product-detail.html">DUNK HIGH AMBUSH</a>
+                                              </h4>
+                                              <p class="card-text">
+                                              <div class="star ">
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                              </div>
+                                              <strong>16,000,000 đ</strong>
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <div class="card text-left">
+                                          <img class="card-img-top" src="../assets/JORDAN/jd4.jpeg" alt="">
+                                          <div class="card-body">
+                                              <h4 class="card-title">
+                                                  <a href="product-detail.html"> LOW DENIM</a>
+                                              </h4>
+                                              <p class="card-text">
+                                              <div class="star ">
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                                  <i class="fa-solid fa-star "></i>
+                                              </div>
+                                              <strong>14,800,000 đ</strong>
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
                       </div>
                   </div>
               </div>
@@ -529,10 +608,10 @@
                       <h2>CONTACT US</h2>
                   </div>
                   <div class="col-12 social pading">
-                      <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
-                      <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
-                      <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                      <a href="#"><i class="bi bi-facebook"></i></a>
+                      <a href="#"><i class="bi bi-instagram"></i></a>
+                      <a href="#"><i class="bi bi-twitter"></i></a>
+                      <a href="#"><i class="bi bi-youtube"></i></a>
                   </div>
               </div>
   

@@ -7,75 +7,18 @@
         <div class="col-8">
           <div class="container-about">
             <h3>
-              <b
-                >CỬA HÀNG BÁN GIÀY SNEAKER CHÍNH HÃNG TẠI HÀ NỘI - KING SHOES
-                GIỚI THIỆU</b
-              >
+              <b>CHĂM SÓC GIÀY CỦA BẠN TẠI - KINGSHOES.VN</b>
             </h3>
             <div class="ps-post__content">
               <p>
-                Nỗi sợ vì mua phải giày kém chất lượng, giày fake, từ nay không
-                còn lo lắng nữa vì đã có #<strong>KINGSHOES.VN</strong>: hàng
-                chính hãng nhập trực tiếp từ US, fullbox, nguyên tem.
+                Dịch vụ Spa giày và dán Sole ( đế giày ) King Shoes ra đời với
+                sứ mệnh giúp khách hàng gia tăng trải nghiệm sản phẩm không chỉ
+                trong quá trình mua sắm mà còn bảo vệ đôi giày của khách hàng
+                trong quá trình sử dụng luôn mới - bền - đẹp. Vệ sinh giày crep
+                protect tại Kingshoes với giá cả vô cùng hợp lý cùng chất lượng
+                luôn được khách hàng hài lòng tuyệt đối khi nhận giày.
               </p>
-
-              <p>
-                <img
-                  alt="👑"
-                  height="16"
-                  referrerpolicy="origin-when-cross-origin"
-                  src="https://static.xx.fbcdn.net/images/emoji.php/v9/te8/1/16/1f451.png"
-                  width="16"
-                /><strong>&nbsp;KINGSHOES.VN&nbsp;</strong>✓15 Ngày Đổi Hàng
-                ✓Giao Hàng Miễn Phí ✓Thanh Toán Khi Nhận Hàng ✓Bảo Hành Hàng
-                Chính Hãng.!!!
-              </p>
-
-              <p>
-                <strong
-                  ><strong
-                    ><strong
-                      >Đến với "KINGSHOES.VN”&nbsp;quý khách hàng sẽ có những
-                      sản phẩm ưng ý nhất, chất lượng phục vụ tốt và giá thành
-                      tốt nhất, cùng những&nbsp;“ Chương Trình Khuyến Mãi Đặc
-                      Biệt”.</strong
-                    ></strong
-                  >
-                </strong>
-              </p>
-
-              <p>
-                <iframe
-                  allow="autoplay;"
-                  allowfullscreen=""
-                  frameborder="0"
-                  height="500px"
-                  longdesc="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  name="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  scrolling="no"
-                  src="https://www.youtube.com/embed/epcfWIT_Ais?rel=0&amp;autoplay=1"
-                  title="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  width="100%"
-                ></iframe>
-              </p>
-
-              <p>
-                Tìm được cửa hàng giày khiến mình an tâm rất khó luôn đó
-                mọi&nbsp;người ơi. Hổng nói nổi vui như nào khi gặp được
-                <em><strong>KING SHOES</strong></em> luôn á, Sản phẩm chất lượng
-                mà các dịch vụ đi kèm hấp dẫn nữa. Dân mê giày làm sao cưỡng lại
-                <strong>KINGSHOES</strong> đây!
-              </p>
-
-              <p>
-                <img
-                  alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  height="100%"
-                  src="../../assets/about/ab1.jpeg"
-                  srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  width="100%"
-                />
-              </p>
+              <img src="" alt="" />
 
               <p>
                 Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới
@@ -89,7 +32,7 @@
                   ><img
                     alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                     height="100%"
-                    src="../../assets/about/ab1.jpg"
+                    src="../../../assets/about/ab1.jpg"
                     srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                     width="100%"
                 /></a>
@@ -120,7 +63,7 @@
                 <img
                   alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   height="100%"
-                  src="../../assets/about/ab3.jpeg"
+                  src="../../../assets/about/ab3.jpeg"
                   srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   width="100%"
                 />
@@ -132,7 +75,7 @@
               <img
                 height="100%"
                 width="100%"
-                src=" ../../../../assets/about/ab4.jpeg"
+                src=" ../../../../../assets/about/ab4.jpeg"
                 alt=" "
               />
               <p>
@@ -145,7 +88,7 @@
               <img
                 height="100%"
                 width="100%"
-                src="../../assets/about/ab5.jpg"
+                src="../../../assets/about/ab5.jpg"
                 alt=" "
               />
               <p></p>
@@ -182,14 +125,14 @@
               <img
                 height="100%"
                 width="100%"
-                src="../../assets/about/thanks.jpg"
+                src="../../../assets/about/thanks.jpg"
                 alt=""
               />
               <hr width="50%" />
               <img
                 height="100%"
                 width="100%"
-                src="../../assets/about/a.jpg"
+                src="../../../assets/about/a.jpg"
                 alt=""
               />
             </div>
@@ -199,7 +142,7 @@
           <div class="aside">
             <div class="aside aside-footwate">
               <a href=" "
-                ><img src="../../assets/bannersitebar01.jpg" alt=" "
+                ><img src="../../../assets/bannersitebar01.jpg" alt=" "
               /></a>
             </div>
             <hr />
@@ -209,7 +152,7 @@
                   <h3><b>TIN TỨC MỚI</b></h3>
                 </div>
                 <div class="aside-news-conten">
-                  <img src="../../assets/footwate/pt1.jpg" alt=" " />
+                  <img src="../../../assets/footwate/pt1.jpg" alt=" " />
                   <p>
                     Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
                     Kingshoesvn
@@ -227,8 +170,8 @@
 </template>
         
   <script>
-import TheHeader from "../../components/TheHeader.vue";
-import TheFooter from "../../components/TheFooter.vue";
+import TheHeader from "../../../components/TheHeader.vue";
+import TheFooter from "../../../components/TheFooter.vue";
 export default {
   name: "PageAbout",
   props: {
@@ -241,7 +184,7 @@ export default {
 };
 </script>
         
-<style scoped>
+        <style scoped>
 .aside-footwate img {
   width: 100%;
 }
