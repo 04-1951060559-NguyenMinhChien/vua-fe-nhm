@@ -60,12 +60,12 @@
                       >Thêm</b-button
                     >
 
-                    <div class="mt-3">
+                    <!-- <div class="mt-3">
                       <div v-if="submittedNames.length === 0"></div>
                       <ul v-else class="mb-0 pl-3">
                         <li v-for="name in submittedNames">{{ name }}</li>
                       </ul>
-                    </div>
+                    </div> -->
 
                     <b-modal
                       id="modal-prevent-closing"
@@ -85,7 +85,7 @@
                         >
                           <b-form-input
                             id="name-input"
-                            v-model="name"
+                            v-model="dataCreate.name"
                             :state="nameState"
                             required
                           ></b-form-input>
@@ -100,8 +100,8 @@
                         >
                           <div>
                             <b-form-select
-                              v-model="selectedBrand"
                               :options="optionsBrand"
+                              :state="brandState"
                               class="mb-3"
                             >
                               <!-- This slot appears above the options from 'options' prop -->
@@ -124,8 +124,8 @@
                         >
                           <div>
                             <b-form-select
-                              v-model="selectedSize"
                               :options="optionsSize"
+                              :state="sizeState"
                               class="mb-3"
                             >
                               <!-- This slot appears above the options from 'options' prop -->
@@ -144,11 +144,13 @@
                           label="Mô tả"
                           label-for="name-input"
                           invalid-feedback=""
-                          :state="DescriptionState"
+                          :state="descriptionState"
                         >
                           <b-form-textarea
+                            v-model="dataCreate.description"
                             id="textarea-default"
                             placeholder="Thông tin mô tả"
+                            :state="descriptionState"
                           ></b-form-textarea>
                         </b-form-group>
 
@@ -159,7 +161,7 @@
                           invalid-feedback=""
                           :state="ImgState"
                         >
-                          <b-form-file v-model="files" multiple>
+                          <b-form-file v-model="dataCreate.image" multiple>
                             <template slot="file-name" slot-scope="{ names }">
                               <div>
                                 <b-badge
@@ -184,10 +186,11 @@
                           <b-input-group prepend="$">
                             <b-form-input
                               id="price"
-                              v-model="price"
+                              v-model="dataCreate.price"
                               type="number"
                               min="0"
                               step="0.01"
+                              :state="priceState"
                               required
                             ></b-form-input>
                           </b-input-group>
@@ -244,9 +247,16 @@ export default {
   components: {
     SideBar,
   },
+  props: {
+    value: {
+      type: [Array, File, String], // Cho phép kiểu String
+      default: () => [],
+    },
+  },
   data() {
     return {
       file: [],
+      // Data hiển thị trên table sẽ gán vào đây
       listProduct: {
         name: "",
         description: "",
@@ -260,9 +270,22 @@ export default {
       nameState: null,
       sizeState: null,
       brandState: null,
+      descriptionState: null,
+      ImgState: null,
+      priceState: null,
+
       selectedBrand: null,
       selectedSize: null,
-      submittedNames: [],
+      // Data khi thêm mới sẽ gán vào dây
+      dataCreate: {
+        name: "",
+        description: "",
+        status: "",
+        image: "", // Lưu trữ đường dẫn của hình ảnh
+        price: "",
+        brand_id: "",
+        size_id: "",
+      },
 
       optionsBrand: [
         { value: "A", text: "NIKE" },
@@ -289,9 +312,18 @@ export default {
       return valid;
     },
     resetModal() {
-      this.name = "";
+      this.listProduct = {
+        name: "",
+        description: "",
+        status: "",
+        image: "", // Lưu trữ đường dẫn của hình ảnh
+        price: "",
+        brand_id: "",
+        size_id: "",
+      };
       this.nameState = null;
     },
+
     handleOk(bvModalEvent) {
       // Prevent modal from closing
       bvModalEvent.preventDefault();
@@ -303,9 +335,17 @@ export default {
       if (!this.checkFormValidity()) {
         return;
       }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
-      // Hide the modal manually
+      axios
+        .post("http://localhost:3838/products", this.dataCreate)
+        .then((res) => {
+          if (res.data.status === 200) {
+            // Thêm thông báo thành công
+            console.log("Them thanh cong", res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });

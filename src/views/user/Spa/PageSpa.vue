@@ -18,123 +18,136 @@
                 protect tại Kingshoes với giá cả vô cùng hợp lý cùng chất lượng
                 luôn được khách hàng hài lòng tuyệt đối khi nhận giày.
               </p>
-              <img src="" alt="" />
-
-              <p>
-                Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới
-                thiệu
-              </p>
-
-              <p>
-                <a
-                  href="/data/upload/media/cua-hang-giay-sneaker-chinh-hang-tai-hcm-king-shoes-khach-hang-check-in-192-nguyen-thai-binh-p12-tan-binh-15.jpg"
-                  data-fancybox="images"
-                  ><img
-                    alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                    height="100%"
-                    src="../../../assets/about/ab1.jpg"
-                    srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                    width="100%"
-                /></a>
-              </p>
-
-              <p>
-                <strong>KING SHOES CHUẨN GIÀY REAL - DEAL SIÊU KHỦNG</strong>
-              </p>
-
-              <p>
-                Cửa Hàng
-                <a
-                  href="https://kingshoes.vn/gioi-thieu/"
-                  id="KING SHOES"
-                  target="_blank"
-                  title="KING SHOES"
-                  type="KING SHOES"
-                  ><strong>KING SHOES</strong></a
-                >&nbsp;là một trong những nơi sưu tầm có khối lượng giày hiếm
-                siêu khủng. Có những mẫu giày cực kì hype được giới sưu tầm săn
-                lùng, thậm chí bạn sẽ bắt gặp nhiều mẫu lạ mới mà hiếm shop nào
-                có. Có những mẫu chỉ có độc nhất 1 đôi. Ngoài ra những mẫu đang
-                rất HOT trên thị trường <strong>sneaker</strong>về liên tục nên
-                các bạn cứ yên tâm không sợ hết hàng.
-              </p>
-
-              <p>
+              <div class="">
+                <p><b>Cách vệ sinh giày Sneaker</b></p>
+                <p>
+                  • Khi vệ sinh và bảo quản giày, điều quan trọng nhất làm làm
+                  sao không làm ảnh hưởng đến chất lượng giày. Một số mẹo giặt
+                  giày của mình
+                </p>
+                <p>
+                  • Đừng giặt giày liên tục sau mỗi lần sử dụng. Giày sẽ rất mau
+                  hư nếu bạn nhúng nước nó quá thường xuyên: bị hở keo đế, hoặc
+                  phần vật liệu thân giày bị mục.
+                </p>
+                <p>
+                  • Đừng giặt giày bằng máy giặt. Nếu bạn lười biếng và muốn
+                  dùng máy giặt, chỉ nên làm thế vài tháng một lần.
+                </p>
+                <p>
+                  • Không bao giờ bỏ vào máy sấy. Nhiệt độ của hơi sấy sẽ làm
+                  hỏng vật liệu thân giày, làm giày mất form, đồng thời gây ảnh
+                  hưởng tiêu cực đến chất lượng keo dán giày.
+                </p>
+                <p>
+                  • Đừng ngâm giày trong nước quá lâu. Giày khác với quần áo vì
+                  nó có keo dán giữa thân giày và đế giày. Phần keo dán này
+                  không thích bị ngâm nước đâu. Mình thường dùng vòi nước xịt
+                  thẳng vào bề mặt giày để tống khứ vết bẩn, nhanh gọn lẹ.
+                </p>
+                <p>
+                  • Hạn chế dùng xà bông. Trừ khi giày quá dơ dùng nước không
+                  sạch, bạn mới nên sử dụng xà bông pha loãng.
+                </p>
+                <p>
+                  • Dùng giấy báo nhét vô giày sau khi giặt xong. Bạn có để ý
+                  mỗi lần mua giày về đều thấy có giấy nhét trong giày không?
+                  Mục đích của nó là để giữ form giày. Vì thế, mỗi lần giặt
+                  xong, bạn nên kiếm giấy báo nhét vô giày rồi mới đem phơi.
+                </p>
+                <b
+                  >KINGSHOES.VN Chúc các bạn sẽ luôn có những đôi giày Sneaker
+                  bền đẹp!</b
+                >
+              </div>
+              <div class="">
                 <img
-                  alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  height="100%"
-                  src="../../../assets/about/ab3.jpeg"
-                  srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
-                  width="100%"
+                  src="../../../assets/Spa/spa-giay-chuyen-nghiep-king-shoes-ve-sinh-giay-crep-protect-hcm.jpg"
+                  alt=""
                 />
-              </p>
-              <p>
-                Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới
-                thiệu
-              </p>
-              <img
-                height="100%"
-                width="100%"
-                src=" ../../../../../assets/about/ab4.jpeg"
-                alt=" "
-              />
-              <p>
-                Cửa Hàng Bán Giày Sneaker Adidas, Nike Chính Hãng tại tpHCM 100%
-                Authentic nhập trực tiếp từ US, UK, JAPAN @ KINGSHOES.VN nhiệm
-                vụ mang hàng chính hãng đến tay người tiêu dùng Việt Nam !!!
-                192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ
-                Chí Minh.
-              </p>
-              <img
-                height="100%"
-                width="100%"
-                src="../../../assets/about/ab5.jpg"
-                alt=" "
-              />
-              <p></p>
-
-              <iframe
-                frameborder="0"
-                height="500px"
-                src="https://www.google.com/maps/embed?pb=!4v1581396341581!6m8!1m7!1sCAoSLEFGMVFpcE0xb1lhcDgxU05LdXgyaWtVMVdIWmhUQlg5OElVbG5LcmVLbXVK!2m2!1d10.7968768!2d106.6535676!3f0!4f23.67!5f0.4000000000000002"
-                style="border: 0"
-                width="100%"
-              ></iframe>
-              <p><b>⇒ Bảng Giá Vận Chuyển</b></p>
-              <p>
-                ☑ Khu vực TP. Hồ Chí Minh: Miễn phí chi phí vận chuyển (Free
-                ship).
-              </p>
-              <p>
-                ☑ Khu vực Tỉnh : KingShoes.vn hỗ trợ khách hàng 50k chi phí vận
-                chuyển phát sinh từ các đơn vị vận chuyển như: Giao Hàng Nhanh,
-                VN Post, Viettel.
-              </p>
-              <p>
-                ⚡️ KingShoes.vn ship hàng toàn quốc COD- Kiểm tra hàng trước và
-                thanh toán trực tiếp tại nhà.
-              </p>
-              <p><b>⛔ Chính Sách Đổi Hàng KINGSHOES.VN</b></p>
-              <p>
-                ⇒ Tất cả sản phẩm giày tại KINGSHOES.VN được đổi hàng trong vòng
-                15 ngày kể từ ngày nhận hàng khi chưa qua sử dụng còn full tag,
-                hộp và kèm bill mua hàng.(do lỗi từ nhà sản xuất hoặc không vừa
-                size). Chỉ áp dụng đổi hàng với SP không SALE ( MỨC ck 5% TRỞ
-                XUỐNG ).
-              </p>
-              <img
-                height="100%"
-                width="100%"
-                src="../../../assets/about/thanks.jpg"
-                alt=""
-              />
-              <hr width="50%" />
-              <img
-                height="100%"
-                width="100%"
-                src="../../../assets/about/a.jpg"
-                alt=""
-              />
+              </div>
+              <div class="">
+                <p>
+                  <b
+                    >Dịch vụ vệ sinh giày và dán đế chuyên nghiệp tại King shoes
+                    luôn đảm bảo tiêu chí :</b
+                  >
+                </p>
+                <p>
+                  - Vệ sinh giày kỹ lưỡng, thời gian 48 giờ kể từ lúc khách hàng
+                  gửi giày tới cửa hàng
+                </p>
+                <p>
+                  - Quy trình vệ sinh giày chuyên nghiệp. Hấp khử mùi, nấm khuẩn
+                  bằng máy chuyên dụng. Dung dịch vệ sinh nhập khẩu chuyên dành
+                  cho giày SNEAKER. Kỹ thuật viên lành nghề & tận tâm.
+                </p>
+                <p>
+                  KINGSHOES chăm sóc cẩn thận từng đôi giày với quy trình kiểm
+                  soát chất lượng gắt gao, đảm bảo không làm hư giày. Đội ngũ
+                  giao nhận riêng được đào tạo bài bản, biên nhận rõ ràng & hệ
+                  thống đánh tag tránh mất giày. Minh bạch, tin cậy, và tuyệt
+                  đối an tâm.
+                </p>
+                <p><img src="../../../assets/Spa/spa2.jpg" alt="" /></p>
+                <p>
+                  <img src="../../../assets/Spa/spa3.jpg" alt="" />
+                </p>
+                <p>
+                  <b
+                    >CÁC THƯƠNG HIỆU GIÀY THƯỜNG XUYÊN ĐƯỢC KINGSHOES VỆ SINH -
+                    CHĂM SÓC:</b
+                  >
+                </p>
+                <p>
+                  p- GUCCI, Yeezy 350 , Yeezy 500, Yeezy 700, Ultraboost,
+                  Prophere, Air max 270, Air force 1, Air max 97, NMD R1, Human
+                  race, Superstar, Stansmith......
+                </p>
+                <p>
+                  <img src="../../../assets/Spa/spa4.jpg" alt="" />
+                </p>
+                <p><b>Ảnh thực tế dịch vụ SPA GIÀY tại KINGSHOES.VN</b></p>
+                <div class="row">
+                  <div class="col-6">
+                    <img src="../../../assets/Spa/spa5.jpg" alt="" />
+                  </div>
+                  <div class="col-6">
+                    <img src="../../../assets/Spa/spa6.jpg" alt="" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <img src="../../../assets/Spa/spa7.jpg" alt="" />
+                  </div>
+                  <div class="col-6">
+                    <img src="../../../assets/Spa/spa8.jpg" alt="" />
+                  </div>
+                </div>
+                <p>
+                  <b
+                    >KINGSHOES 'SPA Giày phân phối CREP PROTECT thương hiệu vệ
+                    sinh giày tốt nhất thế giới từ UK được bình chọn.</b
+                  >
+                </p>
+                <p>
+                  <img src="../../../assets/Spa/spa10.jpg" alt="" />
+                </p>
+                <p>
+                  <b
+                    >PROTECT CURE | Bộ kit vệ sinh giày --->>> Giá : 490,000
+                    VND</b
+                  >
+                </p>
+                <p><img src="../../../assets/Spa/spa11.jpg" alt="" /></p>
+                <p>
+                  <b
+                    >CREP PROTECT thương hiệu vệ sinh giày tốt nhất thế giới từ
+                    UK được bình chọn.</b
+                  >
+                </p>
+                <p><img src="../../../assets/Spa/spa12.jpg" alt="" /></p>
+              </div>
             </div>
           </div>
         </div>
@@ -190,6 +203,9 @@ export default {
 }
 
 .aside-news img {
+  width: 100%;
+}
+img {
   width: 100%;
 }
 </style>

@@ -2,10 +2,10 @@
   <div>
     <div class="header-top">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12" style="text-align: center; padding: 10px 0">
-            <b>👑 KING AND QUEEN ~~~ <i class="bi bi-telephone-fill"></i> </b>
-            Hotline: <b>0356422491</b>
+        <div class="row text-right">
+          <div class="col-12" style="padding: 10px 20px">
+            <b>👑 KING AND QUEEN ~ <i class="bi bi-telephone-fill"></i> </b>
+            Hotline: <b>0356422999</b>
           </div>
           <hr style="margin: 0" />
         </div>

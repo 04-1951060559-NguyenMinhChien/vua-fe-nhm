@@ -12,11 +12,11 @@
               Phan Đình Giót, Phương Liệt, Thanh Xuân, Hà Nội
             </p>
             <p>Email : cskh.kingshoes.vn@gmail.com</p>
-            <a href="">https://kingshoes.vn/</a><br />
-            <a href="">https://twitter.com/KingShoes_vn</a><br />
-            <a href="">https://instagram.com/KingShoes.vn</a><br />
-            <a href="">https://facebook.com/pg/www.KingShoes.vn</a><br />
-            <a href="">https://www.youtube.com/www.KingShoes.vn</a><br />
+            <p><a href="">https://kingshoes.vn/</a></p>
+            <p><a href="">https://twitter.com/KingShoes_vn</a></p>
+            <p><a href="">https://instagram.com/KingShoes.vn</a></p>
+            <p><a href="">https://facebook.com/pg/www.KingShoes.vn</a></p>
+            <p><a href="">https://www.youtube.com/www.KingShoes.vn</a></p>
           </div>
           <div class="col-md-4">
             <div class="row">
@@ -37,21 +37,23 @@
             <div class="row">
               <div class="col-12">
                 <p>
-                  Số ĐKKD: 41N8041309 cấp ngày 17/8/2018. Nơi cấp Ủy Ban Nhân
-                  Dân Quận Thanh Xuân. Hộ Kinh Doanh: KINGSHOES. Hotline:
-                  0356.422.999
+                  <b>
+                    Số ĐKKD: 41N8041309 cấp ngày 17/8/2018. Nơi cấp Ủy Ban Nhân
+                    Dân Quận Thanh Xuân. Hộ Kinh Doanh: KINGSHOES. Hotline:
+                    0356.422.999</b
+                  >
                 </p>
-                <h4>CHỨNG NHẬN</h4>
+                <h6 style="text-align: center"><b>CHỨNG NHẬN</b></h6>
                 <img
                   src="../assets/logoSaleNoti.png"
                   alt=""
-                  style="width: 100%"
+                  style="width: 90%"
                 />
               </div>
             </div>
           </div>
           <div class="col-md-4">
-            <H5>FANPAGE</H5>
+            <h6><b>FANPAGE</b></h6>
             <div class="fanpage">
               <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61552818364939&tabs&width=340&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
