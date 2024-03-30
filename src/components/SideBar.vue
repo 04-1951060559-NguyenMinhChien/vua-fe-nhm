@@ -17,9 +17,10 @@
           >
         </li>
         <li>
-          <router-link class="nav-link" to="/admin/adminproducts"
-            ><i class="bi bi-database-fill"></i>Quản lý sản phẩm</router-link
-          >
+          <router-link class="nav-link" to="/admin/adminproducts">
+            <i class="bi bi-database-fill"></i>
+            Quản lý sản phẩm
+          </router-link>
         </li>
         <li>
           <router-link class="nav-link" to="/admin/adminorder"

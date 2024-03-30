@@ -25,6 +25,8 @@ import AdminUsers from '../views/admin/users/index.vue'
 import AdminStaff from '../views/admin/staff/index.vue'
 
 
+// import sizeManage from '@/views/admin/products/sizeManage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -105,7 +107,17 @@ const routes = [
     path: '/admin/adminstaff',
     name: 'staff',
     component: AdminStaff
-  }
+  },
+  {
+    path: '/admin/adminstaff',
+    name: 'staff',
+    component: AdminStaff
+  },
+  // {
+  //   path: '/admin/sizeManager',
+  //   name: 'sizeManager',
+  //   component: sizeManage
+  // }
 
 ]
 
