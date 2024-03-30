@@ -52,186 +52,148 @@
             <div class="oder-manager">
               <div class="row">
                 <div class="col-6"><h2>Quản Lý Sản Phẩm</h2></div>
-                <div class="col-6">
-                  <div>
-                    <b-button
-                      v-b-modal.modal-prevent-closing
-                      style="float: right"
-                      >Thêm</b-button
-                    >
+                <b-button id="show-btn" @click="showModal"
+                  >Thêm sản phầm</b-button
+                >
 
-                    <!-- <div class="mt-3">
-                      <div v-if="submittedNames.length === 0"></div>
-                      <ul v-else class="mb-0 pl-3">
-                        <li v-for="name in submittedNames">{{ name }}</li>
-                      </ul>
-                    </div> -->
-
-                    <b-modal
-                      id="modal-prevent-closing"
-                      ref="modal"
-                      title="Thông tin sản phẩm"
-                      @show="resetModal"
-                      @hidden="resetModal"
-                      @ok="handleOk"
-                    >
-                      <form ref="form" @submit.stop.prevent="handleSubmit">
-                        <!-- Tên sản phẩm -->
-                        <b-form-group
-                          label="Tên sản phẩm"
-                          label-for="name-input"
-                          invalid-feedback="Name is required"
-                          :state="nameState"
+                <b-modal ref="my-modal" hide-footer title="Them moi san pham">
+                  <div class="modal-body">
+                    <form @submit.prevent="handleSubmit">
+                      <div class="mb-3">
+                        <label for="productName" class="form-label"
+                          >Tên sản phẩm:</label
                         >
-                          <b-form-input
-                            id="name-input"
-                            v-model="dataCreate.name"
-                            :state="nameState"
-                            required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <!-- Thương hiệu -->
-                        <b-form-group
-                          label="Thương hiệu"
-                          label-for="name-input"
-                          invalid-feedback="Vui lòng chọn Thương hiệu !"
-                          :state="brandState"
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="productName"
+                          v-model="dataCreate.name"
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="productName" class="form-label"
+                          >Mô tả:</label
                         >
-                          <div>
-                            <b-form-select
-                              :options="optionsBrand"
-                              :state="brandState"
-                              class="mb-3"
-                            >
-                              <!-- This slot appears above the options from 'options' prop -->
-                              <template #first>
-                                <b-form-select-option :value="null" disabled
-                                  >-- Vui lòng chọn thương hiệu sản phẩm
-                                  --</b-form-select-option
-                                >
-                              </template>
-                            </b-form-select>
-                          </div>
-                        </b-form-group>
+                        <textarea
+                          id="textarea productName"
+                          class="form-control"
+                          v-model="dataCreate.description"
+                          required
+                        ></textarea>
+                      </div>
 
-                        <!-- Size -->
-                        <b-form-group
-                          label="Size"
-                          label-for="name-input"
-                          invalid-feedback="Vui lòng chọn Size !"
-                          :state="sizeState"
+                      <div class="mb-3">
+                        <label for="productSize" class="form-label"
+                          >Size:</label
                         >
-                          <div>
-                            <b-form-select
-                              :options="optionsSize"
-                              :state="sizeState"
-                              class="mb-3"
-                            >
-                              <!-- This slot appears above the options from 'options' prop -->
-                              <template #first>
-                                <b-form-select-option :value="null" disabled
-                                  >-- Vui lòng chọn Size sản phẩm
-                                  --</b-form-select-option
-                                >
-                              </template>
-                            </b-form-select>
-                          </div>
-                        </b-form-group>
-
-                        <!-- Mô tả -->
-                        <b-form-group
-                          label="Mô tả"
-                          label-for="name-input"
-                          invalid-feedback=""
-                          :state="descriptionState"
+                        <select
+                          class="form-select"
+                          id="productSize"
+                          v-model="dataCreate.size_id"
+                          required
                         >
-                          <b-form-textarea
-                            v-model="dataCreate.description"
-                            id="textarea-default"
-                            placeholder="Thông tin mô tả"
-                            :state="descriptionState"
-                          ></b-form-textarea>
-                        </b-form-group>
-
-                        <!-- Image -->
-                        <b-form-group
-                          label="Mô tả"
-                          label-for="name-input"
-                          invalid-feedback=""
-                          :state="ImgState"
+                          <option value="">Chọn size</option>
+                          <option
+                            v-for="size in optionsSize"
+                            :key="size._id"
+                            :value="size._id"
+                          >
+                            {{ size.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="productBrand" class="form-label"
+                          >Thương hiệu:</label
                         >
-                          <b-form-file v-model="dataCreate.image" multiple>
-                            <template slot="file-name" slot-scope="{ names }">
-                              <div>
-                                <b-badge
-                                  v-for="(name, index) in names"
-                                  :key="index"
-                                  variant="dark"
-                                  class="mr-1"
-                                >
-                                  {{ name }}
-                                  <b-icon-trash-fill
-                                    @click.stop="removeFile(index)"
-                                    class="ml-1"
-                                  ></b-icon-trash-fill>
-                                </b-badge>
-                              </div>
-                            </template>
-                          </b-form-file>
-                        </b-form-group>
-
-                        <!-- Gía bán -->
-                        <b-form-group label="Giá tiền:" label-for="price">
-                          <b-input-group prepend="$">
-                            <b-form-input
-                              id="price"
-                              v-model="dataCreate.price"
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              :state="priceState"
-                              required
-                            ></b-form-input>
-                          </b-input-group>
-                        </b-form-group>
-                      </form>
-                    </b-modal>
+                        <select
+                          class="form-select"
+                          id="productBrand"
+                          v-model="dataCreate.brand_id"
+                          required
+                        >
+                          <option value="">Chọn thương hiệu</option>
+                          <option
+                            v-for="brand in optionsBrand"
+                            :key="brand._id"
+                            :value="brand._id"
+                          >
+                            {{ brand.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="productprice" class="form-label"
+                          >Price:</label
+                        >
+                        <input
+                          type="number"
+                          min="0"
+                          class="form-control"
+                          id="productprice"
+                          v-model="dataCreate.price"
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="productImage" class="form-label"
+                          >Hình ảnh:</label
+                        >
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="productImage"
+                          @change="handleImageUpload"
+                          accept="image/*"
+                          required
+                        />
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                          Lưu
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          @click="hideModal"
+                        >
+                          Hủy
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                </div>
+                </b-modal>
               </div>
-              <table class="table">
-                <thead>
-                  <tr style="background-color: #e0e0e0">
-                    <th scope="col">Tên sản phẩm</th>
-                    <th scope="col">Thương hiệu</th>
-                    <th scope="col">Mô tả</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Giá bán</th>
-                    <th scope="col">Hình ảnh</th>
-                    <th scope="col">Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in listProduct" :key="item.id">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.brand_id }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.size_id }}</td>
-                    <td>{{ item.price }}</td>
-                    <!-- <td><img :src="item.image" alt="" /></td> -->
-                    <td>
-                      <img
-                        :src="'http://localhost:3838/' + item.image"
-                        alt=""
-                      />
-                    </td>
-
-                    <td>{{ item.status }}</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
+            <table class="table">
+              <thead>
+                <tr style="background-color: #e0e0e0">
+                  <th scope="col">Tên sản phẩm</th>
+                  <th scope="col">Thương hiệu</th>
+                  <th scope="col">Mô tả</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Giá bán</th>
+                  <th scope="col">Hình ảnh</th>
+                  <th scope="col">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in listProduct" :key="item.id">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.brand_id }}</td>
+                  <td>{{ item.description }}</td>
+                  <td>{{ item.size_id }}</td>
+                  <td>{{ item.price }}</td>
+                  <!-- <td><img :src="item.image" alt="" /></td> -->
+                  <td>
+                    <img :src="'http://localhost:3838/' + item.image" alt="" />
+                  </td>
+
+                  <td>{{ item.status }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -247,15 +209,9 @@ export default {
   components: {
     SideBar,
   },
-  props: {
-    value: {
-      type: [Array, File, String], // Cho phép kiểu String
-      default: () => [],
-    },
-  },
   data() {
     return {
-      file: [],
+      modalShow: false,
       // Data hiển thị trên table sẽ gán vào đây
       listProduct: {
         name: "",
@@ -274,13 +230,13 @@ export default {
       ImgState: null,
       priceState: null,
 
-      selectedBrand: null,
-      selectedSize: null,
+      selectedBrand: [],
+      selectedSize: [],
       // Data khi thêm mới sẽ gán vào dây
       dataCreate: {
         name: "",
         description: "",
-        status: "",
+        status: true,
         image: "", // Lưu trữ đường dẫn của hình ảnh
         price: "",
         brand_id: "",
@@ -288,16 +244,30 @@ export default {
       },
 
       optionsBrand: [
-        { value: "A", text: "NIKE" },
-        { value: "B", text: "ADIDAS" },
-        { value: "C", text: "JORDAN" },
-        { value: "D", text: "YEEZY" },
+        { _id: "65ed7d961d38f0473cc1c35a", name: "36" },
+        { _id: "37", name: "37" },
+        { _id: "38", name: "38" },
+        { _id: "39", name: "39" },
+        { _id: "40", name: "40" },
+        { _id: "41", name: "41" },
+        { _id: "42", name: "42" },
+        { _id: "43", name: "43" },
+        { _id: "44", name: "44" },
+        { _id: "45", name: "45" },
+        { _id: "46", name: "46" },
       ],
       optionsSize: [
-        { value: "A", text: "37" },
-        { value: "B", text: "38" },
-        { value: "C", text: "39" },
-        { value: "D", text: "40" },
+        { _id: "65ed7d961d38f0473cc1c35a", name: "36" },
+        { _id: "37", name: "37" },
+        { _id: "38", name: "38" },
+        { _id: "39", name: "39" },
+        { _id: "40", name: "40" },
+        { _id: "41", name: "41" },
+        { _id: "42", name: "42" },
+        { _id: "43", name: "43" },
+        { _id: "44", name: "44" },
+        { _id: "45", name: "45" },
+        { _id: "46", name: "46" },
       ],
     };
   },
@@ -306,49 +276,40 @@ export default {
     this.getAllProduct();
   },
   methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
+    showModal() {
+      this.$refs["my-modal"].show();
     },
-    resetModal() {
-      this.listProduct = {
-        name: "",
-        description: "",
-        status: "",
-        image: "", // Lưu trữ đường dẫn của hình ảnh
-        price: "",
-        brand_id: "",
-        size_id: "",
-      };
-      this.nameState = null;
-    },
-
-    handleOk(bvModalEvent) {
-      // Prevent modal from closing
-      bvModalEvent.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
+    hideModal() {
+      this.$refs["my-modal"].hide();
     },
     handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
+      console.log("Check", this.dataCreate);
+      const formData = new FormData();
+      formData.append("name", this.dataCreate.name);
+      formData.append("price", this.dataCreate.price);
+      formData.append("description", this.dataCreate.description);
+      formData.append("size_id", this.dataCreate.size_id);
+      formData.append("brand_id", this.dataCreate.brand_id);
+      formData.append("image", this.dataCreate.image); // Thêm tệp hình ảnh vào FormData
+      // Xử lý khi người dùng submit
       axios
-        .post("http://localhost:3838/products", this.dataCreate)
+        .post("http://localhost:3838/products", formData)
         .then((res) => {
           if (res.data.status === 200) {
             // Thêm thông báo thành công
             console.log("Them thanh cong", res.data);
           }
+          // Thêm thông báo lỗi
+          console.log("Them tthat bai");
         })
         .catch((err) => {
           console.log(err);
         });
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
+      this.hideModal();
+    },
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      this.dataCreate.image = file;
     },
     getAllProduct() {
       axios
@@ -363,8 +324,18 @@ export default {
           console.log(err);
         });
     },
-    removeFile(index) {
-      this.files.splice(index, 1);
+    getAllSize() {
+      axios
+        .get("http://localhost:3838/sizes")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("thanh cong", res);
+            this.listProduct = res.data.data; //Gan data vao optionSize
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
