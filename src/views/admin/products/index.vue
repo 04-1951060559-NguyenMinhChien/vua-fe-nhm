@@ -50,13 +50,13 @@
         <div class="col-12 col-sm-10" style="padding: 15px">
           <div class="container-fluid" id="container">
             <div class="product-manager">
-              <div class="row" style="margin-bottom: 20px">
+              <div class="row" style="margin: 0 0 20px 0px">
                 <div
                   class="col-3 text-center"
                   :class="{ active: selectedTable === 'Product' }"
                   @click="changeTable('Product')"
                 >
-                  <h4>Quản Lý Sản Phẩm</h4>
+                  <h5>QUẢN LÝ SẢN PHẨM</h5>
                 </div>
 
                 <div
@@ -64,7 +64,7 @@
                   :class="{ active: selectedTable === 'Brand' }"
                   @click="changeTable('Brand')"
                 >
-                  <h4>Quản Lý Thương Hiệu</h4>
+                  <h5>QUẢN LÝ THƯƠNG HIỆU</h5>
                 </div>
 
                 <div
@@ -72,10 +72,10 @@
                   :class="{ active: selectedTable === 'Size' }"
                   @click="changeTable('Size')"
                 >
-                  <h4>Quản Lý Size</h4>
+                  <h5>QUẢN LÝ SIZE</h5>
                 </div>
                 <div class="col-3 text-right">
-                  <!-- THEM SAN PHAM -->
+                  <!-- BUTTON THEM SAN PHAM -->
                   <b-button
                     id="show-btn"
                     @click="showModal"
@@ -84,15 +84,15 @@
                   >
                   <b-button
                     id="show-btn"
-                    @click="showModal"
-                    v-if="selectedTable === 'Brand'"
-                    >Thêm thương hiệu</b-button
-                  >
-                  <b-button
-                    id="show-btn"
                     @click="showModalSize"
                     v-if="selectedTable === 'Size'"
                     >Thêm size</b-button
+                  >
+                  <b-button
+                    id="show-btn"
+                    @click="showModalBrand"
+                    v-if="selectedTable === 'Brand'"
+                    >Thêm thương hiệu</b-button
                   >
                 </div>
               </div>
@@ -300,7 +300,7 @@
                       <button
                         type="button"
                         class="btn btn-secondary"
-                        @click="hideModal"
+                        @click="hideModalUpdate"
                       >
                         Hủy
                       </button>
@@ -348,25 +348,32 @@
               <!-- modal sửa Size -->
               <b-modal ref="my-modal-update-size" hide-footer title="Sửa Size">
                 <div class="modal-body">
-                  <form @submit.prevent="handleSubmit">
+                  <form @submit.prevent="handleSubmitUpdateSize">
                     <div class="mb-3">
-                      <label for="productName" class="form-label"
-                        >Tên Size:</label
-                      >
+                      <label for="sizeName" class="form-label">Tên Size:</label>
                       <input
                         type="text"
                         class="form-control"
-                        id="productName"
-                        v-model="dataCreateSize.name"
+                        id="sizeName"
+                        v-model="dataUpdateSize.name"
                         required
                       />
+                    </div>
+                    <div class="mb-3">
+                      <label for="status" class="form-label">Trạng thái:</label>
+                      <input
+                        type="checkbox"
+                        id="status"
+                        v-model="dataUpdateSize.status"
+                      />
+                      <label for="status">Hoạt động</label>
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
                       <button
                         type="button"
                         class="btn btn-secondary"
-                        @click="hideModalSize"
+                        @click="hideModalUpdateSize"
                       >
                         Hủy
                       </button>
@@ -378,7 +385,7 @@
               <!-- Modal thêm mới brand -->
               <b-modal ref="my-modal-brand" hide-footer title="Thêm mới brand">
                 <div class="modal-body">
-                  <form @submit.prevent="handleSubmit">
+                  <form @submit.prevent="handleSubmitBrand">
                     <div class="mb-3">
                       <label for="brandName" class="form-label"
                         >Tên thương hiệu:</label
@@ -386,91 +393,72 @@
                       <input
                         type="text"
                         class="form-control"
-                        id="productName"
-                        v-model="dataCreate.name"
+                        id="brandName"
+                        v-model="dataCreateBrand.name"
                         required
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="productName" class="form-label">Mô tả:</label>
-                      <textarea
-                        id="textarea productName"
+                      <label for="emailBrand" class="form-label">Email:</label>
+                      <input
+                        type="email"
                         class="form-control"
-                        v-model="dataCreate.description"
+                        id="emailBrand"
+                        v-model="dataCreateBrand.emailBrand"
                         required
-                      ></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="productSize" class="form-label">Size:</label>
-                      <select
-                        class="form-select"
-                        id="productSize"
-                        v-model="dataCreate.size_id"
-                        required
-                      >
-                        <option value="">Chọn size</option>
-                        <option
-                          v-for="size in optionsSize"
-                          :key="size._id"
-                          :value="size._id"
-                        >
-                          {{ size.name }}
-                        </option>
-                      </select>
+                      />
                     </div>
                     <div class="mb-3">
-                      <label for="productBrand" class="form-label"
-                        >Thương hiệu:</label
-                      >
-                      <select
-                        class="form-select"
-                        id="productBrand"
-                        v-model="dataCreate.brand_id"
-                        required
-                      >
-                        <option value="">Chọn thương hiệu</option>
-                        <option
-                          v-for="brand in optionsBrand"
-                          :key="brand._id"
-                          :value="brand._id"
-                        >
-                          {{ brand.name }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="productprice" class="form-label"
-                        >Price:</label
+                      <label for="phoneNumber" class="form-label"
+                        >Số điện thoại:</label
                       >
                       <input
-                        type="number"
-                        min="0"
+                        type="text"
                         class="form-control"
-                        id="productprice"
-                        v-model="dataCreate.price"
+                        id="phoneNumber"
+                        v-model="dataCreateBrand.phoneNumber"
                         required
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="productImage" class="form-label"
+                      <label for="address" class="form-label">Địa chỉ:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="address"
+                        v-model="dataCreateBrand.address"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="brandImage" class="form-label"
                         >Hình ảnh:</label
                       >
                       <input
                         type="file"
                         class="form-control"
-                        id="productImage"
-                        @change="handleImageUpload"
+                        id="brandImage"
+                        @change="handleImageBrandUpload"
                         accept="image/*"
                         required
                       />
                     </div>
+                    <div class="mb-3">
+                      <label for="status" class="form-label">Trạng thái:</label>
+                      <input
+                        type="checkbox"
+                        id="status"
+                        v-model="dataCreateBrand.status"
+                      />
+                      <label for="status">Hoạt động</label>
+                    </div>
+
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
                       <button
                         type="button"
                         class="btn btn-secondary"
-                        @click="hideModal"
+                        @click="hideModalBrand"
                       >
                         Hủy
                       </button>
@@ -608,7 +596,7 @@
                   <td>{{ item.brand_id }}</td>
                   <td>{{ item.description }}</td>
                   <td>{{ item.size_id }}</td>
-                  <td>{{ item.price }}</td>
+                  <td>{{ item.price }} đ</td>
                   <td>
                     <img
                       :src="'http://localhost:3838/' + item.image"
@@ -621,19 +609,17 @@
                     {{ item.status }}
                   </td>
                   <td>
-                    <button style="">
-                      <i
-                        @click="showModalUpdate(item)"
-                        class="bi bi-pencil-square"
-                      ></i>
-                    </button>
-                    <button>
-                      <i @click="deleteProduct(item)" class="bi bi-trash"></i>
-                    </button>
+                    <i
+                      @click="showModalUpdate(item)"
+                      class="bi bi-pencil-square"
+                    ></i>
+
+                    <i @click="deleteProduct(item)" class="bi bi-trash"></i>
                   </td>
                 </tr>
               </tbody>
             </table>
+
             <!-- TABLE SIZE -->
             <table class="table" v-if="selectedTable === 'Size'">
               <thead>
@@ -650,15 +636,12 @@
                     {{ item.status === true ? "Hoạt động" : "Dừng hoạt động" }}
                   </td>
                   <td>
-                    <button style="">
-                      <i
-                        @click="showModalUpdate(item)"
-                        class="bi bi-pencil-square"
-                      ></i>
-                    </button>
-                    <button>
-                      <i class="bi bi-trash"></i>
-                    </button>
+                    <i
+                      @click="showModalUpdateSize(item)"
+                      class="bi bi-pencil-square"
+                    ></i>
+
+                    <i @click="deleteSize(item)" class="bi bi-trash"></i>
                   </td>
                 </tr>
               </tbody>
@@ -678,11 +661,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in listProduct" :key="item.id">
+                <tr v-for="item in listBrand" :key="item.id">
                   <td>{{ item.name }}</td>
                   <td>{{ item.emailBrand }}</td>
                   <td>{{ item.phoneNumber }}</td>
-                  <td>{{ item.adress }}</td>
+                  <td>{{ item.address }}</td>
                   <td>
                     <img
                       :src="'http://localhost:3838/' + item.image"
@@ -692,18 +675,14 @@
                   </td>
 
                   <td>
-                    {{ item.status }}
+                    {{ item.status === true ? "Hoạt động" : "Dừng hoạt động" }}
                   </td>
                   <td>
-                    <button style="">
-                      <i
-                        @click="showModalUpdate(item)"
-                        class="bi bi-pencil-square"
-                      ></i>
-                    </button>
-                    <button>
-                      <i class="bi bi-trash"></i>
-                    </button>
+                    <i
+                      @click="showModalUpdate(item)"
+                      class="bi bi-pencil-square"
+                    ></i>
+                    <i class="bi bi-trash"></i>
                   </td>
                 </tr>
               </tbody>
@@ -747,6 +726,7 @@ export default {
         emailBrand: "",
         adress: "",
         image: "", // Lưu trữ đường dẫn của hình ảnh
+        status: "",
       },
       name: "",
       nameState: null,
@@ -756,8 +736,17 @@ export default {
       ImgState: null,
       priceState: null,
 
-      selectedBrand: [],
+      selectedBrand: [
+        // { _id: "65ed7d961d38f0473cc1c35a", name: "36" },
+        // { _id: "37", name: "37" },
+        // { _id: "38", name: "38" },
+        // { _id: "39", name: "39" },
+        // { _id: "40", name: "40" },
+        // { _id: "41", name: "41" },
+        // { _id: "42", name: "42" },
+      ],
       selectedSize: [],
+
       // Data khi thêm mới, sửa sản phẩm sẽ gán vào dây
       dataCreate: {
         name: "",
@@ -792,33 +781,20 @@ export default {
       dataCreateBrand: {
         name: "",
         emailBrand: "",
-        phoneNumber: true,
-        adress: "", // Lưu trữ đường dẫn của hình ảnh
+        phoneNumber: "",
+        address: "",
         image: "",
         status: "",
       },
       dataUpdateBrand: {
         name: "",
-        description: "",
-        status: true,
-        image: "", // Lưu trữ đường dẫn của hình ảnh
-        price: "",
-        brand_id: "",
-        size_id: "",
+        emailBrand: "",
+        phoneNumber: "",
+        address: "",
+        image: "",
+        status: "",
       },
-      optionsBrand: [
-        { _id: "65ed7d961d38f0473cc1c35a", name: "36" },
-        { _id: "37", name: "37" },
-        { _id: "38", name: "38" },
-        { _id: "39", name: "39" },
-        { _id: "40", name: "40" },
-        { _id: "41", name: "41" },
-        { _id: "42", name: "42" },
-        { _id: "43", name: "43" },
-        { _id: "44", name: "44" },
-        { _id: "45", name: "45" },
-        { _id: "46", name: "46" },
-      ],
+      optionsBrand: [],
       optionsSize: [],
     };
   },
@@ -850,12 +826,12 @@ export default {
         .post("http://localhost:3838/products", formData)
         .then((res) => {
           if (res.data.status === 200) {
-            console.log("Them thanh cong", res.data);
+            console.log("Thêm thành công !", res.data);
             // Thêm thông báo thành công
             this.$swal.fire({
               position: "center",
               icon: "success",
-              title: "Thêm sản phẩm thành công",
+              title: "Thêm sản phẩm thành công !",
               showConfirmButton: false,
               timer: 1500,
             });
@@ -863,7 +839,7 @@ export default {
             this.getAllProduct();
           } else {
             // Thêm thông báo lỗi
-            console.log("Them thất bại", res.data.message[0].message);
+            console.log("Thêm thất bại !", res.data.message[0].message);
             this.$swal.fire({
               position: "center",
               icon: "error",
@@ -907,12 +883,12 @@ export default {
         .put("http://localhost:3838/products/${dataUpdate._id}", formData)
         .then((res) => {
           if (res.data.status === 200) {
-            console.log("Them thanh cong", res.data);
+            console.log("Sửa thành công !", res.data);
             // Thêm thông báo thành công
             this.$swal.fire({
               position: "center",
               icon: "success",
-              title: "Thêm sản phẩm thành công",
+              title: "Sửa sản phẩm thành công !",
               showConfirmButton: false,
               timer: 1500,
             });
@@ -920,7 +896,7 @@ export default {
             this.getAllProduct();
           } else {
             // Thêm thông báo lỗi
-            console.log("Them thất bại", res);
+            console.log("Sửa thất bại !", res);
             this.$swal.fire({
               position: "center",
               icon: "error",
@@ -933,7 +909,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.hideModal();
+      this.hideModalUpdate();
     },
     handleImageUploadUpdate(event) {
       const file = event.target.files[0];
@@ -945,7 +921,7 @@ export default {
         .get("http://localhost:3838/products")
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
-            console.log("thanh cong", res);
+            console.log("Thành công !!!", res);
             this.listProduct = res.data.data;
           }
         })
@@ -959,13 +935,13 @@ export default {
       // Hiển thị thông báo xác nhận
       this.$swal
         .fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
+          title: "Bạn chắc chắn muốn xóa ?",
+          text: "Bạn sẽ không thể khôi phục sản phẩm đã xóa!",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!",
+          confirmButtonText: "Đồng ý, xóa ngay !!",
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -974,12 +950,12 @@ export default {
               .delete(`http://localhost:3838/products/${item._id}`)
               .then((res) => {
                 if (res.data.status === 200) {
-                  console.log("xoa thanh cong", res);
+                  console.log("Xóa thành công", res);
 
                   // Thông báo xóa thành công
                   this.$swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    title: "Đã xóa !",
+                    text: "Sản phẩm đã được xóa thành công",
                     icon: "success",
                   });
 
@@ -1019,12 +995,12 @@ export default {
         .post("http://localhost:3838/sizes", this.dataCreateSize)
         .then((res) => {
           if (res.data.status === 200) {
-            console.log("Them thanh cong", res.data);
+            console.log("Thêm thành công !", res.data);
             // Thêm thông báo thành công
             this.$swal.fire({
               position: "center",
               icon: "success",
-              title: "Thêm size phẩm thành công",
+              title: "Thêm Size sản phẩm thành công !",
               showConfirmButton: false,
               timer: 1500,
             });
@@ -1032,7 +1008,7 @@ export default {
             this.getAllSize();
           } else {
             // Thêm thông báo lỗi
-            console.log("Them thất bại", res.data.message[0].message);
+            console.log("Thêm thất bại !", res.data.message[0].message);
             this.$swal.fire({
               position: "center",
               icon: "error",
@@ -1045,15 +1021,66 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.hideModal();
+      this.hideModalUpdateSize();
     },
+    //Sua Size
+    showModalUpdateSize(item) {
+      this.$refs["my-modal-update-size"].show();
+      console.log(item);
+      this.dataUpdateSize = item;
+    },
+    hideModalUpdateSize() {
+      this.$refs["my-modal-update-size"].hide();
+    },
+    handleSubmitUpdateSize() {
+      console.log("Check", this.dataUpdateSize);
+      const formData = new FormData();
+      formData.append("_id", this.dataUpdateSize._id);
+      formData.append("name", this.dataUpdateSize.name);
+      formData.append("status", this.dataUpdateSize.status);
+      // Xử lý khi người dùng submit
+      console.log(this.dataUpdateSize._id);
+      axios
+        .put(
+          "http://localhost:3838/sizes/" + this.dataUpdateSize._id,
+          this.dataUpdateSize
+        )
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Sửa thành công !", res.data);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Sửa Size sản phẩm thành công !",
+              showConfirmButton: false,
+              timer: 1500,
+            });
 
+            this.getAllSize();
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Thêm thất bại !", res);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.hideModalUpdateSize();
+    },
     getAllSize() {
       axios
         .get("http://localhost:3838/sizes")
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
-            console.log("thanh cong lấy size", res);
+            console.log("Thành công lấy size", res);
             this.listSize = res.data.data; //Gan data vao optionSize
             this.optionsSize = res.data.data; //Gan data vao optionSize
           }
@@ -1062,18 +1089,18 @@ export default {
           console.log(err);
         });
     },
-    //Xoa Size
+    //Xóa Size
     deleteSize(item) {
       // Hiển thị thông báo xác nhận
       this.$swal
         .fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
+          title: "Bạn chắc chắn muốn xóa ?",
+          text: "Bạn sẽ không thể khôi phục Size đã xóa !",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!",
+          confirmButtonText: "Đồng ý, xóa ngay !!",
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -1082,12 +1109,12 @@ export default {
               .delete(`http://localhost:3838/sizes/${item._id}`)
               .then((res) => {
                 if (res.data.status === 200) {
-                  console.log("xoa thanh cong", res);
+                  console.log("Xóa thành công !", res);
 
                   // Thông báo xóa thành công
                   this.$swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    title: "Đã xóa !",
+                    text: "Size đã được xóa thành công !",
                     icon: "success",
                   });
 
@@ -1109,6 +1136,177 @@ export default {
         });
     },
 
+    //Them moi thuong hieu
+    showModalBrand() {
+      this.$refs["my-modal-brand"].show();
+    },
+    hideModalBrand() {
+      this.$refs["my-modal-brand"].hide();
+    },
+    handleSubmitBrand() {
+      console.log("Check", this.dataCreateBrand);
+      const formData = new FormData();
+      formData.append("name", this.dataCreateBrand.name);
+      formData.append("emailBrand", this.dataCreateBrand.emailBrand);
+      formData.append("phoneNumber", this.dataCreateBrand.phoneNumber);
+      formData.append("address", this.dataCreateBrand.address);
+      formData.append("image", this.dataCreateBrand.image); // Thêm tệp hình ảnh vào FormData
+      formData.append("status", this.dataCreateBrand.status);
+      // Xử lý khi người dùng submit
+      axios
+        .post("http://localhost:3838/brands", formData)
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Thêm thành công !", res.data);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Thêm thương hiệu thành công",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            this.getAllBrand();
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Thêm thất bại", res.data.message[0].message);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.hideModalBrand();
+    },
+    handleImageBrandUpload(event) {
+      const file = event.target.files[0];
+      this.dataCreateBrand.image = file;
+    },
+
+    //Sửa thương hiệu
+    showModalUpdateBrand(item) {
+      this.$refs["my-modal-update-brand"].show();
+      console.log(item);
+      this.dataUpdate = item;
+    },
+    hideModalUpdateBrand() {
+      this.$refs["my-modal-update-brand"].hide();
+    },
+    handleSubmitUpdateBrand() {
+      console.log("Check", this.dataUpdateBrand);
+      const formData = new FormData();
+      formData.append("name", this.dataUpdateBrand.name);
+      formData.append("emailBrand", this.dataUpdateBrand.emailBrand);
+      formData.append("phoneNumber", this.dataUpdateBrand.phoneNumber);
+      formData.append("address", this.dataUpdateBrand.address);
+      formData.append("image", this.dataUpdateBrand.image); // Thêm tệp hình ảnh vào FormData
+      formData.append("status", this.dataUpdateBrand.status);
+      // Xử lý khi người dùng submit
+      axios
+        .put("http://localhost:3838/brands/${dataUpdateBrand._id}", formData)
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Sửa thành công !", res.data);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Sửa sản phẩm thành công !",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            this.getAllBrand();
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Sửa thất bại !", res);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.hideModalUpdateBrand();
+    },
+    handleImageBrandUploadUpdate(event) {
+      const file = event.target.files[0];
+      this.dataUpdateBrand.image = file;
+    },
+
+    getAllBrand() {
+      axios
+        .get("http://localhost:3838/brands")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("Thành công lấy brand", res);
+            this.listBrand = res.data.data; //Gan data vao optionSize
+            this.optionsBrand = res.data.data; //Gan data vao optionSize
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    //Xóa thương hiệu
+    deleteBrand(item) {
+      // Hiển thị thông báo xác nhận
+      this.$swal
+        .fire({
+          title: "Bạn chắc chắn muốn xóa ?",
+          text: "Bạn sẽ không thể khôi phục thương hiệu đã xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Đồng ý, xóa ngay !!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // Nếu người dùng đã xác nhận xóa
+            axios
+              .delete(`http://localhost:3838/brands/${item._id}`)
+              .then((res) => {
+                if (res.data.status === 200) {
+                  console.log("Xóa thành công", res);
+
+                  // Thông báo xóa thành công
+                  this.$swal.fire({
+                    title: "Đã xóa !",
+                    text: "Thương hiệu đã được xóa thành công",
+                    icon: "success",
+                  });
+
+                  // Cập nhật danh sách sản phẩm (giả sử bạn đã có hàm này là getAllProduct())
+                  this.getAllBrand();
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+
+                // Thông báo lỗi khi xóa sản phẩm
+                this.$swal.fire({
+                  title: "Error!",
+                  text: "An error occurred while deleting the product.",
+                  icon: "error",
+                });
+              });
+          }
+        });
+    },
+
     changeTable(selected) {
       this.selectedTable = selected;
     },
@@ -1117,13 +1315,24 @@ export default {
 </script>
 
 <style scoped>
+.product-manager h5 {
+  padding-top: 5px;
+}
 .active {
-  background-color: #ffd600;
-  border-radius: 50px;
+  background-color: #6c757d;
+  border-radius: 5px;
+  color: #fff;
 }
 .navbar {
   padding: 0 15px;
   background-color: #ffd600;
+}
+tbody i {
+  margin-left: 10px;
+  font-size: 30px;
+}
+tbody i .bi.bi-trash {
+  color: red;
 }
 body {
   font-family: Arial, sans-serif;
