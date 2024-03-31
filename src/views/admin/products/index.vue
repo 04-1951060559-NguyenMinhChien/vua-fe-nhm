@@ -236,7 +236,7 @@
                       <select
                         class="form-select"
                         id="productSize"
-                        v-model="dataUpdate.size_id"
+                        v-model="dataUpdate.size_id._id"
                         required
                       >
                         <option value="">Chọn size</option>
@@ -256,7 +256,7 @@
                       <select
                         class="form-select"
                         id="productBrand"
-                        v-model="dataUpdate.brand_id"
+                        v-model="dataUpdate.brand_id._id"
                         required
                       >
                         <option value="">Chọn thương hiệu</option>
@@ -292,6 +292,7 @@
                         id="productImage"
                         @change="handleImageUploadUpdate"
                         accept="image/*"
+                        :v-model="dataUpdate.image"
                         required
                       />
                     </div>
@@ -580,9 +581,9 @@
               <tbody>
                 <tr v-for="item in listProduct" :key="item.id">
                   <td>{{ item.name }}</td>
-                  <td>{{ item.brand_id }}</td>
+                  <td>{{ item.brand_id ? item.brand_id.name : "" }}</td>
                   <td>{{ item.description }}</td>
-                  <td>{{ item.size_id }}</td>
+                  <td>{{ item.size_id ? item.size_id.name : "" }}</td>
                   <td>{{ item.price }} đ</td>
                   <td>
                     <img
@@ -800,7 +801,7 @@ export default {
       this.$refs["my-modal"].hide();
     },
     handleSubmit() {
-      console.log("Check", this.dataCreate);
+      console.log("Check create product", this.dataCreate);
       const formData = new FormData();
       formData.append("name", this.dataCreate.name);
       formData.append("price", this.dataCreate.price);
@@ -856,14 +857,14 @@ export default {
       this.$refs["my-modal-update"].hide();
     },
     handleSubmitUpdate() {
-      console.log("Check", this.dataUpdate);
+      console.log("Check update product", this.dataUpdate);
       const formData = new FormData();
       formData.append("_id", this.dataUpdate._id);
       formData.append("name", this.dataUpdate.name);
       formData.append("price", this.dataUpdate.price);
       formData.append("description", this.dataUpdate.description);
-      formData.append("size_id", this.dataUpdate.size_id);
-      formData.append("brand_id", this.dataUpdate.brand_id);
+      formData.append("size_id", this.dataUpdate.size_id._id);
+      formData.append("brand_id", this.dataUpdate.brand_id._id);
       formData.append("image", this.dataUpdate.image); // Thêm tệp hình ảnh vào FormData
       // Xử lý khi người dùng submit
       axios
@@ -908,8 +909,8 @@ export default {
         .get("http://localhost:3838/products")
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
-            console.log("Thành công !!!", res);
             this.listProduct = res.data.data;
+            console.log("Thành công !!!", this.listProduct);
           }
         })
         .catch((err) => {
@@ -972,7 +973,7 @@ export default {
       this.$refs["my-modal-size"].hide();
     },
     handleSubmitSize() {
-      console.log("Check", this.dataCreateSize);
+      console.log("Check create size", this.dataCreateSize);
       const formData = new FormData();
       formData.append("name", this.dataCreateSize.name);
       formData.append("status", this.dataCreateSize.status);
@@ -1020,7 +1021,7 @@ export default {
       this.$refs["my-modal-update-size"].hide();
     },
     handleSubmitUpdateSize() {
-      console.log("Check", this.dataUpdateSize);
+      console.log("Check update size", this.dataUpdateSize);
       const formData = new FormData();
       formData.append("_id", this.dataUpdateSize._id);
       formData.append("name", this.dataUpdateSize.name);
@@ -1131,7 +1132,7 @@ export default {
       this.$refs["my-modal-brand"].hide();
     },
     handleSubmitBrand() {
-      console.log("Check", this.dataCreateBrand);
+      console.log("Check create brand", this.dataCreateBrand);
       const formData = new FormData();
       formData.append("name", this.dataCreateBrand.name);
       formData.append("emailBrand", this.dataCreateBrand.emailBrand);
@@ -1187,7 +1188,7 @@ export default {
       this.$refs["my-modal-update-brand"].hide();
     },
     handleSubmitUpdateBrand() {
-      console.log("Check", this.dataUpdateBrand);
+      console.log("Check update brand", this.dataUpdateBrand);
       const formData = new FormData();
       formData.append("name", this.dataUpdateBrand.name);
       formData.append("emailBrand", this.dataUpdateBrand.emailBrand);
