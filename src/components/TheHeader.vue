@@ -7,7 +7,6 @@
             <b>👑 KING AND QUEEN ~ <i class="bi bi-telephone-fill"></i> </b>
             Hotline: <b>0356422999</b>
           </div>
-          <hr style="margin: 0" />
         </div>
       </div>
     </div>

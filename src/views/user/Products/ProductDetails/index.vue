@@ -1,8 +1,28 @@
-<template></template>
+<template>
+  <div>
+    <div><TheHeader /></div>
 
-<script>
-export default {};
+    <div>
+      <h1>DAY LA product details</h1>
+    </div>
+    <div><TheFooter /></div>
+  </div>
+</template>
+          
+    <script>
+import TheHeader from "../../../../components/TheHeader.vue";
+import TheFooter from "../../../../components/TheFooter.vue";
+export default {
+  name: "ProductDetails",
+  props: {
+    msg: String,
+  },
+  components: {
+    TheHeader,
+    TheFooter,
+  },
+};
 </script>
-
-<style>
+          
+<style scoped>
 </style>

@@ -16,6 +16,7 @@ import PageAdidas from '../views/user/Products/PageAdidas.vue'
 import PageNike from '../views/user/Products/PageNike.vue'
 import PageJordan from '../views/user/Products/PageJordan.vue'
 import PageYeezy from '../views/user/Products/PageYeezy.vue'
+import productDetails from '../views/user/Products/ProductDetails/index.vue'
 
 
 //Admin
@@ -113,11 +114,11 @@ const routes = [
     name: 'staff',
     component: AdminStaff
   },
-  // {
-  //   path: '/admin/sizeManager',
-  //   name: 'sizeManager',
-  //   component: sizeManage
-  // }
+  {
+    path: '/users/productdetails',
+    name: 'productDetails',
+    component: productDetails
+  }
 
 ]
 

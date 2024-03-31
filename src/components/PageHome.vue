@@ -1,6 +1,5 @@
 <template>
-    
-    <div>
+<div>
   <div>
     <TheHeader/>
   </div>
@@ -74,86 +73,31 @@
 
 <!-- Sản phẩm hot -->
           <h3 class="ps-section__title " data-mask="HOT">- Sản phẩm hot</h3>
-          <div class="row">
-              <div class="col-md-3">
+          <div class="row" >
+              <div class="col-md-3" v-for="item in listProduct" :key="item.id">
                   <div class="card text-left">
-                      <a href="spchitiet.html">
-                          <img class="card-img-top" src="../assets/product-1.jpg" alt="">
-                      </a>
+                    <router-link to="/users/productdetails">
+                        <img
+                      :src="'http://localhost:3838/' + item.image"
+                      alt=""
+                      style="width: 100%"
+                    />
+                    </router-link>
                       <div class="card-body">
                           <h4 class="card-title">
-                              <a href="spchitiet.html">COURT VISION LOW VALENTINE'S</a>
+                            <router-link to="/users/productdetails">
+                            {{ item.name }}
+                            </router-link>
                           </h4>
                           <p class="card-text">
                           <div class="star ">
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
                           </div>
-                          <strong>2,200,000 đ</strong>
-                          </p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="card text-left">
-                      <img class="card-img-top" src="../assets/product-2.jpg" alt="">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <a href="">ULTRABOOST WEB DNA</a>
-                          </h4>
-                          <p class="card-text">
-                          <div class="star ">
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                          </div>
-                          <strong>5,300,000 đ</strong>
-                          </p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="card text-left">
-                      <img class="card-img-top" src="../assets/product-3.jpg" alt="">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <a href="spchitiet.html">YEEZY BOOST 700 V3 ALVAH</a>
-  
-                          </h4>
-                          <p class="card-text">
-                          <div class="star ">
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                          </div>
-                          <strong>12,700,000 đ</strong>
-                          </p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="card text-left">
-                      <img class="card-img-top" src="../assets/product-4.jpg" alt="">
-                      <div class="card-body">
-                          <h4 class="card-title">
-                              <a href="">JORDAN 1 MID TUFT ORANGE</a>
-                          </h4>
-                          <p class="card-text">
-                          <div class="star ">
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                              <i class="fa-solid fa-star "></i>
-                          </div>
-                          <strong>3,500,000 đ</strong>
+                          <strong>{{ item.price }}</strong>
                           </p>
                       </div>
                   </div>
@@ -618,20 +562,54 @@
           </div>
 
       </div>
-      <div>
-        <TheFooter/>
-      </div>
-    </div>
+  <div>
+    <TheFooter/>
+  </div>
+</div>
+
   </template>
   
   <script>
 import TheHeader from "../components/TheHeader.vue";
 import TheFooter from "../components/TheFooter.vue";
+import axios from "axios";
 export default {
   components: { TheHeader, TheFooter },
   name: "Home",
   props: {
     msg: String,
+  },
+  data() {
+    return {
+      listProduct: {
+        name: "",
+        description: "",
+        status: "",
+        image: "",
+        price: "",
+        brand_id: "",
+        size_id: "",
+      },
+    };
+  },
+  created() {
+    // Khởi tạo dữ liệu hoặc đăng ký sự kiện
+    this.getAllProduct();
+  },
+  methods: {
+    getAllProduct() {
+      axios
+        .get("http://localhost:3838/products")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("Thành công !!!", res);
+            this.listProduct = res.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

@@ -383,7 +383,11 @@
               </b-modal>
 
               <!-- Modal thêm mới brand -->
-              <b-modal ref="my-modal-brand" hide-footer title="Thêm mới brand">
+              <b-modal
+                ref="my-modal-brand"
+                hide-footer
+                title="Thêm mới Thương hiệu"
+              >
                 <div class="modal-body">
                   <form @submit.prevent="handleSubmitBrand">
                     <div class="mb-3">
@@ -469,104 +473,85 @@
 
               <!-- Modal sửa brand -->
               <b-modal
-                ref="my-modal-update"
+                ref="my-modal-update-brand"
                 hide-footer
-                title="Sửa thông tin sản phẩm"
+                title="Sửa thương hiệu brand"
               >
                 <div class="modal-body">
-                  <form @submit.prevent="handleSubmitUpdate">
+                  <form @submit.prevent="handleSubmitUpdateBrand">
                     <div class="mb-3">
-                      <label for="productName" class="form-label"
-                        >Tên sản phẩm:</label
+                      <label for="brandName" class="form-label"
+                        >Tên thương hiệu:</label
                       >
                       <input
                         type="text"
                         class="form-control"
-                        id="productName"
-                        v-model="dataUpdate.name"
+                        id="brandName"
+                        v-model="dataUpdateBrand.name"
                         required
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="productName" class="form-label">Mô tả:</label>
-                      <textarea
-                        id="textarea productName"
+                      <label for="emailBrand" class="form-label">Email:</label>
+                      <input
+                        type="email"
                         class="form-control"
-                        v-model="dataUpdate.description"
+                        id="emailBrand"
+                        v-model="dataUpdateBrand.emailBrand"
                         required
-                      ></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="productSize" class="form-label">Size:</label>
-                      <select
-                        class="form-select"
-                        id="productSize"
-                        v-model="dataUpdate.size_id"
-                        required
-                      >
-                        <option value="">Chọn size</option>
-                        <option
-                          v-for="size in optionsSize"
-                          :key="size._id"
-                          :value="size._id"
-                        >
-                          {{ size.name }}
-                        </option>
-                      </select>
+                      />
                     </div>
                     <div class="mb-3">
-                      <label for="productBrand" class="form-label"
-                        >Thương hiệu:</label
-                      >
-                      <select
-                        class="form-select"
-                        id="productBrand"
-                        v-model="dataUpdate.brand_id"
-                        required
-                      >
-                        <option value="">Chọn thương hiệu</option>
-                        <option
-                          v-for="brand in optionsBrand"
-                          :key="brand._id"
-                          :value="brand._id"
-                        >
-                          {{ brand.name }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="productprice" class="form-label"
-                        >Price:</label
+                      <label for="phoneNumber" class="form-label"
+                        >Số điện thoại:</label
                       >
                       <input
-                        type="number"
-                        min="0"
+                        type="text"
                         class="form-control"
-                        id="productprice"
-                        v-model="dataUpdate.price"
+                        id="phoneNumber"
+                        v-model="dataUpdateBrand.phoneNumber"
                         required
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="productImage" class="form-label"
+                      <label for="address" class="form-label">Địa chỉ:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="address"
+                        v-model="dataUpdateBrand.address"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="brandImage" class="form-label"
                         >Hình ảnh:</label
                       >
                       <input
                         type="file"
                         class="form-control"
-                        id="productImage"
-                        @change="handleImageUploadUpdate"
+                        id="brandImage"
+                        @change="handleImageBrandUploadUpdate"
                         accept="image/*"
                         required
                       />
                     </div>
+                    <div class="mb-3">
+                      <label for="status" class="form-label">Trạng thái:</label>
+                      <input
+                        type="checkbox"
+                        id="status"
+                        v-model="dataUpdateBrand.status"
+                      />
+                      <label for="status">Hoạt động</label>
+                    </div>
+
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
                       <button
                         type="button"
                         class="btn btn-secondary"
-                        @click="hideModal"
+                        @click="hideModalUpdateBrand"
                       >
                         Hủy
                       </button>
@@ -575,6 +560,8 @@
                 </div>
               </b-modal>
             </div>
+
+            <!-- TABLE -->
 
             <!-- TABLE SAN PHAM -->
             <table class="table" v-if="selectedTable === 'Product'">
@@ -679,7 +666,7 @@
                   </td>
                   <td>
                     <i
-                      @click="showModalUpdate(item)"
+                      @click="showModalUpdateBrand(item)"
                       class="bi bi-pencil-square"
                     ></i>
                     <i class="bi bi-trash"></i>
@@ -792,7 +779,7 @@ export default {
         phoneNumber: "",
         address: "",
         image: "",
-        status: "",
+        status: true,
       },
       optionsBrand: [],
       optionsSize: [],
@@ -880,7 +867,7 @@ export default {
       formData.append("image", this.dataUpdate.image); // Thêm tệp hình ảnh vào FormData
       // Xử lý khi người dùng submit
       axios
-        .put("http://localhost:3838/products/${dataUpdate._id}", formData)
+        .put(`http://localhost:3838/products/${this.dataUpdate._id}`, formData)
         .then((res) => {
           if (res.data.status === 200) {
             console.log("Sửa thành công !", res.data);
@@ -1194,7 +1181,7 @@ export default {
     showModalUpdateBrand(item) {
       this.$refs["my-modal-update-brand"].show();
       console.log(item);
-      this.dataUpdate = item;
+      this.dataUpdateBrand = item;
     },
     hideModalUpdateBrand() {
       this.$refs["my-modal-update-brand"].hide();
@@ -1209,8 +1196,12 @@ export default {
       formData.append("image", this.dataUpdateBrand.image); // Thêm tệp hình ảnh vào FormData
       formData.append("status", this.dataUpdateBrand.status);
       // Xử lý khi người dùng submit
+      console.log(formData);
       axios
-        .put("http://localhost:3838/brands/${dataUpdateBrand._id}", formData)
+        .put(
+          `http://localhost:3838/brands/${this.dataUpdateBrand._id}`,
+          formData
+        )
         .then((res) => {
           if (res.data.status === 200) {
             console.log("Sửa thành công !", res.data);
