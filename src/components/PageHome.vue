@@ -83,7 +83,9 @@
             </div>
             <div class="products-hot-body">
               <h4 class="card-title text-uppercase">
-                <router-link to="/users/productdetails">
+                <router-link
+                  :to="{ name: 'productDetails', params: { id: item._id } }"
+                >
                   {{ item.name }}
                 </router-link>
               </h4>
@@ -408,6 +410,7 @@ export default {
   data() {
     return {
       listProduct: {
+        _id: "",
         name: "",
         description: "",
         status: "",

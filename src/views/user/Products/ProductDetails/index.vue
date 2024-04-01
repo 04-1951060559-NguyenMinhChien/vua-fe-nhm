@@ -18,15 +18,17 @@
           <div class="col-6 product-details-content">
             <!-- Tên -->
             <div class="product-details-name">
-              <h1>NIKE</h1>
+              <h1>{{ this.product.name }}</h1>
             </div>
             <!-- ID -->
-            <div class="product-details-id">
+            <!-- <div class="product-details-id">
               <p>Mã SP: <b>SFD990MNB</b></p>
-            </div>
+            </div> -->
             <!-- Gía -->
             <div class="product-details-price">
-              <h1><b>900000 đ</b></h1>
+              <h1>
+                <b>{{ this.product.price }}</b>
+              </h1>
             </div>
             <hr style="width: 70%" />
             <!-- Size -->
@@ -54,9 +56,11 @@
                       autocomplete="off"
                       checked
                     />
-                    <label class="btn" for="option5">38</label>
+                    <label class="btn" for="option5">{{
+                      this.product.size_id ? this.product.size_id.name : ""
+                    }}</label>
 
-                    <input
+                    <!-- <input
                       type="radio"
                       class="btn-check"
                       name="options-base"
@@ -81,7 +85,7 @@
                       id="option8"
                       autocomplete="off"
                     />
-                    <label class="btn" for="option8">41</label>
+                    <label class="btn" for="option8">41</label> -->
                   </div>
                 </div>
               </div>
@@ -92,7 +96,7 @@
               <h6>SỐ LƯỢNG</h6>
               <div class="product-details-quantity-custom">
                 <button
-                  class="reduced items-count sub"
+                  class="reduced this.products-count sub"
                   @click="decreaseQuantity"
                   type="button"
                 >
@@ -111,7 +115,7 @@
                   disabled
                 />
                 <button
-                  class="increase items-count add"
+                  class="increase this.products-count add"
                   @click="increaseQuantity"
                   type="button"
                 >
@@ -165,14 +169,14 @@ export default {
     return {
       quantity: 1,
       modalShow: false,
-      // productId: null,
-      // product: {},
+      productId: null,
+      product: {},
     };
   },
-  // created() {
-  //   this.productId = this.$route.params.id;
-  //   this.fetchProductDetails();
-  // },
+  created() {
+    this.productId = this.$route.params.id;
+    this.getAllProductById();
+  },
   methods: {
     decreaseQuantity() {
       if (this.quantity > 1) {
@@ -185,26 +189,27 @@ export default {
         this.quantity++;
       }
     },
-    // async fetchProductDetails() {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://localhost:3838/products/${this.productId}`
-    //     );
-    //     this.product = response.data;
-    //   } catch (error) {
-    //     console.error("Error fetching product details:", error);
-    //   }
-    // },
-
-    // so luong
-    // decreaseQuantity() {
-    //   if (this.quantity > 1) {
-    //     this.quantity--;
-    //   }
-    // },
-    // increaseQuantity() {
-    //   this.quantity++;
-    // },
+    getAllProductById() {
+      axios
+        .get(`http://localhost:3838/products/${this.productId}`)
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.product = res.data.data;
+            console.log("Thành công !!!", this.product);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    decreaseQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--;
+      }
+    },
+    increaseQuantity() {
+      this.quantity++;
+    },
   },
 };
 </script>
