@@ -12,7 +12,7 @@
             <img
               src="../../../../assets/Adidas/adi1.jpg"
               alt=""
-              style="width: 70%; float:right"
+              style="width: 70%; float: right"
             />
           </div>
           <div class="col-6 product-details-content">
@@ -33,11 +33,17 @@
             <div class="product-detail-size">
               <div class="product-detail-size-text">
                 <h6>KÍCH THƯỚC</h6>
-                <p @click="modalShow = !modalShow"><a>Hướng dẫn chọn size giày</a></p>
+                <p @click="modalShow = !modalShow">
+                  <a>Hướng dẫn chọn size giày</a>
+                </p>
                 <b-modal ref="modal-size" v-model="modalShow">
-                  <img src="../../../../assets/Blog/Blog3.jpg" alt="" style="width:100%">
+                  <img
+                    src="../../../../assets/Blog/Blog3.jpg"
+                    alt=""
+                    style="width: 100%"
+                  />
                   <!-- <img src="../../../../assets/Blog/Blog2.jpg" alt="" style="width:100%"> -->
-                  </b-modal> 
+                </b-modal>
                 <div class="row size" style="padding-top: 15px">
                   <div class="col-12">
                     <input
@@ -125,7 +131,11 @@
                 <b>MUA NGAY</b><i class="bi bi-box-arrow-in-right"></i>
               </button>
               <div class="product-details-addCart-text">
-                <p style="display:inline">Hoặc đặt mua: <h5 style="display:inline; color:red">0356422491</h5> (Tư vấn miễn phí)</p>
+                <span style="display: inline"
+                  >Hoặc đặt mua:
+                  <h5 style="display: inline; color: red">0356422491</h5>
+                  (Tư vấn miễn phí)</span
+                >
               </div>
             </div>
           </div>
