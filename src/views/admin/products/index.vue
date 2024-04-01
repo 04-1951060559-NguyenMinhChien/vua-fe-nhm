@@ -189,6 +189,9 @@
                         accept="image/*"
                         required
                       />
+                      <div v-if="imageUrl">
+                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
@@ -295,8 +298,10 @@
                         @change="handleImageUploadUpdate"
                         accept="image/*"
                         :v-model="dataUpdate.image"
-                        required
                       />
+                      <div v-if="imageUrl">
+                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
@@ -449,6 +454,9 @@
                         accept="image/*"
                         required
                       />
+                      <div v-if="imageUrl">
+                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                      </div>
                     </div>
                     <div class="mb-3">
                       <label for="status" class="form-label">Trạng thái:</label>
@@ -536,8 +544,11 @@
                         id="brandImage"
                         @change="handleImageBrandUploadUpdate"
                         accept="image/*"
-                        required
                       />
+                      <!-- Hiện ảnh để biết mà sửa -->
+                      <div v-if="imageUrl">
+                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                      </div>
                     </div>
                     <div class="mb-3">
                       <label for="status" class="form-label">Trạng thái:</label>
@@ -694,6 +705,7 @@ export default {
   },
   data() {
     return {
+      imageUrl: "",
       selectedTable: "Product",
       modalShow: false,
       // Data hiển thị trên table sẽ gán vào đây
@@ -857,6 +869,7 @@ export default {
     handleImageUpload(event) {
       const file = event.target.files[0];
       this.dataCreate.image = file;
+      this.imageUrl = URL.createObjectURL(file);
     },
 
     // Sửa sán phẩm
@@ -864,6 +877,7 @@ export default {
       this.$refs["my-modal-update"].show();
       console.log(item);
       this.dataUpdate = item;
+      this.imageUrl = "http://localhost:3838/" + item.image;
     },
     hideModalUpdate() {
       this.$refs["my-modal-update"].hide();
@@ -914,6 +928,7 @@ export default {
     handleImageUploadUpdate(event) {
       const file = event.target.files[0];
       this.dataUpdate.image = file;
+      this.imageUrl = URL.createObjectURL(file);
     },
 
     getAllProduct() {
@@ -1204,6 +1219,7 @@ export default {
     handleImageBrandUpload(event) {
       const file = event.target.files[0];
       this.dataCreateBrand.image = file;
+      this.imageUrl = URL.createObjectURL(file);
     },
 
     //Sửa thương hiệu
@@ -1211,6 +1227,7 @@ export default {
       this.$refs["my-modal-update-brand"].show();
       console.log(item);
       this.dataUpdateBrand = item;
+      this.imageUrl = "http://localhost:3838/" + item.image;
     },
     hideModalUpdateBrand() {
       this.$refs["my-modal-update-brand"].hide();
@@ -1264,6 +1281,7 @@ export default {
     handleImageBrandUploadUpdate(event) {
       const file = event.target.files[0];
       this.dataUpdateBrand.image = file;
+      this.imageUrl = URL.createObjectURL(file);
     },
 
     getAllBrand() {
