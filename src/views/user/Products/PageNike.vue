@@ -54,52 +54,13 @@
             <div class="col-8">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card text-left">
-                            <img class="card-img-top" src="../../../assets/NIKE/nike1.jpg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">PEGASUS 38</a>
-                                </h4>
-                                <p class="card-text">
-                                    <div class="star ">
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                    </div>
-                                    <strong>3,600,000 đ</strong>
-                                </p>
-                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-left">
-                            <img class="card-img-top" src="../../../assets/NIKE/nike8.jpeg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">AIR MAX AP</a>
-                                </h4>
-                                <p class="card-text">
-                                    <div class="star ">
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                        <i class="fa-solid fa-star "></i>
-                                    </div>
-                                    <strong>
-                                    3,200,000 đ</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-4">
                 <div class="aside">
                     <div class="aside aside-footwate">
-                        <a href=""><img src="../../../assets/bannersitebar01.jpg" alt=""></a>
+                        <a href=""><img src="../../../assets/Banner/bannersitebar01.jpg" alt=""></a>
                     </div>
                     <hr>
                     <div class="aside aside-news">
@@ -109,7 +70,7 @@
                                     <h3><b>TIN TỨC MỚI</b></h3>
                                 </div>
                                 <div class="aside-news-conten">
-                                    <img src="../../../assets/footwate/pt1.jpg" alt="">
+                                    <img src="../../../assets/Blog/Blog1.jpg" alt="">
                                     <p>Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình - Kingshoesvn
                                     </p>
                                 </div>

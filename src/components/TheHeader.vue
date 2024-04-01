@@ -18,7 +18,7 @@
       >
         <div class="container-fluid">
           <router-link to="/">
-            <img src="../assets/logo.png" alt="LOGO" height="100" />
+            <img src="../assets/Logo/logo.png" alt="LOGO" height="100" />
           </router-link>
           <button
             class="navbar-toggler"
@@ -97,20 +97,38 @@
     </div>
   </div>
 </template>
-      
-      <script>
+
+<script>
 export default {
-  name: "header",
+  name: "the-header",
   props: {
     msg: String,
   },
+  // mounted() {
+  //   this.checkScrollPosition();
+  //   window.addEventListener("scroll", this.checkScrollPosition);
+  // },
+  // methods: {
+  //   checkScrollPosition() {
+  //     const headerTop = this.$refs.headerTop; // Sử dụng $refs để truy cập element
+  //     if (window.scrollY > 0) {
+  //       headerTop.classList.add("hidden");
+  //     } else {
+  //       headerTop.classList.remove("hidden");
+  //     }
+  //   },
+  // },
+  // destroyed() {
+  //   window.removeEventListener("scroll", this.checkScrollPosition);
+  // },
 };
 </script>
-      
-  <style scoped>
+
+<style scoped>
 .header-top {
   text-decoration: none;
 }
+
 .header {
   background-color: #f0f0f0 !important;
   box-shadow: 0 6px 6px -6px rgb(0 0 0 / 50%);
@@ -119,9 +137,11 @@ export default {
 .header #search-addon {
   border: none;
 }
+
 .nav-item {
   padding: 0 15px;
 }
+
 .nav-item.item:hover {
   border-radius: 40px;
   background-color: #fcd603;
@@ -134,10 +154,12 @@ export default {
 .nav-link:active {
   color: #bf1919;
 }
+
 .card,
 .user {
   align-items: center;
 }
+
 .bi-person,
 .bi-cart {
   font-size: 25px;
@@ -147,6 +169,7 @@ export default {
 .navbar-collapse ul {
   align-items: center;
 }
+
 /* a:hover {
   background: #ffd600;
   border-radius: 40px;
@@ -156,9 +179,11 @@ a {
   font-weight: bold;
   color: black !important;
 }
+
 label {
   font-weight: bold;
 }
+
 .navbar-collapse li a {
   position: relative;
 }

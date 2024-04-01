@@ -4,7 +4,7 @@
       <b-navbar toggleable="lg" type="">
         <b-navbar-brand href="#">
           <img
-            src="../../../assets/logo2.png"
+            src="../../../assets/Logo/logo2.png"
             style="width: 15%; margin-right: 10px"
             alt=""
           />
@@ -43,7 +43,9 @@
       <div class="row">
         <!-- SIDE BAR -->
         <div class="col-sm-2 d-none d-sm-flex" style="padding: 15px">
-          <div class="sidebar-manager"><SideBar /></div>
+          <div class="sidebar-manager">
+            <SideBar />
+          </div>
         </div>
 
         <!-- TABLE -->
@@ -670,7 +672,7 @@
                       @click="showModalUpdateBrand(item)"
                       class="bi bi-pencil-square"
                     ></i>
-                    <i class="bi bi-trash"></i>
+                    <i @click="deleteBrand(item)" class="bi bi-trash"></i>
                   </td>
                 </tr>
               </tbody>
@@ -799,6 +801,15 @@ export default {
     },
     hideModal() {
       this.$refs["my-modal"].hide();
+      this.dataCreate = {
+        name: "",
+        description: "",
+        status: true,
+        image: "", // Lưu trữ đường dẫn của hình ảnh
+        price: "",
+        brand_id: "",
+        size_id: "",
+      };
     },
     handleSubmit() {
       console.log("Check create product", this.dataCreate);
@@ -840,6 +851,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      1;
       this.hideModal();
     },
     handleImageUpload(event) {
@@ -971,13 +983,17 @@ export default {
     },
     hideModalSize() {
       this.$refs["my-modal-size"].hide();
+      this.dataCreateSize = {
+        name: "",
+        status: false,
+      };
     },
     handleSubmitSize() {
       console.log("Check create size", this.dataCreateSize);
       const formData = new FormData();
       formData.append("name", this.dataCreateSize.name);
       formData.append("status", this.dataCreateSize.status);
-      console.log("đasadsadsadsaa", this.formData);
+      // console.log("đasadsadsadsaa", this.formData);
       // Xử lý khi người dùng submit
       axios
         .post("http://localhost:3838/sizes", this.dataCreateSize)
@@ -1009,7 +1025,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      this.hideModalUpdateSize();
+      this.hideModalSize();
     },
     //Sua Size
     showModalUpdateSize(item) {
@@ -1030,9 +1046,13 @@ export default {
       console.log(this.dataUpdateSize._id);
       axios
         .put(
-          "http://localhost:3838/sizes/" + this.dataUpdateSize._id,
+          `http://localhost:3838/sizes/${this.dataUpdateSize._id}`,
           this.dataUpdateSize
         )
+        // .put(
+        //   "http://localhost:3838/sizes/" + this.dataUpdateSize._id,
+        //   this.dataUpdateSize
+        // )
         .then((res) => {
           if (res.data.status === 200) {
             console.log("Sửa thành công !", res.data);
@@ -1130,6 +1150,14 @@ export default {
     },
     hideModalBrand() {
       this.$refs["my-modal-brand"].hide();
+      this.dataCreateBrand = {
+        name: "",
+        emailBrand: "",
+        phoneNumber: "",
+        address: "",
+        image: "",
+        status: "",
+      };
     },
     handleSubmitBrand() {
       console.log("Check create brand", this.dataCreateBrand);
@@ -1310,22 +1338,23 @@ export default {
 .product-manager h5 {
   padding-top: 5px;
 }
+
 .active {
   background-color: #6c757d;
   border-radius: 5px;
   color: #fff;
 }
+
 .navbar {
   padding: 0 15px;
   background-color: #ffd600;
 }
+
 tbody i {
   margin-left: 10px;
   font-size: 30px;
 }
-tbody i .bi.bi-trash {
-  color: red;
-}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -1354,6 +1383,19 @@ table td {
 }
 
 table tr:hover {
+  background-color: #ddd;
+}
+.bi-pencil-square {
+  color: green;
+}
+.bi-trash {
+  color: red;
+}
+.bi-pencil-square,
+.bi-trash {
+  border: 1px solid #a1a1a1;
+  padding: 0 5px;
+  border-radius: 10px;
   background-color: #ddd;
 }
 </style>

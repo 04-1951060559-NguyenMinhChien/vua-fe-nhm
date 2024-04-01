@@ -155,7 +155,7 @@
           <div class="aside">
             <div class="aside aside-footwate">
               <a href=" "
-                ><img src="../../../assets/bannersitebar01.jpg" alt=" "
+                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=" "
               /></a>
             </div>
             <hr />
@@ -165,7 +165,7 @@
                   <h3><b>TIN TỨC MỚI</b></h3>
                 </div>
                 <div class="aside-news-conten">
-                  <img src="../../../assets/footwate/pt1.jpg" alt=" " />
+                  <img src="../../../assets/Blog/Blog1.jpg" alt=" " />
                   <p>
                     Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
                     Kingshoesvn

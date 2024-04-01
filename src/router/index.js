@@ -10,6 +10,7 @@ import PageAbout from '../views/user/About/PageAbout.vue'
 import PageSpa from '../views/user/Spa/PageSpa.vue'
 import PageContact from '../views/user/Contact/PageContact.vue'
 import PageCart from '../views/user/Cart/PageCart.vue'
+// import NotFound from '../views/user/NotFound/index.vue'
 
 
 import PageAdidas from '../views/user/Products/PageAdidas.vue'
@@ -82,6 +83,11 @@ const routes = [
     name: 'cart',
     component: PageCart
   },
+  // {
+  //   path: '/:catchAll(.*)',
+  //   name: 'errPage',
+  //   component: NotFound
+  // },
   {
     path: '/login',
     name: 'login',
@@ -106,7 +112,7 @@ const routes = [
   },
   {
     path: '/admin/adminstaff',
-    name: 'staff',
+    name: 'admin-staff',
     component: AdminStaff
   },
   {
@@ -114,8 +120,13 @@ const routes = [
     name: 'staff',
     component: AdminStaff
   },
+  // {
+  //   path: '/users/productdetails/:id',
+  //   name: 'productDetails',
+  //   component: productDetails
+  // },
   {
-    path: '/users/productdetails',
+    path: '/users/productdetails/',
     name: 'productDetails',
     component: productDetails
   }

@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row" style="padding-top: 40px">
           <div class="col-md-4 contact">
-            <img src="../assets/logo2.png" alt="" style="height: 150px" />
+            <img src="../assets/Logo/logo2.png" alt="" style="height: 150px" />
             <h6><b>THÔNG TIN LIÊN HỆ</b></h6>
             <h6><b>KINGSHOES.VN Trang Thông Tin Chính Thức.</b></h6>
             <p>
@@ -45,7 +45,7 @@
                 </p>
                 <h6 style="text-align: center"><b>CHỨNG NHẬN</b></h6>
                 <img
-                  src="../assets/logoSaleNoti.png"
+                  src="../assets/Logo/logoSaleNoti.png"
                   alt=""
                   style="width: 90%"
                 />
@@ -78,7 +78,7 @@
             
       <script>
 export default {
-  name: "footer",
+  name: "the-footer",
   props: {
     msg: String,
   },

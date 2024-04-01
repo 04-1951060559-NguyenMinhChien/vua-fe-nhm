@@ -12,7 +12,7 @@
           class="col-10 col-sm-9 d-flex align-items-center justify-content-center justify-content-sm-start"
         >
           <img
-            src="../../../assets/logo2.png"
+            src="../../../assets/Logo/logo2.png"
             style="width: 50px; padding-right: 10px"
             alt=""
           />
@@ -83,7 +83,7 @@
 import SideBar from "@/components/SideBar.vue";
 
 export default {
-  name: "staff",
+  name: "admin-staff",
   components: {
     SideBar,
   },

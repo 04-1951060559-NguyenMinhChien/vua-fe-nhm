@@ -71,7 +71,7 @@
                 <img
                   alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   height="100%"
-                  src="../../../assets/about/ab1.jpeg"
+                  src="../../../assets/About/ab1.jpeg"
                   srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   width="100%"
                 />
@@ -89,7 +89,7 @@
                   ><img
                     alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                     height="100%"
-                    src="../../../assets/about/ab1.jpg"
+                    src="../../../assets/About/ab1.jpg"
                     srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                     width="100%"
                 /></a>
@@ -120,7 +120,7 @@
                 <img
                   alt="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   height="100%"
-                  src="../../../assets/about/ab3.jpeg"
+                  src="../../../assets/About/ab3.jpeg"
                   srcset="Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM - KING SHOES Giới thiệu"
                   width="100%"
                 />
@@ -132,7 +132,7 @@
               <img
                 height="100%"
                 width="100%"
-                src=" ../../../../../assets/about/ab4.jpeg"
+                src="../../../assets/About/ab4.jpeg"
                 alt=" "
               />
               <p>
@@ -145,7 +145,7 @@
               <img
                 height="100%"
                 width="100%"
-                src="../../../assets/about/ab5.jpg"
+                src="../../../assets/About/ab5.jpg"
                 alt=" "
               />
               <p></p>
@@ -159,8 +159,7 @@
               ></iframe>
               <p><b>⇒ Bảng Giá Vận Chuyển</b></p>
               <p>
-                ☑ Khu vực TP. Hồ Chí Minh: Miễn phí chi phí vận chuyển (Free
-                ship).
+                ☑ Khu vực TP. Hà Nội: Miễn phí chi phí vận chuyển (Free ship).
               </p>
               <p>
                 ☑ Khu vực Tỉnh : KingShoes.vn hỗ trợ khách hàng 50k chi phí vận
@@ -182,16 +181,16 @@
               <img
                 height="100%"
                 width="100%"
-                src="../../../assets/about/thanks.jpg"
+                src="../../../assets/About/thanks.jpg"
                 alt=""
               />
               <hr width="50%" />
-              <img
+              <!-- <img
                 height="100%"
                 width="100%"
-                src="../../../assets/about/a.jpg"
+                src="../../../assets/About/a.jpg"
                 alt=""
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -199,7 +198,7 @@
           <div class="aside">
             <div class="aside aside-footwate">
               <a href=" "
-                ><img src="../../../assets/bannersitebar01.jpg" alt=" "
+                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=" "
               /></a>
             </div>
             <hr />
@@ -209,7 +208,7 @@
                   <h3><b>TIN TỨC MỚI</b></h3>
                 </div>
                 <div class="aside-news-conten">
-                  <img src="../../../assets/footwate/pt1.jpg" alt=" " />
+                  <img src="../../../assets/Blog/Blog1.jpg" alt=" " />
                   <p>
                     Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
                     Kingshoesvn
