@@ -190,8 +190,45 @@
                         required
                       />
                       <div v-if="imageUrl">
-                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                        <img
+                          :src="imageUrl"
+                          alt="Ảnh sản phẩm"
+                          style="width: 40%; padding-top: 20px"
+                        />
                       </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="productType" class="form-label"
+                        >Chọn loại sản phẩm</label
+                      >
+                      <select
+                        class="form-select"
+                        id="productType"
+                        v-model="dataCreate.product_type"
+                        required
+                      >
+                        <option value="">Chọn loại sản phẩm:</option>
+                        <option
+                          v-for="type in productTypes"
+                          :key="type._id"
+                          :value="type._id"
+                        >
+                          {{ type.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="productquantity" class="form-label"
+                        >Số lượng</label
+                      >
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        id="productquantity"
+                        v-model="dataCreate.numberInStock"
+                        required
+                      />
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
@@ -300,8 +337,45 @@
                         :v-model="dataUpdate.image"
                       />
                       <div v-if="imageUrl">
-                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                        <img
+                          :src="imageUrl"
+                          alt="Ảnh sản phẩm"
+                          style="width: 40%; padding-top: 20px"
+                        />
                       </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="productType" class="form-label"
+                        >Chọn loại sản phẩm</label
+                      >
+                      <select
+                        class="form-select"
+                        id="productType"
+                        v-model="dataUpdate.product_type"
+                        required
+                      >
+                        <option value="">Chọn loại sản phẩm:</option>
+                        <option
+                          v-for="type in productTypes"
+                          :key="type._id"
+                          :value="type._id"
+                        >
+                          {{ type.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="productquantity" class="form-label"
+                        >Số lượng</label
+                      >
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        id="productquantity"
+                        v-model="dataUpdate.numberInStock"
+                        required
+                      />
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
@@ -455,7 +529,11 @@
                         required
                       />
                       <div v-if="imageUrl">
-                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                        <img
+                          :src="imageUrl"
+                          alt="Ảnh thương hiệu"
+                          style="width: 40%; padding-top: 20px"
+                        />
                       </div>
                     </div>
                     <div class="mb-3">
@@ -547,7 +625,11 @@
                       />
                       <!-- Hiện ảnh để biết mà sửa -->
                       <div v-if="imageUrl">
-                        <img :src="imageUrl" alt="Ảnh sản phẩm" />
+                        <img
+                          :src="imageUrl"
+                          alt="Ảnh thương hiệu"
+                          style="width: 40%; padding-top: 20px"
+                        />
                       </div>
                     </div>
                     <div class="mb-3">
@@ -587,7 +669,9 @@
                   <th scope="col">Size</th>
                   <th scope="col">Giá bán</th>
                   <th scope="col">Hình ảnh</th>
-                  <th scope="col">Trạng thái</th>
+                  <th scope="col">Loại sản phẩm</th>
+                  <th scope="col">Số lượng</th>
+                  <!-- <th scope="col">Trạng thái</th> -->
                   <th scope="col">Tác vụ</th>
                 </tr>
               </thead>
@@ -605,10 +689,14 @@
                       style="width: 50px; height: 70px"
                     />
                   </td>
-
+                  <td>{{ item.product_type }}</td>
+                  <td>
+                    {{ item.numberInStock ? item.numberInStock + " đôi" : "" }}
+                  </td>
+                  <!-- 
                   <td>
                     {{ item.status }}
-                  </td>
+                  </td> -->
                   <td>
                     <i
                       @click="showModalUpdate(item)"
@@ -717,6 +805,8 @@ export default {
         price: "",
         brand_id: "",
         size_id: "",
+        product_type: "",
+        numberInStock: "",
       },
       listSize: {
         name: "",
@@ -730,24 +820,16 @@ export default {
         image: "", // Lưu trữ đường dẫn của hình ảnh
         status: "",
       },
-      name: "",
-      nameState: null,
-      sizeState: null,
-      brandState: null,
-      descriptionState: null,
-      ImgState: null,
-      priceState: null,
 
-      selectedBrand: [
-        // { _id: "65ed7d961d38f0473cc1c35a", name: "36" },
-        // { _id: "37", name: "37" },
-        // { _id: "38", name: "38" },
-        // { _id: "39", name: "39" },
-        // { _id: "40", name: "40" },
-        // { _id: "41", name: "41" },
-        // { _id: "42", name: "42" },
-      ],
+      selectedBrand: [],
+
       selectedSize: [],
+      productTypes: [
+        // Mảng chứa các loại sản phẩm
+        { _id: "HOT", name: "HOT" },
+        { _id: "NEW", name: "NEW" },
+        // Thêm các loại sản phẩm khác nếu cần
+      ],
 
       // Data khi thêm mới, sửa sản phẩm sẽ gán vào dây
       dataCreate: {
@@ -758,6 +840,8 @@ export default {
         price: "",
         brand_id: "",
         size_id: "",
+        product_type: "",
+        numberInStock: "",
       },
       dataUpdate: {
         name: "",
@@ -767,6 +851,8 @@ export default {
         price: "",
         brand_id: "",
         size_id: "",
+        product_type: "",
+        numberInStock: "",
       },
 
       //Data khi thêm mới, sửa size
@@ -798,6 +884,7 @@ export default {
       },
       optionsBrand: [],
       optionsSize: [],
+      optionProduct: [],
     };
   },
   created() {
@@ -810,6 +897,7 @@ export default {
     //Them moi san pham
     showModal() {
       this.$refs["my-modal"].show();
+      this.imageUrl = "";
     },
     hideModal() {
       this.$refs["my-modal"].hide();
@@ -821,6 +909,8 @@ export default {
         price: "",
         brand_id: "",
         size_id: "",
+        product_type: "",
+        numberInStock: "",
       };
     },
     handleSubmit() {
@@ -832,12 +922,15 @@ export default {
       formData.append("size_id", this.dataCreate.size_id);
       formData.append("brand_id", this.dataCreate.brand_id);
       formData.append("image", this.dataCreate.image); // Thêm tệp hình ảnh vào FormData
+      formData.append("product_type", this.dataCreate.product_type);
+      formData.append("numberInStock", this.dataCreate.numberInStock);
       // Xử lý khi người dùng submit
       axios
         .post("http://localhost:3838/products", formData)
         .then((res) => {
           if (res.data.status === 200) {
             console.log("Thêm thành công !", res.data);
+            // console.log(this.dataUpdate.product_type);
             // Thêm thông báo thành công
             this.$swal.fire({
               position: "center",
@@ -863,7 +956,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      1;
       this.hideModal();
     },
     handleImageUpload(event) {
@@ -881,6 +973,7 @@ export default {
     },
     hideModalUpdate() {
       this.$refs["my-modal-update"].hide();
+      this.imageUrl = "";
     },
     handleSubmitUpdate() {
       console.log("Check update product", this.dataUpdate);
@@ -892,6 +985,8 @@ export default {
       formData.append("size_id", this.dataUpdate.size_id._id);
       formData.append("brand_id", this.dataUpdate.brand_id._id);
       formData.append("image", this.dataUpdate.image); // Thêm tệp hình ảnh vào FormData
+      formData.append("product_type", this.dataUpdate.product_type);
+      formData.append("numberInStock", this.dataUpdate.numberInStock);
       // Xử lý khi người dùng submit
       axios
         .put(`http://localhost:3838/products/${this.dataUpdate._id}`, formData)
@@ -995,6 +1090,7 @@ export default {
     //Them moi size
     showModalSize() {
       this.$refs["my-modal-size"].show();
+      this.imageUrl = "";
     },
     hideModalSize() {
       this.$refs["my-modal-size"].hide();
@@ -1002,6 +1098,7 @@ export default {
         name: "",
         status: false,
       };
+      this.imageUrl = "";
     },
     handleSubmitSize() {
       console.log("Check create size", this.dataCreateSize);
@@ -1162,6 +1259,7 @@ export default {
     //Them moi thuong hieu
     showModalBrand() {
       this.$refs["my-modal-brand"].show();
+      this.imageUrl = "";
     },
     hideModalBrand() {
       this.$refs["my-modal-brand"].hide();
@@ -1173,6 +1271,7 @@ export default {
         image: "",
         status: "",
       };
+      this.imageUrl = "";
     },
     handleSubmitBrand() {
       console.log("Check create brand", this.dataCreateBrand);
@@ -1403,12 +1502,15 @@ table td {
 table tr:hover {
   background-color: #ddd;
 }
+
 .bi-pencil-square {
   color: green;
 }
+
 .bi-trash {
   color: red;
 }
+
 .bi-pencil-square,
 .bi-trash {
   border: 1px solid #a1a1a1;

@@ -70,10 +70,12 @@
       <!-- Sản phẩm hot -->
       <h3 class="ps-section__title" data-mask="HOT">- Sản phẩm hot</h3>
       <div class="row">
-        <div class="col-md-3" v-for="item in listProduct" :key="item.id">
+        <div class="col-md-3" v-for="item in listProductHot" :key="item.id">
           <div class="products-hot">
             <div class="products-hot-img">
-              <router-link :to="'/users/productdetails/'">
+              <router-link
+                :to="{ name: 'productDetails', params: { id: item._id } }"
+              >
                 <img
                   :src="'http://localhost:3838/' + item.image"
                   alt=""
@@ -111,6 +113,42 @@
           <h3 class="ps-section__title text-left" data-mask="Product">
             - Sản phẩm mới
           </h3>
+          <div class="row">
+            <div class="col-md-3" v-for="item in listProductNew" :key="item.id">
+              <div class="products-hot">
+                <div class="products-hot-img">
+                  <router-link
+                    :to="{ name: 'productDetails', params: { id: item._id } }"
+                  >
+                    <img
+                      :src="'http://localhost:3838/' + item.image"
+                      alt=""
+                      style="width: 100%"
+                    />
+                  </router-link>
+                </div>
+                <div class="products-hot-body">
+                  <h4 class="card-title text-uppercase">
+                    <router-link
+                      :to="{ name: 'productDetails', params: { id: item._id } }"
+                    >
+                      {{ item.name }}
+                    </router-link>
+                  </h4>
+                  <span class="card-text">
+                    <div class="star">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                    </div>
+                    <strong>{{ formatPrice(item.price) }}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
           <br />
           <!-- Nav tabs -->
           <ul class="nav nav-tabs mr-auto" role="tablist">
@@ -409,16 +447,9 @@ export default {
   },
   data() {
     return {
-      listProduct: {
-        _id: "",
-        name: "",
-        description: "",
-        status: "",
-        image: "",
-        price: "",
-        brand_id: "",
-        size_id: "",
-      },
+      listProduct: [],
+      listProductNew: [],
+      listProductHot: [],
     };
   },
   created() {
@@ -439,6 +470,14 @@ export default {
           if (res.data.status === 200 && res.data.data) {
             console.log("Thành công !!!", res);
             this.listProduct = res.data.data;
+            this.listProduct.forEach((element) => {
+              if (element.product_type === "NEW") {
+                this.listProductNew.push(element);
+              }
+              if (element.product_type === "HOT") {
+                this.listProductHot.push(element);
+              }
+            });
           }
         })
         .catch((err) => {
@@ -496,6 +535,7 @@ export default {
 
 .products-hot-body {
   padding: 0 20px;
+  padding-bottom: 20px;
 }
 
 .products-hot-body a {

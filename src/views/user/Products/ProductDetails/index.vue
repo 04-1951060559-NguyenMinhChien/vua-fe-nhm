@@ -10,14 +10,14 @@
           <!-- Ảnh -->
           <div class="col-6 product-details-img">
             <img
-              src="../../../../assets/Adidas/adi1.jpg"
+              :src="'http://localhost:3838/' + this.product.image"
               alt=""
               style="width: 70%; float: right"
             />
           </div>
           <div class="col-6 product-details-content">
             <!-- Tên -->
-            <div class="product-details-name">
+            <div class="product-details-name text-uppercase">
               <h1>{{ this.product.name }}</h1>
             </div>
             <!-- ID -->
@@ -27,7 +27,9 @@
             <!-- Gía -->
             <div class="product-details-price">
               <h1>
-                <b>{{ this.product.price }}</b>
+                <!-- <b>{{ format(this.product.price) }}</b> -->
+                <!-- <b>{{ this.product.price }}</b> -->
+                <b>{{ formatPrice(this.product.price) }}</b>
               </h1>
             </div>
             <hr style="width: 70%" />
@@ -209,6 +211,12 @@ export default {
     },
     increaseQuantity() {
       this.quantity++;
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
     },
   },
 };

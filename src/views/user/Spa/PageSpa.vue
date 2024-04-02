@@ -4,7 +4,7 @@
 
     <div class="container" style="margin-top: 50px">
       <div class="row">
-        <div class="col-8">
+        <div class="col-9">
           <div class="container-about">
             <h3>
               <b>CHĂM SÓC GIÀY CỦA BẠN TẠI - KINGSHOES.VN</b>
@@ -151,7 +151,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <div class="aside">
             <div class="aside aside-footwate">
               <a href=" "

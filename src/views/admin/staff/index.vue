@@ -1,133 +1,73 @@
 <template>
-  <div class="container-fluid">
+  <div>
     <div>
-      <div class="row" style="padding: 1rem; background-color: #ffd600">
-        <!-- HEADER -->
-        <div
-          class="col-1 d-flex d-sm-none align-items-center justify-content-center"
-        >
-          <span>X</span>
-        </div>
-        <div
-          class="col-10 col-sm-9 d-flex align-items-center justify-content-center justify-content-sm-start"
-        >
+      <b-navbar toggleable="lg" type="">
+        <b-navbar-brand href="#">
           <img
             src="../../../assets/Logo/logo2.png"
-            style="width: 50px; padding-right: 10px"
+            style="width: 15%; margin-right: 10px"
             alt=""
           />
           <b>QUẢN TRỊ</b>
-        </div>
-        <div
-          class="col-sm-3 d-none d-sm-flex align-items-center justify-content-sm-end"
-        >
-          Admin
-        </div>
-        <div
-          class="col-1 d-flex d-sm-none align-items-center justify-content-center"
-        >
-          <span>X</span>
-        </div>
-      </div>
+        </b-navbar-brand>
 
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form>
+              <b-form-input
+                size="sm"
+                class="mr-sm-2"
+                placeholder="Search"
+              ></b-form-input>
+              <b-button size="sm" class="my-2 my-sm-0" type="submit"
+                >Search</b-button
+              >
+            </b-nav-form>
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>Admin</em>
+              </template>
+              <b-dropdown-item href="#">Profile</b-dropdown-item>
+              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+
+    <div class="container-fluid" id="container">
       <div class="row">
         <!-- SIDE BAR -->
-        <div class="col-sm-3 d-none d-sm-flex" style="padding: 15px">
-          <div class="sidebar-manager"><SideBar /></div>
+        <div class="col-sm-2 d-none d-sm-flex" style="padding: 15px">
+          <div class="sidebar-manager">
+            <SideBar />
+          </div>
         </div>
 
         <!-- TABLE -->
-        <div class="col-12 col-sm-9" style="padding: 15px">
-          <div class="container-fluid">
-            <div class="oder-manager">
-              <h2>Quản lý nhân viên</h2>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </template>
-  
-  <script>
-import SideBar from "@/components/SideBar.vue";
 
+<script>
+import SideBar from "@/components/SideBar.vue";
+import axios from "axios";
 export default {
-  name: "admin-staff",
+  name: "staff  ",
   components: {
     SideBar,
   },
 };
 </script>
-  
-  <style scoped>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
-.container {
-  width: 80%;
-  margin: 20px auto;
-}
-
-h2 {
-  text-align: center;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table th,
-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-table th {
-  background-color: #f2f2f2;
-}
-
-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-table tr:hover {
-  background-color: #ddd;
+<style scoped>
+.navbar {
+  padding: 0 15px;
+  background-color: #ffd600;
 }
 </style>
-  
