@@ -114,7 +114,11 @@
             - Sản phẩm mới
           </h3>
           <div class="row">
-            <div class="col-md-3" v-for="item in listProductNew" :key="item.id">
+            <div
+              class="col-md-3 text-left"
+              v-for="item in listProductNew"
+              :key="item.id"
+            >
               <div class="products-hot">
                 <div class="products-hot-img">
                   <router-link
@@ -151,7 +155,7 @@
           </div>
           <br />
           <!-- Nav tabs -->
-          <ul class="nav nav-tabs mr-auto" role="tablist">
+          <!-- <ul class="nav nav-tabs mr-auto" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#home"
                 ><b>NIKE</b>
@@ -172,7 +176,7 @@
                 ><b>YEEZY</b></a
               >
             </li>
-          </ul>
+          </ul> -->
 
           <!-- Tab panes -->
           <!-- HOME-NIKE -->
@@ -311,9 +315,9 @@
           </div>
         </div>
       </div>
-
+      <hr />
       <!-- Page -->
-      <div class="container">
+      <!-- <div class="container">
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             <li class="page-item disabled">
@@ -337,7 +341,7 @@
             </li>
           </ul>
         </nav>
-      </div>
+      </div> -->
 
       <!-- Tin tức -->
       <div class="blogs" style="margin-bottom: 50px">
@@ -415,16 +419,55 @@
       <hr />
 
       <!-- Liên hệ -->
-      <div class="container-fluid padding">
-        <div class="row text-center padding">
-          <div class="col-12">
-            <h2>CONTACT US</h2>
+      <div class="container-fluid contact">
+        <div class="row">
+          <div class="col-3 contact-buy">
+            <h6>GỌI MUA HÀNG ( 8:30 - 22:20 )</h6>
+            <div class="icon">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+            <div class="text">
+              <h2>0356422491</h2>
+            </div>
+            <p>Tất cả các ngày trong tuần</p>
           </div>
-          <div class="col-12 social pading">
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-instagram"></i></a>
-            <a href="#"><i class="bi bi-twitter"></i></a>
-            <a href="#"><i class="bi bi-youtube"></i></a>
+          <div class="col-3 contact-buy">
+            <h6>GÓP Ý, KHIẾU NẠI ( 8:30 - 17:00 )</h6>
+            <div class="icon">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+            <div class="text">
+              <h2>0356422491</h2>
+            </div>
+            <p>Các ngày trong tuần ( Trừ ngày lễ)</p>
+          </div>
+          <div class="col-3">
+            <h6>ĐĂNG KÝ NHẬN THÔNG TIN MỚI</h6>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nhập email của bạn tại đây...."
+                aria-label="email"
+                aria-describedby="button-addon2"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+              >
+                Đăng ký
+              </button>
+            </div>
+          </div>
+          <div class="col-3">
+            <h6>THEO DÕI CHÚNG TÔI</h6>
+            <div class="link">
+              <i class="bi bi-facebook"></i>
+              <i class="bi bi-instagram"></i>
+              <i class="bi bi-twitter"></i>
+              <i class="bi bi-youtube"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -655,5 +698,26 @@ export default {
 
 .container {
   padding: 0;
+}
+.contact {
+  padding: 50px 0;
+}
+
+.contact-buy .icon,
+.text {
+  display: inline-block;
+  margin-right: 20px;
+}
+.contact-buy .icon {
+  align-content: center;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  height: 30px;
+  color: #fff;
+}
+.link i {
+  padding-right: 20px;
+  font-size: 30px;
 }
 </style>

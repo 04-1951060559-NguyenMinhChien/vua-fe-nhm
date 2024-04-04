@@ -11,6 +11,7 @@ import PageSpa from '../views/user/Spa/PageSpa.vue'
 import PageContact from '../views/user/Contact/PageContact.vue'
 import PageCart from '../views/user/Cart/PageCart.vue'
 // import NotFound from '../views/user/NotFound/index.vue'
+import Order from '@/views/user/CheckOut/Order.vue'
 
 
 import PageAdidas from '../views/user/Products/PageAdidas.vue'
@@ -73,21 +74,16 @@ const routes = [
     name: 'spa',
     component: PageSpa
   },
-  // {
-  //   path: '/user',
-  //   name: 'user',
-  //   component: PageUser
-  // },
   {
     path: '/cart',
     name: 'cart',
     component: PageCart
   },
-  // {
-  //   path: '/:catchAll(.*)',
-  //   name: 'errPage',
-  //   component: NotFound
-  // },
+  {
+    path: '/order',
+    name: 'order',
+    component: Order
+  },
   {
     path: '/login',
     name: 'login',
@@ -120,11 +116,6 @@ const routes = [
     name: 'staff',
     component: AdminStaff
   },
-  // {
-  //   path: '/users/productdetails/:id',
-  //   name: 'productDetails',
-  //   component: productDetails
-  // },
   {
     path: '/users/productdetails/',
     name: 'productDetails',

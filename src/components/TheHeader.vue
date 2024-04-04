@@ -56,34 +56,17 @@
                 >
               </li>
               <li class="nav-item">
-                <div role="group" class="input-group">
-                  <input
-                    id="bv-icons-table-search"
-                    type="search"
-                    placeholder="Bạn muốn tìm gì ?"
-                    class="form-control"
-                    style="border-radius: 40px; background-color: #f0f0f0"
-                  />
-                  <div
-                    class="input-group-text"
-                    style="
-                      margin-left: -41px;
-                      z-index: 1;
-                      border: 0;
-                      border-radius: 40px;
-                      margin-top: 1px;
-                      margin-bottom: 1px;
-                      background-color: #f0f0f0;
-                    "
-                  >
-                    <i class="bi bi-search"></i>
+                <div class="dropdown">
+                  <button class="dropbtn"><i class="bi bi-person"></i></button>
+                  <div class="dropdown-content">
+                    <router-link class="nav-link" to="/login">
+                      Đăng nhập
+                    </router-link>
+                    <button @click="logout" class="btn btn-logout">
+                      Đăng xuất
+                    </button>
                   </div>
                 </div>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/login">
-                  <i class="bi bi-person"></i>
-                </router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/cart">
@@ -99,28 +82,34 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "the-header",
   props: {
     msg: String,
   },
-  // mounted() {
-  //   this.checkScrollPosition();
-  //   window.addEventListener("scroll", this.checkScrollPosition);
-  // },
-  // methods: {
-  //   checkScrollPosition() {
-  //     const headerTop = this.$refs.headerTop; // Sử dụng $refs để truy cập element
-  //     if (window.scrollY > 0) {
-  //       headerTop.classList.add("hidden");
-  //     } else {
-  //       headerTop.classList.remove("hidden");
-  //     }
-  //   },
-  // },
-  // destroyed() {
-  //   window.removeEventListener("scroll", this.checkScrollPosition);
-  // },
+  data() {
+    return {
+      listProductSearch: [],
+      listProduct: {
+        name: "",
+        description: "",
+        status: "",
+        image: "", // Lưu trữ đường dẫn của hình ảnh
+        price: "",
+        brand_id: "",
+        size_id: "",
+        product_type: "",
+        numberInStock: "",
+      },
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("userData"); // Xóa token khỏi local storage
+      this.$router.push("/login"); // Chuyển hướng đến trang đăng nhập
+    },
+  },
 };
 </script>
 
@@ -186,5 +175,44 @@ label {
 
 .navbar-collapse li a {
   position: relative;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  /* background-color: #3498db; */
+  background-color: #f8f9fa;
+  color: #000;
+  /* padding: 12px; */
+  font-size: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 110px;
+  /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(129, 129, 129) 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>

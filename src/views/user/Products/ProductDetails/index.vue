@@ -39,7 +39,6 @@
                     alt=""
                     style="width: 100%"
                   />
-                  <!-- <img src="../../../../assets/Blog/Blog2.jpg" alt="" style="width:100%"> -->
                 </b-modal>
                 <div class="row size" style="padding-top: 15px">
                   <div class="col-12">
@@ -54,33 +53,6 @@
                     <label class="btn" for="option5">{{
                       this.product.size_id ? this.product.size_id.name : ""
                     }}</label>
-
-                    <!-- <input
-                      type="radio"
-                      class="btn-check"
-                      name="options-base"
-                      id="option6"
-                      autocomplete="off"
-                    />
-                    <label class="btn" for="option6">39</label>
-
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="options-base"
-                      id="option7"
-                      autocomplete="off"
-                    />
-                    <label class="btn" for="option7">40</label>
-
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="options-base"
-                      id="option8"
-                      autocomplete="off"
-                    />
-                    <label class="btn" for="option8">41</label> -->
                   </div>
                 </div>
               </div>

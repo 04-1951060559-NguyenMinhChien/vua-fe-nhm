@@ -7,7 +7,7 @@
     <div class="search1 " style="margin-top: 50px; margin-bottom: 50px ">
       <div class="container navbar-collapse" id="searchReponsive">
         <div class="row">
-          <div class="search col-md-4">
+          <div class="search col-md-3">
             <div class="form-group">
               <label for="">Chọn size giày</label>
               <select class="form-control" name="" id="">
@@ -22,7 +22,7 @@
               </select>
             </div>
           </div>
-          <div class="search col-md-4">
+          <div class="search col-md-3">
             <div class="form-group">
               <label for="">Khoảng giá</label>
               <select class="form-control" name="" id="">
@@ -35,7 +35,7 @@
               </select>
             </div>
           </div>
-          <div class="search col-md-4">
+          <div class="search col-md-3">
             <div class="form-group">
               <label for="">Sắp xếp theo</label>
               <select class="form-control" name="" id="">
@@ -44,6 +44,47 @@
                 <option>Tên từ Z-A</option>
               </select>
             </div>
+          </div>
+            <!-- <div class="form-group">
+              <div role="group" class="input-group">
+                  <input
+                    id="bv-icons-table-search"
+                    type="search"
+                    placeholder="Bạn muốn tìm gì ?"
+                    class="form-control"
+                    style="border-radius: 40px; background-color: #f0f0f0"
+                    v-model="search"
+                  />
+                  <div
+                    class="input-group-text"
+                    style="
+                    
+                      margin-left: -41px;
+                      z-index: 1;
+                      border: 0;
+                      border-radius: 40px;
+                      margin-top: 1px;
+                      margin-bottom: 1px;
+                      background-color: #f0f0f0;
+                    "
+                  >
+                    <i @click="searchProduct" class="bi bi-search"></i>
+                  </div>
+                </div>
+            </div> -->
+          <div class="search col-md-3">
+            <label for="">Tìm kiếm:</label>
+            <b-nav-form @submit.stop.prevent>
+              <b-form-input
+                size="sm"
+                class="mr-sm-2"
+                placeholder="Search"
+                v-model="search"
+              ></b-form-input>
+              <b-button size="sm" class="my-2 my-sm-0" type="submit" @click="searchProduct()"
+                >Search</b-button
+              >
+            </b-nav-form>
           </div>
         </div>
       </div>
@@ -55,6 +96,8 @@
       <div class="row">
         <div class="col-9">
           <div class="row">
+            <div class="center" v-if="message">{{ message }}</div> <!-- Hiển thị thông báo tìm kiếm -->
+
             <div class="col-md-3" v-for="item in listProduct" :key="item._id">
               <div class="products-hot">
                 <div class="products-hot-img">
@@ -128,9 +171,10 @@ export default {
   },
   data() {
     return {
-      // products: [],
+      search: "",
       listProduct: [],
       brand_id: "66091eb20e92bf29e80db7c7",
+      message: "",
     };
   },
   created() {
@@ -157,6 +201,30 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    searchProduct() {
+      console.log(" SEARCH  !!!", this.search);
+      if (this.search) {
+        axios
+          .post(`http://localhost:3838/products/search/${this.search}`)
+          .then((res) => {
+            if (res.data.status === 200 && res.data.data !== null) {
+              this.listProduct = res.data.data;
+              this.message = "";
+
+              console.log("Thành công SEARCH  !!!", this.listProduct);
+            } else {
+              this.listProduct = "";
+              this.message = "Không tìm thấy sản phẩm !!!";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.listProduct = "";
+        this.message = "Vui lòng nhập từ khóa tìm kiếm";
+      }
     },
   },
 };
