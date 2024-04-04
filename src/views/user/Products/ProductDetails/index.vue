@@ -20,15 +20,8 @@
             <div class="product-details-name text-uppercase">
               <h1>{{ this.product.name }}</h1>
             </div>
-            <!-- ID -->
-            <!-- <div class="product-details-id">
-              <p>Mã SP: <b>SFD990MNB</b></p>
-            </div> -->
-            <!-- Gía -->
             <div class="product-details-price">
               <h1>
-                <!-- <b>{{ format(this.product.price) }}</b> -->
-                <!-- <b>{{ this.product.price }}</b> -->
                 <b>{{ formatPrice(this.product.price) }}</b>
               </h1>
             </div>
@@ -105,7 +98,7 @@
                   -
                 </button>
                 <input
-                  type="text"
+                  type="number"
                   class="input-text qty"
                   title="Qty"
                   :min="1"
@@ -129,7 +122,11 @@
             <hr style="width: 70%" />
             <!-- Mua hang -->
             <div class="product-details-addCart">
-              <button class="btn btn-primary-addCart" type="submit">
+              <button
+                class="btn btn-primary-addCart"
+                @click="addCart"
+                type="submit"
+              >
                 <i class="bi bi-cart-plus-fill"></i>
                 <b>THÊM VÀO GIỎ</b>
               </button>
@@ -140,8 +137,8 @@
                 <span style="display: inline"
                   >Hoặc đặt mua:
                   <h5 style="display: inline; color: red">0356422491</h5>
-                  (Tư vấn miễn phí)</span
-                >
+                  (Tư vấn miễn phí)
+                </span>
               </div>
             </div>
           </div>
@@ -167,37 +164,84 @@ export default {
     TheHeader,
     TheFooter,
   },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem("userData"));
+    console.log(this.user);
+    this.dataAddCart.user_id = this.user._id;
+    console.log("this.dataAddCart.user_id", this.user._id);
+  },
   data() {
     return {
+      user: [],
       quantity: 1,
       modalShow: false,
       productId: null,
       product: {},
+      dataAddCart: {
+        user_id: "",
+        product_data: [
+          {
+            product_id: "",
+            quantity: 1,
+          },
+        ],
+      },
     };
   },
+  // addCart() {},
   created() {
     this.productId = this.$route.params.id;
     this.getAllProductById();
   },
   methods: {
-    decreaseQuantity() {
-      if (this.quantity > 1) {
-        this.quantity--;
-      }
-    },
     increaseQuantity() {
       if (this.quantity < 12) {
         // Sử dụng maxlength của ô input là 12
         this.quantity++;
       }
     },
+    addCart() {
+      axios
+        .post("http://localhost:3838/carts", this.dataAddCart)
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Thêm thành công !", res.data);
+            // console.log(this.dataUpdate.product_type);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Thêm sản phẩm thành công !",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Thêm thất bại !", res.data.message[0].message);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
     getAllProductById() {
       axios
         .get(`http://localhost:3838/products/${this.productId}`)
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             this.product = res.data.data;
-            console.log("Thành công !!!", this.product);
+            console.log("Thành công  !!!", this.product);
+
+            this.dataAddCart.product_data[0].product_id = this.product._id;
+            console.log("dataaAddCart", this.dataAddCart);
           }
         })
         .catch((err) => {
@@ -207,10 +251,14 @@ export default {
     decreaseQuantity() {
       if (this.quantity > 1) {
         this.quantity--;
+        this.dataAddCart.product_data[0].quantity = this.quantity;
+        console.log("TRU", this.dataAddCart[0]);
       }
     },
     increaseQuantity() {
       this.quantity++;
+      this.dataAddCart.product_data[0].quantity = this.quantity;
+      console.log("CONG", this.dataAddCart);
     },
     formatPrice(price) {
       return new Intl.NumberFormat("vi-VN", {
@@ -235,9 +283,11 @@ export default {
 h6 {
   display: inline;
 }
+
 .product-details-price h1 {
   color: red;
 }
+
 .product-detail-size-text p a {
   text-decoration: underline;
   padding-left: 20px;
@@ -283,26 +333,32 @@ h6 {
   height: 60px;
   /* background-color: #5b5b5b; */
 }
+
 .btn-primary-addCart {
   background-color: #ffd603;
   border: 1px solid;
 }
+
 .btn-primary-buy {
   background-color: red;
   border: 1px solid;
   color: #fff;
 }
+
 .bi-cart-plus-fill {
   padding-right: 10px;
 }
+
 .bi-box-arrow-in-right {
   padding-left: 10px;
 }
+
 .btn-primary-addCart:hover,
 .btn-primary-buy:hover {
   background-color: #5b5b5b;
   color: #ffd603;
 }
+
 .product-details-addCart-text {
   padding: 15px 0;
 }

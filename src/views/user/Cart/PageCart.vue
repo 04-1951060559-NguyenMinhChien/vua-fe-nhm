@@ -13,11 +13,11 @@
           <hr />
           <div class="cart-page-item">
             <div class="cart-page-item-info">
-              <div class="row">
+              <div class="row" v-for="item in dataShowCart">
                 <div class="col-4">
                   <div class="image">
                     <img
-                      src="../../../assets/Adidas/adi1.jpg"
+                      :src="'http://localhost:3838/' + item.product_id.image"
                       alt=""
                       style="width: 100%"
                     />
@@ -26,13 +26,10 @@
                 <div class="col-7">
                   <div class="info">
                     <div class="title">
-                      <h3>NIKE</h3>
+                      <h3>{{ item.product_id.name }}</h3>
                     </div>
                     <div class="size">
-                      <span>Size giày: 43</span>
-                    </div>
-                    <div class="id">
-                      <p><b>Mã SP: </b> acxcx9o8</p>
+                      <span>Size giày: {{ item.product_id.size }}</span>
                     </div>
                     <div class="quantity">
                       <div class="product-details-quantity">
@@ -52,7 +49,7 @@
                             :maxlength="12"
                             id="qty"
                             name="quantity"
-                            v-model="quantity"
+                            v-model="item.quantity"
                             readonly
                             disabled
                           />
@@ -67,7 +64,9 @@
                         </div>
                         <div class="xprice">
                           <i class="bi bi-x"></i>
-                          <h5><b>200000 đ</b></h5>
+                          <h5>
+                            <b>{{ item.product_id.price }}</b>
+                          </h5>
                         </div>
                       </div>
                     </div>
@@ -82,79 +81,8 @@
                     <input class="btn btn-primary" type="button" value="X" />
                   </div>
                 </div>
+                <hr />
               </div>
-              <hr />
-              <div class="row">
-                <div class="col-4">
-                  <div class="image">
-                    <img
-                      src="../../../assets/Adidas/adi1.jpg"
-                      alt=""
-                      style="width: 100%"
-                    />
-                  </div>
-                </div>
-                <div class="col-7">
-                  <div class="info">
-                    <div class="title">
-                      <h3>NIKE</h3>
-                    </div>
-                    <div class="size">
-                      <span>Size giày: 43</span>
-                    </div>
-                    <div class="id">
-                      <p><b>Mã SP: </b> acxcx9o8</p>
-                    </div>
-                    <div class="quantity">
-                      <div class="product-details-quantity">
-                        <div class="product-details-quantity-custom">
-                          <button
-                            class="reduced items-count sub"
-                            @click="decreaseQuantity"
-                            type="button"
-                          >
-                            -
-                          </button>
-                          <input
-                            type="text"
-                            class="input-text qty"
-                            title="Qty"
-                            :min="1"
-                            :maxlength="12"
-                            id="qty"
-                            name="quantity"
-                            v-model="quantity"
-                            readonly
-                            disabled
-                          />
-                          <button
-                            class="increase items-count add"
-                            @click="increaseQuantity"
-                            type="button"
-                          >
-                            +
-                          </button>
-                          <div class="clear"></div>
-                        </div>
-                        <div class="xprice">
-                          <i class="bi bi-x"></i>
-                          <h5><b>200000 đ</b></h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="price">
-                      <p><b>Thành tiền: </b></p>
-                      <h5><b>200000 đ</b></h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-1">
-                  <div class="close">
-                    <input class="btn btn-primary" type="button" value="X" />
-                  </div>
-                </div>
-              </div>
-              <hr />
               <div class="total-price text-right">
                 <h5>Tổng tiền: 20000đ</h5>
                 <div class="product-details-addCart">
@@ -165,8 +93,8 @@
                     <b>ĐẶT HÀNG</b>
                   </button>
                 </div>
+                <hr />
               </div>
-              <hr />
               <img
                 src="../../../assets/About/thanhtoan.jpg"
                 alt=""
@@ -186,6 +114,7 @@
 <script>
 import TheHeader from "../../../components/TheHeader.vue";
 import TheFooter from "../../../components/TheFooter.vue";
+import axios from "axios";
 export default {
   name: "PageAbout",
   props: {
@@ -197,11 +126,47 @@ export default {
   },
   data() {
     return {
+      user_id: "",
       quantity: 1,
       modalShow: false,
+      dataCart: [],
+      dataShowCart: [],
     };
   },
+  // mounted() {},
+  created() {
+    const user = JSON.parse(localStorage.getItem("userData"));
+    this.user_id = user._id;
+    console.log("user_id", this.user_id);
+    this.getAllCart();
+  },
   methods: {
+    getAllCart() {
+      console.log("user_id", this.user_id);
+
+      axios
+        .get(`http://localhost:3838/carts?user_id=${this.user_id}`)
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.dataCart = res.data.data;
+            // this.dataShowCart = this.dataCart.map((item) => item.product);
+            this.dataCart.forEach((cart) => {
+              cart.product.forEach((item) => {
+                this.dataShowCart.push({
+                  product_id: item.product_id,
+                  quantity: item.quantity,
+                });
+              });
+            });
+
+            console.log("Thành công Cart chưa show!!!", this.dataCart);
+            console.log("Thành công Cart!!!", this.dataShowCart);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     decreaseQuantity() {
       if (this.quantity > 1) {
         this.quantity--;

@@ -146,9 +146,8 @@ export default {
     },
     getAllProduct() {
       axios
-        .get(
-          `http://localhost:3838/productsbybrand/?brand_id = ${this.brand_id}`
-        )
+        .get(`http://localhost:3838/productsbybrand?brand_id=${this.brand_id}`)
+        // .get(`http://localhost:3838/productsbybrand?brand_id=${this.brand_id}`)
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             console.log("Thành công !!!", res);
