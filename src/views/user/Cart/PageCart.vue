@@ -13,7 +13,7 @@
           <hr />
           <div class="cart-page-item">
             <div class="cart-page-item-info">
-              <div class="row" v-for="item in dataShowCart">
+              <div class="row" v-for="item in dataShowCart" :key="item._id">
                 <div class="col-4">
                   <div class="image">
                     <img
@@ -77,7 +77,7 @@
                   </div>
                 </div>
                 <div class="col-1">
-                  <div class="close">
+                  <div class="close" @click="deleteProductInCart(item)">
                     <input class="btn btn-primary" type="button" value="X" />
                   </div>
                 </div>
@@ -141,6 +141,54 @@ export default {
     this.getAllCart();
   },
   methods: {
+    deleteProductInCart(item) {
+      // Hiển thị thông báo xác nhận
+      this.$swal
+        .fire({
+          title: "Bạn chắc chắn muốn xóa ?",
+          text: "Bạn sẽ không thể khôi phục sản phẩm đã xóa!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Đồng ý, xóa ngay !!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // Nếu người dùng đã xác nhận xóa
+            axios
+              .delete(`http://localhost:3838/carts/${this.dataCart[0]._id}`, {
+                data: { product_id: item.product_id._id },
+              })
+              .then((res) => {
+                if (res.data.status === 200) {
+                  console.log("Xóa thành công", res);
+
+                  // Thông báo xóa thành công
+                  this.$swal.fire({
+                    title: "Đã xóa !",
+                    text: "Sản phẩm đã được xóa thành công",
+                    icon: "success",
+                  });
+
+                  // Sau khi xóa thành công, gọi hàm getAllProduct() để cập nhật danh sách sản phẩm
+                  window.location.reload();
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+
+                // Thông báo lỗi khi xóa sản phẩm
+                this.$swal.fire({
+                  title: "Error!",
+                  text: "An error occurred while deleting the product.",
+                  icon: "error",
+                });
+              });
+          }
+        });
+    },
+
     getAllCart() {
       console.log("user_id", this.user_id);
 
@@ -149,7 +197,7 @@ export default {
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             this.dataCart = res.data.data;
-            // this.dataShowCart = this.dataCart.map((item) => item.product);
+            console.log("dataCart: ", this.dataCart[0]);
             this.dataCart.forEach((cart) => {
               cart.product.forEach((item) => {
                 this.dataShowCart.push({
