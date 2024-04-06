@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <div class="header-top">
       <div class="container-fluid">
         <div class="row text-right">
@@ -11,24 +11,20 @@
       </div>
     </div>
     <!-- header -->
-    <div class="header">
+    <div class="row">
       <nav
         class="navbar navbar-expand-md navbar-light bg-light sticky-top"
         role="tablist"
       >
-        <div class="container-fluid">
-          <router-link to="/">
-            <img src="../assets/Logo/logo.png" alt="LOGO" height="100" />
-          </router-link>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarReponsive"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        <div class="col-3">
           <div class="collapse navbar-collapse" id="navbarReponsive">
+            <router-link to="/">
+              <img src="../assets/Logo/logo.png" alt="LOGO" width="70%" />
+            </router-link>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="collapse navbar-collapse float-left" id="navbarReponsive">
             <ul class="navbar-nav ml-auto" role="tablist">
               <li class="nav-item item">
                 <router-link class="nav-link element" to="/about"
@@ -55,9 +51,34 @@
                   >LIÊN HỆ</router-link
                 >
               </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="collapse navbar-collapse" id="navbarReponsive">
+            <ul class="navbar-nav ml-auto" role="tablist" style="float: center">
+              <!-- <li class="nav-item">
+                <b-nav-form @submit.stop.prevent>
+                  <b-form-input
+                    size="sm"
+                    class="mr-sm-2"
+                    placeholder="Search"
+                    v-model="search"
+                  ></b-form-input>
+                  <b-button
+                    size="sm"
+                    class="my-2 my-sm-0"
+                    type="submit"
+                    @click="searchProduct()"
+                    >Search</b-button
+                  >
+                </b-nav-form>
+              </li> -->
               <li class="nav-item">
                 <div class="dropdown">
-                  <button class="dropbtn"><i class="bi bi-person"></i></button>
+                  <button class="dropbtn">
+                    <i class="bi bi-person"></i>
+                  </button>
                   <div class="dropdown-content">
                     <router-link class="nav-link" to="/login">
                       Đăng nhập
@@ -82,7 +103,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "the-header",
   props: {
@@ -102,6 +123,11 @@ export default {
         product_type: "",
         numberInStock: "",
       },
+
+      // search
+      // search: "",
+      // listProductSearch: [],
+      // message: "",
     };
   },
   methods: {
@@ -109,6 +135,30 @@ export default {
       localStorage.removeItem("userData"); // Xóa token khỏi local storage
       this.$router.push("/login"); // Chuyển hướng đến trang đăng nhập
     },
+    // searchProduct() {
+    //   console.log(" SEARCH  !!!", this.search);
+    //   if (this.search) {
+    //     axios
+    //       .post(`http://localhost:3838/products/search/${this.search}`)
+    //       .then((res) => {
+    //         if (res.data.status === 200 && res.data.data !== null) {
+    //           this.listProductSearch = res.data.data;
+    //           this.message = "";
+
+    //           console.log("Thành công SEARCH  !!!", this.listProductSearch);
+    //         } else {
+    //           this.listProductSearch = "";
+    //           this.message = "Không tìm thấy sản phẩm !!!";
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   } else {
+    //     this.listProductSearch = "";
+    //     this.message = "Vui lòng nhập từ khóa tìm kiếm";
+    //   }
+    // },
   },
 };
 </script>
@@ -136,10 +186,6 @@ export default {
   background-color: #fcd603;
 }
 
-/* .input-group .input-group-text {
-  margin-left: -40px;
-  z-index: 1;
-} */
 .nav-link:active {
   color: #bf1919;
 }
@@ -159,11 +205,6 @@ export default {
   align-items: center;
 }
 
-/* a:hover {
-  background: #ffd600;
-  border-radius: 40px;
-  text-decoration: none;
-} */
 a {
   font-weight: bold;
   color: black !important;

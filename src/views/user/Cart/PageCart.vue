@@ -65,14 +65,18 @@
                         <div class="xprice">
                           <i class="bi bi-x"></i>
                           <h5>
-                            <b>{{ item.product_id.price }}</b>
+                            <b>{{ formatPrice(item.product_id.price) }}</b>
                           </h5>
                         </div>
                       </div>
                     </div>
                     <div class="price">
                       <p><b>Thành tiền: </b></p>
-                      <h5><b>200000 đ</b></h5>
+                      <h5>
+                        <b>{{
+                          formatPrice(item.product_id.price * item.quantity)
+                        }}</b>
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -81,17 +85,26 @@
                     <input class="btn btn-primary" type="button" value="X" />
                   </div>
                 </div>
-                <hr />
+                <hr style="margin-top: 20px" />
               </div>
               <div class="total-price text-right">
-                <h5>Tổng tiền: 20000đ</h5>
+                <h5>
+                  Tổng tiền:
+                  <b style="color: Red">{{
+                    formatPrice(calculateTotalAmount())
+                  }}</b>
+                </h5>
                 <div class="product-details-addCart">
-                  <button class="btn btn-primary-addCart" type="submit">
-                    <b>MUA TIẾP</b>
-                  </button>
-                  <button class="btn btn-primary-buy" type="submit">
-                    <b>ĐẶT HÀNG</b>
-                  </button>
+                  <router-link to="/">
+                    <button class="btn btn-primary-addCart" type="submit">
+                      <b>MUA TIẾP</b>
+                    </button>
+                  </router-link>
+                  <router-link to="/order">
+                    <button class="btn btn-primary-buy" type="submit">
+                      <b>ĐẶT HÀNG</b>
+                    </button>
+                  </router-link>
                 </div>
                 <hr />
               </div>
@@ -215,6 +228,13 @@ export default {
           console.log(err);
         });
     },
+    calculateTotalAmount() {
+      let total = 0;
+      this.dataShowCart.forEach((item) => {
+        total += item.quantity * item.product_id.price;
+      });
+      return total;
+    },
     decreaseQuantity() {
       if (this.quantity > 1) {
         this.quantity--;
@@ -225,6 +245,19 @@ export default {
         // Sử dụng maxlength của ô input là 12
         this.quantity++;
       }
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
+    },
+    calculateTotalAmount() {
+      let total = 0;
+      this.dataShowCart.forEach((item) => {
+        total += item.quantity * item.product_id.price;
+      });
+      return total;
     },
   },
 };
@@ -286,5 +319,15 @@ export default {
   border: 1px solid;
   border-radius: 0;
   text-align: center;
+}
+.product-details-addCart button {
+  background-color: #ffd603;
+  margin-left: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+.product-details-addCart button:hover {
+  background-color: #5b5b5b;
+  color: #fff;
 }
 </style>
