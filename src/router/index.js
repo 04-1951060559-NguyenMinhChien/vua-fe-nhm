@@ -10,7 +10,7 @@ import PageAbout from '../views/user/About/PageAbout.vue'
 import PageSpa from '../views/user/Spa/PageSpa.vue'
 import PageContact from '../views/user/Contact/PageContact.vue'
 import PageCart from '../views/user/Cart/PageCart.vue'
-// import NotFound from '../views/user/NotFound/index.vue'
+import NotFound from '../views/user/NotFound/index.vue'
 import Order from '@/views/user/CheckOut/Order.vue'
 
 
@@ -92,7 +92,8 @@ const routes = [
     path: '/order',
     name: 'order',
     meta: { requiresAuth: true, roles: ['', 'user'] },
-    component: Order
+    component: Order,
+    props: true
   },
   {
     path: '/users/productdetails/',
@@ -105,6 +106,13 @@ const routes = [
     name: 'login',
     meta: { requiresAuth: true, roles: ['administrator', '', 'user'] },
     component: PageLogin
+  },
+
+  {
+    path: '/access-denied',
+    name: 'AccessDenied',
+    meta: { requiresAuth: true, roles: ['administrator', '', 'user'] },
+    component: NotFound
   },
 
 
@@ -148,12 +156,18 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  let userRole
   // Kiểm tra xem route có yêu cầu xác thực không
   if (to.meta.requiresAuth) {
     // Kiểm tra vai trò của người dùng từ thông tin đã đăng nhập (ví dụ: từ Vuex hoặc localStorage)
     const user = JSON.parse(localStorage.getItem("userData"));
-    const userRole = user.role;
-    console.log("userRole", userRole);
+    if (user) {
+      userRole = user.role;
+    } else {
+      userRole = 'user';
+      console.log("userRole", userRole);
+
+    }
 
     // Kiểm tra xem vai trò của người dùng có phù hợp không
     if (userRole && to.meta.roles.includes(userRole)) {

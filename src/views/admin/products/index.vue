@@ -178,6 +178,19 @@
                       />
                     </div>
                     <div class="mb-3">
+                      <label for="productSellingPrice" class="form-label"
+                        >Price:</label
+                      >
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        id="productSellingPrice"
+                        v-model="dataCreate.sellingPrice"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
                       <label for="productImage" class="form-label"
                         >Hình ảnh:</label
                       >
@@ -321,6 +334,19 @@
                         class="form-control"
                         id="productprice"
                         v-model="dataUpdate.price"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="productSellingPrice" class="form-label"
+                        >Sale (%):</label
+                      >
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        id="productSellingPrice"
+                        v-model="dataUpdate.sellingPrice"
                         required
                       />
                     </div>
@@ -668,6 +694,7 @@
                   <th scope="col">Mô tả</th>
                   <th scope="col">Size</th>
                   <th scope="col">Giá bán</th>
+                  <th scope="col">SALE</th>
                   <th scope="col">Hình ảnh</th>
                   <th scope="col">Loại sản phẩm</th>
                   <th scope="col">Số lượng</th>
@@ -683,6 +710,9 @@
                   <td>{{ item.size_id ? item.size_id.name : "" }}</td>
                   <td>{{ item.price }} đ</td>
                   <td>
+                    {{ item.sellingPrice ? item.sellingPrice + "%" : "" }}
+                  </td>
+                  <td>
                     <img
                       :src="'http://localhost:3838/' + item.image"
                       alt=""
@@ -693,10 +723,6 @@
                   <td>
                     {{ item.numberInStock ? item.numberInStock + " đôi" : "" }}
                   </td>
-                  <!-- 
-                  <td>
-                    {{ item.status }}
-                  </td> -->
                   <td>
                     <i
                       @click="showModalUpdate(item)"
@@ -803,6 +829,7 @@ export default {
         status: "",
         image: "", // Lưu trữ đường dẫn của hình ảnh
         price: "",
+        sellingPrice: "",
         brand_id: "",
         size_id: "",
         product_type: "",
@@ -822,7 +849,6 @@ export default {
       },
 
       selectedBrand: [],
-
       selectedSize: [],
       productTypes: [
         // Mảng chứa các loại sản phẩm
@@ -838,6 +864,7 @@ export default {
         status: true,
         image: "", // Lưu trữ đường dẫn của hình ảnh
         price: "",
+        sellingPrice: "",
         brand_id: "",
         size_id: "",
         product_type: "",
@@ -849,6 +876,7 @@ export default {
         status: true,
         image: "", // Lưu trữ đường dẫn của hình ảnh
         price: "",
+        sellingPrice: "",
         brand_id: "",
         size_id: "",
         product_type: "",
@@ -918,6 +946,7 @@ export default {
       const formData = new FormData();
       formData.append("name", this.dataCreate.name);
       formData.append("price", this.dataCreate.price);
+      formData.append("sellingPrice", this.dataCreate.sellingPrice);
       formData.append("description", this.dataCreate.description);
       formData.append("size_id", this.dataCreate.size_id);
       formData.append("brand_id", this.dataCreate.brand_id);
@@ -981,6 +1010,7 @@ export default {
       formData.append("_id", this.dataUpdate._id);
       formData.append("name", this.dataUpdate.name);
       formData.append("price", this.dataUpdate.price);
+      formData.append("sellingPrice", this.dataUpdate.sellingPrice);
       formData.append("description", this.dataUpdate.description);
       formData.append("size_id", this.dataUpdate.size_id._id);
       formData.append("brand_id", this.dataUpdate.brand_id._id);

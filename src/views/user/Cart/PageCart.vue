@@ -100,7 +100,9 @@
                       <b>MUA TIẾP</b>
                     </button>
                   </router-link>
-                  <router-link to="/order">
+                  <router-link
+                    :to="{ name: 'order', params: { data: dataCart } }"
+                  >
                     <button class="btn btn-primary-buy" type="submit">
                       <b>ĐẶT HÀNG</b>
                     </button>

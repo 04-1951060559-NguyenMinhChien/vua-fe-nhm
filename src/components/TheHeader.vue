@@ -77,13 +77,23 @@
               <li class="nav-item">
                 <div class="dropdown">
                   <button class="dropbtn">
-                    <i class="bi bi-person"></i>
+                    <i v-if="!userData" class="bi bi-person"></i>
+                    <span v-if="userData" style="font-size: 20px"
+                      >Hi, {{ userData.name }}
+                    </span>
                   </button>
                   <div class="dropdown-content">
-                    <router-link class="nav-link" to="/login">
+                    <router-link class="nav-link" to="/login" v-if="!userData">
                       Đăng nhập
                     </router-link>
-                    <button @click="logout" class="btn btn-logout">
+                    <router-link class="nav-link" to="/" v-if="userData">
+                      Thông tin
+                    </router-link>
+                    <button
+                      @click="logout"
+                      class="btn btn-logout"
+                      v-if="userData"
+                    >
                       Đăng xuất
                     </button>
                   </div>
@@ -123,12 +133,15 @@ export default {
         product_type: "",
         numberInStock: "",
       },
-
+      userData: {},
       // search
       // search: "",
       // listProductSearch: [],
       // message: "",
     };
+  },
+  created() {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   },
   methods: {
     logout() {

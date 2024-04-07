@@ -102,7 +102,7 @@
                 <i class="bi bi-cart-plus-fill"></i>
                 <b>THÊM VÀO GIỎ</b>
               </button>
-              <button class="btn btn-primary-buy" type="submit">
+              <button class="btn btn-primary-buy" type="submit" @click="buyNow">
                 <b>MUA NGAY</b><i class="bi bi-box-arrow-in-right"></i>
               </button>
               <div class="product-details-addCart-text">
@@ -127,6 +127,7 @@
 import TheHeader from "../../../../components/TheHeader.vue";
 import TheFooter from "../../../../components/TheFooter.vue";
 import axios from "axios";
+import router from "@/router";
 export default {
   name: "ProductDetails",
   props: {
@@ -203,7 +204,37 @@ export default {
           console.log(err);
         });
     },
+    buyNow() {
+      axios
+        .post("http://localhost:3838/carts", this.dataAddCart)
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Thêm thành công !", res.data);
 
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Thêm sản phẩm thành công !",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            router.push({ path: "/cart" });
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Thêm thất bại !", res.data.message[0].message);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getAllProductById() {
       axios
         .get(`http://localhost:3838/products/${this.productId}`)

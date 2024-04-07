@@ -25,6 +25,10 @@
                 pattern="[0-9]{10,11}"
               />
             </div>
+            <div>
+              <label for="gmail">Gmail:</label>
+              <input type="gmail" id="gmail" name="gmail" required />
+            </div>
 
             <div>
               <label for="diaChi">Địa chỉ nhận hàng:</label>
@@ -61,15 +65,89 @@
               <router-link to="/cart" class="backCart">
                 Quay về trang giỏ hàng
               </router-link>
-              <input
+              <div class="pay float-right" @click="changePay">
+                <span class="btn btn-primary">
+                  Chọn phương thức thanh toán
+                </span>
+              </div>
+
+              <!-- <input
                 type="submit"
                 value="Tiếp tục đến phương thức thanh toán"
                 style="width: 50%"
+              /> -->
+            </div>
+            <hr />
+            <div class="pay" v-if="selectedPay">
+              <label class="container-pay"
+                >Thanh toán khi nhận hàng (COD)
+
+                <input
+                  type="radio"
+                  checked="checked"
+                  name="radio"
+                  @click="changeTypePay('COD')"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <label class="container-pay"
+                >Chuyển khoản ngân hàng
+                <input type="radio" name="radio" @click="changeTypePay('QR')" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div
+              class="QR"
+              v-if="selectedTypePay === 'QR'"
+              style="text-align: center"
+            >
+              <h4>QUÉT MÃ CHUYỂN KHOẢN VỚI NỘI DUNG:</h4>
+              <h4><b style="color: red">KINGSHOES-SN2001</b></h4>
+              <div class="confirm">
+                <input
+                  class="check"
+                  type="checkbox"
+                  id="vehicle1"
+                  name="vehicle1"
+                  value="Bike"
+                  style="
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: 18px;
+                  "
+                  @click="changeConfirm"
+                />
+                <label
+                  class="color-change"
+                  for="vehicle1"
+                  style="
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-left: 10px;
+                    font-size: 18px;
+                  "
+                  >Xác nhận đã thanh toán !!!</label
+                ><br />
+                <button class="btn btn-primary" v-if="confirm">
+                  HOÀN TẤT THANH TOÁN
+                </button>
+              </div>
+
+              <img
+                src="../../../assets/Logo/QR.jpg"
+                alt=""
+                style="width: 50%"
               />
+              <p>
+                (quét mã QR trên App ngân hàng của bạn để tiện dụng và chính xác
+                hơn)
+              </p>
             </div>
           </form>
+          <!-- <div class="COD" v-if="selectedTypePay === 'COD'">aaaaaaaaaa</div> -->
         </div>
       </div>
+
       <div class="col-4">
         <h2>Thông tin đơn hàng</h2>
         <div class="order-information">
@@ -108,9 +186,9 @@
                 </div>
 
                 <!-- So luong -->
-                <!-- <div class="quantity">
-                  <h3>{{ item.product_id.quantity }} so luong</h3>
-                </div> -->
+                <div class="quantity">
+                  <p>Số lượng: {{ item.quantity }}</p>
+                </div>
                 <!-- Tong tien 1 san pham -->
               </div>
             </div>
@@ -165,11 +243,15 @@
 </template>
 
 <script>
+import { selectProps } from "ant-design-vue/es/select";
 import axios from "axios";
 export default {
   props: ["data"],
   data() {
     return {
+      confirm: false,
+      selectedPay: false,
+      selectedTypePay: "",
       product: [],
       quantity: 1,
       dataShowCart: [],
@@ -238,6 +320,15 @@ export default {
           console.log(err);
         });
     },
+    changePay() {
+      this.selectedPay = !this.selectedPay;
+    },
+    changeTypePay(item) {
+      this.selectedTypePay = item;
+    },
+    changeConfirm() {
+      this.confirm = !this.confirm;
+    },
   },
 };
 </script>
@@ -269,6 +360,7 @@ label {
 
 input[type="text"],
 input[type="tel"],
+input[type="gmail"],
 textarea {
   width: 100%;
   padding: 10px;
@@ -316,5 +408,95 @@ input[type="submit"]:hover {
   background-color: #b5b5b5;
   text-decoration: none;
   color: #fff;
+}
+.pay-COD,
+.pay-transfer {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+}
+
+.container-pay {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container-pay input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container-pay:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container-pay input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-pay input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-pay .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+@keyframes colorChange {
+  0% {
+    color: red;
+  }
+  25% {
+    color: blue;
+  }
+  50% {
+    color: green;
+  }
+  75% {
+    color: yellow;
+  }
+  100% {
+    color: red;
+  }
+}
+
+.color-change {
+  animation: colorChange 1s infinite;
 }
 </style>>

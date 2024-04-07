@@ -253,9 +253,9 @@
                     <th scope="col">Số Điện Thoại</th>
                     <th scope="col">Email</th>
                     <th scope="col">Mật khẩu</th>
-                    <th scope="col">Hình ảnh</th>
+                    <!-- <th scope="col">Hình ảnh</th> -->
                     <!-- <th scope="col">Trạng thái</th> -->
-                    <th scope="col">Tác vụ</th>
+                    <!-- <th scope="col">Tác vụ</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -264,13 +264,13 @@
                     <td>{{ item.phone }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ item.password }}</td>
-                    <td>
+                    <!-- <td>
                       <img
                         :src="'http://localhost:3838/' + item.image"
                         alt=""
                         style="width: 50px; height: 70px"
                       />
-                    </td>
+                    </td> -->
                     <!-- <td>
                       {{
                         item.status === true ? "Hoạt động" : "Dừng hoạt động"
@@ -488,8 +488,70 @@ export default {
 </script>
 
 <style scoped>
+.product-manager h5 {
+  padding-top: 5px;
+}
+
+.active {
+  background-color: #6c757d;
+  border-radius: 5px;
+  color: #fff;
+}
+
 .navbar {
   padding: 0 15px;
   background-color: #ffd600;
+}
+
+tbody i {
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+h2 {
+  padding-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+.bi-pencil-square {
+  color: green;
+}
+
+.bi-trash {
+  color: red;
+}
+
+.bi-pencil-square,
+.bi-trash {
+  border: 1px solid #a1a1a1;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: #ddd;
 }
 </style>
