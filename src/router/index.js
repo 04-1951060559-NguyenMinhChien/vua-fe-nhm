@@ -37,97 +37,135 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: PageHome
+    component: PageHome,
+    meta: { requiresAuth: true, roles: ['', 'user'] },
   },
   {
     path: '/adidas',
     name: 'adidas',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageAdidas
   },
   {
     path: '/nike',
     name: 'nike',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageNike
   },
   {
     path: '/jordan',
     name: 'jordan',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageJordan
   },
   {
     path: '/yeezy',
     name: 'yeezy',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageYeezy
   },
   {
     path: '/contact',
     name: 'contact',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageContact
   },
   {
     path: '/about',
     name: 'about',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageAbout
   },
   {
     path: '/spa',
     name: 'spa',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageSpa
   },
   {
     path: '/cart',
     name: 'cart',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: PageCart
   },
   {
     path: '/order',
     name: 'order',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
     component: Order
+  },
+  {
+    path: '/users/productdetails/',
+    name: 'productDetails',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
+    component: productDetails
   },
   {
     path: '/login',
     name: 'login',
+    meta: { requiresAuth: true, roles: ['administrator', '', 'user'] },
     component: PageLogin
   },
+
 
   //Admin
   {
     path: '/admin/adminorder',
     name: 'order',
+    meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminOrder
   },
   {
     path: '/admin/adminproducts',
     name: 'products',
+    meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminProduct
   },
   {
     path: '/admin/adminusers',
     name: 'users',
+    meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminUsers
   },
   {
     path: '/admin/adminstaff',
     name: 'admin-staff',
+    meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminStaff
   },
   {
     path: '/admin/adminstaff',
     name: 'staff',
+    meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminStaff
-  },
-  {
-    path: '/users/productdetails/',
-    name: 'productDetails',
-    component: productDetails
   }
 
 ]
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  // Kiểm tra xem route có yêu cầu xác thực không
+  if (to.meta.requiresAuth) {
+    // Kiểm tra vai trò của người dùng từ thông tin đã đăng nhập (ví dụ: từ Vuex hoặc localStorage)
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const userRole = user.role;
+    console.log("userRole", userRole);
+
+    // Kiểm tra xem vai trò của người dùng có phù hợp không
+    if (userRole && to.meta.roles.includes(userRole)) {
+      // Nếu phù hợp, cho phép truy cập
+      next();
+    } else {
+      // Nếu không phù hợp, điều hướng đến trang lỗi hoặc trang không có quyền truy cập
+      next('/access-denied');
+    }
+  } else {
+    // Nếu không yêu cầu xác thực, cho phép truy cập bình thường
+    next();
+  }
+});
 export default router
