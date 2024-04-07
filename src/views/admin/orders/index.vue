@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      // userData: {},
       selectedTable: "Order",
       listOrder: {
         name: "",
@@ -120,6 +121,8 @@ export default {
   },
   created() {
     this.getAllOrder();
+    // this.userData = JSON.parse(localStorage.getItem("userData"));
+    // localStorage.removeItem("userData");
   },
   methods: {
     getAllOrder() {

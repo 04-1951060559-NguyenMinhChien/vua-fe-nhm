@@ -12,7 +12,13 @@
           <form action="#" method="post">
             <div>
               <label for="hoTen">Họ và tên người nhận:</label>
-              <input type="text" id="hoTen" name="hoTen" required />
+              <input
+                type="text"
+                id="hoTen"
+                name="hoTen"
+                required
+                v-model="dataOrder.name"
+              />
             </div>
 
             <div>
@@ -23,36 +29,73 @@
                 name="soDienThoai"
                 required
                 pattern="[0-9]{10,11}"
+                v-model="dataOrder.phone"
               />
             </div>
             <div>
               <label for="gmail">Gmail:</label>
-              <input type="gmail" id="gmail" name="gmail" required />
+              <input
+                type="gmail"
+                id="gmail"
+                name="gmail"
+                required
+                v-model="dataOrder.gmail"
+              />
             </div>
 
             <div>
               <label for="diaChi">Địa chỉ nhận hàng:</label>
-              <input type="text" id="diaChi" name="diaChi" required />
+              <input
+                type="text"
+                id="diaChi"
+                name="diaChi"
+                required
+                v-model="dataOrder.address"
+              />
             </div>
 
             <div class="input-group">
               <div>
                 <label for="tinh">Tỉnh:</label>
-                <input type="text" id="tinh" name="tinh" required />
+                <input
+                  type="text"
+                  id="tinh"
+                  name="tinh"
+                  required
+                  v-model="dataOrder.province"
+                />
               </div>
               <div>
                 <label for="huyen">Huyện:</label>
-                <input type="text" id="huyen" name="huyen" required />
+                <input
+                  type="text"
+                  id="huyen"
+                  name="huyen"
+                  required
+                  v-model="dataOrder.district"
+                />
               </div>
               <div>
                 <label for="xa">Xã:</label>
-                <input type="text" id="xa" name="xa" required />
+                <input
+                  type="text"
+                  id="xa"
+                  name="xa"
+                  required
+                  v-model="dataOrder.ward"
+                />
               </div>
             </div>
 
             <div>
               <label for="ghiChu">Ghi chú:</label>
-              <textarea id="ghiChu" name="ghiChu" rows="4" cols="50"></textarea>
+              <textarea
+                id="ghiChu"
+                name="ghiChu"
+                rows="4"
+                cols="50"
+                v-model="dataOrder.note"
+              ></textarea>
             </div>
 
             <div
@@ -128,9 +171,6 @@
                   "
                   >Xác nhận đã thanh toán !!!</label
                 ><br />
-                <button class="btn btn-primary" v-if="confirm">
-                  HOÀN TẤT THANH TOÁN
-                </button>
               </div>
 
               <img
@@ -143,6 +183,9 @@
                 hơn)
               </p>
             </div>
+            <button class="btn btn-primary" type="submit" @click="Confirm">
+              HOÀN TẤT THANH TOÁN
+            </button>
           </form>
           <!-- <div class="COD" v-if="selectedTypePay === 'COD'">aaaaaaaaaa</div> -->
         </div>
@@ -260,12 +303,7 @@ export default {
       // dataCart: [],
       dataOrder: {
         user_id: "",
-        product_data: [
-          {
-            product_id: "",
-            quantity: 1,
-          },
-        ],
+        product_data: [],
         name: "",
         address: "",
         ward: "",
@@ -274,6 +312,9 @@ export default {
         phone: "",
         price: "",
         note: "",
+        typePay: "",
+        statusPay: "",
+        statusOrder: "0",
       },
       listSize: [],
     };
@@ -281,9 +322,14 @@ export default {
   created() {
     console.log("DDD", this.data, "dataa checkkkk");
     this.data.forEach((cart) => {
+      this.dataOrder.user_id = cart.user_id._id;
       cart.product.forEach((item) => {
         this.dataShowCart.push({
           product_id: item.product_id,
+          quantity: item.quantity,
+        });
+        this.dataOrder.product_data.push({
+          product_id: item.product_id._id,
           quantity: item.quantity,
         });
       });
@@ -298,6 +344,7 @@ export default {
       this.dataShowCart.forEach((item) => {
         total += item.quantity * item.product_id.price;
       });
+      this.dataOrder.price = total;
       return total;
     },
     formatPrice(price) {
@@ -325,9 +372,13 @@ export default {
     },
     changeTypePay(item) {
       this.selectedTypePay = item;
+      this.dataOrder.typePay = item;
     },
     changeConfirm() {
       this.confirm = !this.confirm;
+    },
+    Confirm() {
+      console.log("dataOrder", this.dataOrder);
     },
   },
 };
