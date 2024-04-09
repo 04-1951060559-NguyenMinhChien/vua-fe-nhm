@@ -220,4 +220,69 @@ export default {
 .products-hot-body a:hover {
   color: #ffd600;
 }
+.star {
+  font-size: 15px;
+  color: rgb(255, 216, 74);
+  margin-bottom: 10px;
+}
+.products-hot-HOT {
+  position: absolute;
+  top: 10px;
+  left: -4px;
+  background-color: red;
+  padding: 0 5px;
+  color: #fff;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.products-hot-HOT::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  border-top: 3px solid currentColor;
+  border-left: 3px solid transparent;
+}
+
+.products-hot-sale-off {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  width: 44px;
+  height: 45px;
+  background-color: rgba(255, 216, 64, 0.95);
+  text-align: center;
+}
+
+.products-hot-sale-off::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  border-width: 0 22px 6px;
+  border-style: solid;
+  border-color: transparent rgba(255, 216, 64, 0.95) transparent
+    rgba(255, 216, 64, 0.95);
+}
+.products-hot-sale-off-percent {
+  color: red;
+  font-weight: 600;
+  /* font-size: 1.2rem; */
+  line-height: 1.2rem;
+  position: relative;
+  top: -1px;
+}
+.products-hot-sale-off-label {
+  color: #fff;
+  /* font-size: 1.4rem; */
+  line-height: 1.3rem;
+  position: relative;
+  top: -5px;
+  font-weight: 600;
+}
+.price-old {
+  text-decoration: line-through; /* Gạch ngang giá cũ */
+  color: #9d9d9d;
+}
 </style>

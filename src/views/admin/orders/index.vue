@@ -72,12 +72,42 @@
                   <td>{{ item.name }}</td>
                   <td>{{ item.phone }}</td>
                   <td>{{ item.email }}</td>
-                  <td>{{ item.address }}</td>
-                  <td>{{ item.total }} đ</td>
+                  <td>
+                    {{
+                      item.address +
+                      ", " +
+                      item.ward +
+                      ", " +
+                      item.district +
+                      ", " +
+                      item.province
+                    }}
+                  </td>
+                  <td>{{ item.totalPrice }} đ</td>
                   <td>{{ item.typePay }}</td>
-                  <td>{{ item.statusPay }}</td>
-                  <td>{{ item.statusOder }}</td>
-                  <td>{{ item.createAt }}</td>
+                  <td>
+                    {{
+                      item.statusPay === 0
+                        ? "thanh toán khi nhận hàng"
+                        : "đã thanh toán"
+                    }}
+                  </td>
+
+                  <td>
+                    {{
+                      item.statusOder === "0"
+                        ? "Chờ xác nhận"
+                        : item.statusOder === "1"
+                        ? "Xác nhận"
+                        : item.statusOder === "2"
+                        ? "Đang giao"
+                        : item.statusOder === "3"
+                        ? "Thành công"
+                        : ""
+                    }}
+                  </td>
+
+                  <td>{{ item.createdAt }}</td>
                   <td>{{ item.note }}</td>
                   <td>
                     <i class="bi bi-eye-fill"></i>
@@ -105,18 +135,7 @@ export default {
     return {
       // userData: {},
       selectedTable: "Order",
-      listOrder: {
-        name: "",
-        phone: "",
-        email: "",
-        address: "",
-        total: "",
-        typePay: "",
-        statusPay: "",
-        statusOder: "",
-        createAt: "",
-        note: "",
-      },
+      listOrder: [],
     };
   },
   created() {

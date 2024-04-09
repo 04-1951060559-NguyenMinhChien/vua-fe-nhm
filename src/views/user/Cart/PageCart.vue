@@ -62,21 +62,56 @@
                           </button>
                           <div class="clear"></div>
                         </div>
+
+                        <!-- Price -->
                         <div class="xprice">
                           <i class="bi bi-x"></i>
-                          <h5>
-                            <b>{{ formatPrice(item.product_id.price) }}</b>
-                          </h5>
+
+                          <strong
+                            :class="{
+                              'price-old': item.product_id.sellingPrice,
+                            }"
+                            v-if="!dataCart"
+                            >{{ formatPrice(item.product_id.price) }}</strong
+                          >
+                          <strong
+                            class="price-current"
+                            v-if="item.product_id.sellingPrice && dataCart"
+                            style="color: red; padding-left: 10px"
+                            >{{
+                              formatPrice(
+                                calculateCurrentPrice(
+                                  item.product_id.price,
+                                  item.product_id.sellingPrice
+                                )
+                              )
+                            }}</strong
+                          >
                         </div>
                       </div>
                     </div>
                     <div class="price">
                       <p><b>Thành tiền: </b></p>
-                      <h5>
-                        <b>{{
-                          formatPrice(item.product_id.price * item.quantity)
-                        }}</b>
-                      </h5>
+                      <strong
+                        :class="{
+                          'price-old': item.product_id.sellingPrice,
+                        }"
+                        v-if="!dataCart"
+                        >{{ formatPrice(item.product_id.price) }}</strong
+                      >
+                      <strong
+                        class="price-current"
+                        v-if="item.product_id.sellingPrice"
+                        style="color: red; padding-left: 10px"
+                        >{{
+                          formatPrice(
+                            calculateCurrentPrice(
+                              item.product_id.price,
+                              item.product_id.sellingPrice
+                            )
+                          )
+                        }}</strong
+                      >
                     </div>
                   </div>
                 </div>
@@ -146,6 +181,10 @@ export default {
       modalShow: false,
       dataCart: [],
       dataShowCart: [],
+      // item: {
+      //   sellingPrice: 0,
+      //   price: 0,
+      // },
     };
   },
   // mounted() {},
@@ -260,6 +299,10 @@ export default {
         total += item.quantity * item.product_id.price;
       });
       return total;
+    },
+    calculateCurrentPrice(originalPrice, discountPercent) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return originalPrice - originalPrice * (discountPercent / 100);
     },
   },
 };

@@ -11,11 +11,11 @@
             ><i class="bi bi-people"></i>Quản lý tài khoản</router-link
           >
         </li>
-        <li>
+        <!-- <li>
           <router-link class="nav-link" to="/admin/adminstaff">
             <i class="bi bi-person-gear"></i>Quản lý nhân viên</router-link
           >
-        </li>
+        </li> -->
         <li>
           <router-link class="nav-link" to="/admin/adminproducts">
             <i class="bi bi-database-fill"></i>

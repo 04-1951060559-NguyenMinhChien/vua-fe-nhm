@@ -57,23 +57,6 @@
         <div class="col-3">
           <div class="collapse navbar-collapse" id="navbarReponsive">
             <ul class="navbar-nav ml-auto" role="tablist" style="float: center">
-              <!-- <li class="nav-item">
-                <b-nav-form @submit.stop.prevent>
-                  <b-form-input
-                    size="sm"
-                    class="mr-sm-2"
-                    placeholder="Search"
-                    v-model="search"
-                  ></b-form-input>
-                  <b-button
-                    size="sm"
-                    class="my-2 my-sm-0"
-                    type="submit"
-                    @click="searchProduct()"
-                    >Search</b-button
-                  >
-                </b-nav-form>
-              </li> -->
               <li class="nav-item">
                 <div class="dropdown">
                   <button class="dropbtn">
@@ -83,26 +66,44 @@
                     </span>
                   </button>
                   <div class="dropdown-content">
-                    <router-link class="nav-link" to="/login" v-if="!userData">
-                      Đăng nhập
-                    </router-link>
-                    <router-link class="nav-link" to="/" v-if="userData">
-                      Thông tin
-                    </router-link>
-                    <button
-                      @click="logout"
-                      class="btn btn-logout"
-                      v-if="userData"
-                    >
-                      Đăng xuất
-                    </button>
+                    <div class="login">
+                      <router-link
+                        class="nav-link"
+                        to="/login"
+                        v-if="!userData"
+                      >
+                        Đăng nhập
+                      </router-link>
+                    </div>
+                    <div class="profile">
+                      <router-link
+                        class="nav-link"
+                        to="/profile"
+                        v-if="userData"
+                        style="padding-left: 13px"
+                      >
+                        Thông tin
+                      </router-link>
+                    </div>
+                    <div class="logout">
+                      <button
+                        @click="logout"
+                        class="btn btn-logout"
+                        v-if="userData"
+                      >
+                        <b>Đăng xuất</b>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </li>
               <li class="nav-item">
-                <router-link to="/cart">
-                  <i class="bi bi-cart"></i>
-                </router-link>
+                <div class="nav-item-cart">
+                  <router-link to="/cart">
+                    <i class="bi bi-cart" style="position: relative"></i>
+                    <span class="nav-item-cart-quantity">3</span>
+                  </router-link>
+                </div>
               </li>
             </ul>
           </div>
@@ -113,7 +114,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "the-header",
   props: {
@@ -121,6 +122,7 @@ export default {
   },
   data() {
     return {
+      numberProduct: 0,
       listProductSearch: [],
       listProduct: {
         name: "",
@@ -142,11 +144,29 @@ export default {
   },
   created() {
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.getAllCart();
   },
   methods: {
     logout() {
       localStorage.removeItem("userData"); // Xóa token khỏi local storage
       this.$router.push("/login"); // Chuyển hướng đến trang đăng nhập
+    },
+    getAllCart() {
+      axios
+        .get(`http://localhost:3838/carts?user_id=${this.user_id}`)
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.dataCart = res.data.data;
+            console.log("dataCart: ", this.dataCart[0]);
+            this.dataCart.forEach((cart) => {
+              this.numberProduct++;
+            });
+            console.log("this.numberProduct", this.numberProduct);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     // searchProduct() {
     //   console.log(" SEARCH  !!!", this.search);
@@ -268,5 +288,23 @@ label {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.nav-item-cart-quantity {
+  position: absolute;
+  background-color: #fcd603;
+  padding: 0 7px;
+  border-radius: 20px;
+  left: 13px;
+}
+.dropdown-content {
+  background-color: #fcd603;
+}
+.profile:hover,
+.logout:hover {
+  background-color: #756400;
+}
+.logout {
+  padding: 5px 0;
 }
 </style>

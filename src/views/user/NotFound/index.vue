@@ -1,7 +1,10 @@
 <template>
-  <div class="flex justify-content-center">
-    <h1>BAN DEO CO QUYEN TRUY CAP</h1>
-    <button @click="logout">Tro ve trang dang nhap</button>
+  <div class="center-container">
+    <h1 class="text">BẠN KHÔNG CÓ QUYỀN TRUY CẬP !!!</h1>
+    <button @click="logout" class="btn-login">
+      <i class="bi bi-arrow-left-circle-fill" style="padding-right: 10px"></i>
+      Trở về trang đăng nhập
+    </button>
   </div>
 </template>
 
@@ -26,5 +29,24 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style scoped>
+.text {
+  text-align: center;
+  padding: 50px 0;
+}
+.btn-login {
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #fcd603;
+}
+.btn-login:hover {
+  background-color: #b99e00;
+}
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>>

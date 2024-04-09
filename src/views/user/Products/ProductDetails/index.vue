@@ -20,10 +20,29 @@
             <div class="product-details-name text-uppercase">
               <h1>{{ this.product.name }}</h1>
             </div>
+
+            <!-- Gía -->
             <div class="product-details-price">
-              <h1>
-                <b>{{ formatPrice(this.product.price) }}</b>
-              </h1>
+              <div class="price">
+                <h3>
+                  <strong :class="{ 'price-old': this.product.sellingPrice }">{{
+                    formatPrice(this.product.price)
+                  }}</strong>
+                  <strong
+                    class="price-current"
+                    v-if="this.product.sellingPrice"
+                    style="color: red; padding-left: 10px"
+                    >{{
+                      formatPrice(
+                        calculateCurrentPrice(
+                          this.product.price,
+                          this.product.sellingPrice
+                        )
+                      )
+                    }}</strong
+                  >
+                </h3>
+              </div>
             </div>
             <hr style="width: 70%" />
             <!-- Size -->
@@ -159,6 +178,10 @@ export default {
           },
         ],
       },
+      item: {
+        sellingPrice: 0,
+        price: 0,
+      },
     };
   },
   // addCart() {},
@@ -269,6 +292,10 @@ export default {
         currency: "VND",
       }).format(price);
     },
+    calculateCurrentPrice(originalPrice, discountPercent) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return originalPrice - originalPrice * (discountPercent / 100);
+    },
   },
 };
 </script>
@@ -364,5 +391,9 @@ h6 {
 
 .product-details-addCart-text {
   padding: 15px 0;
+}
+.price-old {
+  text-decoration: line-through; /* Gạch ngang giá cũ */
+  color: #9d9d9d;
 }
 </style>

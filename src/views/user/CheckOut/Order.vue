@@ -9,7 +9,7 @@
       <div class="col-8">
         <div class="delivery-address" style="padding-right: 70px">
           <h2>Thông tin giao hàng</h2>
-          <form action="#" method="post">
+          <form action="" method="post" @submit.prevent="addOrder">
             <div>
               <label for="hoTen">Họ và tên người nhận:</label>
               <input
@@ -33,13 +33,13 @@
               />
             </div>
             <div>
-              <label for="gmail">Gmail:</label>
+              <label for="email">Gmail:</label>
               <input
-                type="gmail"
-                id="gmail"
-                name="gmail"
+                type="email"
+                id="email"
+                name="email"
                 required
-                v-model="dataOrder.gmail"
+                v-model="dataOrder.email"
               />
             </div>
 
@@ -183,7 +183,7 @@
                 hơn)
               </p>
             </div>
-            <button class="btn btn-primary" type="submit" @click="Confirm">
+            <button class="btn btn-primary" type="submit">
               HOÀN TẤT THANH TOÁN
             </button>
           </form>
@@ -305,16 +305,17 @@ export default {
         user_id: "",
         product_data: [],
         name: "",
+        email: "",
         address: "",
         ward: "",
         district: "",
         province: "",
         phone: "",
-        price: "",
+        totalPrice: "",
         note: "",
-        typePay: "",
+        typePay: "COD",
         statusPay: "",
-        statusOrder: "0",
+        statusOder: "0",
       },
       listSize: [],
     };
@@ -344,7 +345,7 @@ export default {
       this.dataShowCart.forEach((item) => {
         total += item.quantity * item.product_id.price;
       });
-      this.dataOrder.price = total;
+      this.dataOrder.totalPrice = total;
       return total;
     },
     formatPrice(price) {
@@ -367,18 +368,51 @@ export default {
           console.log(err);
         });
     },
+    addOrder() {
+      if (this.dataOrder.typePay === "QR") {
+        this.dataOrder.statusPay = "0";
+      } else {
+        this.dataOrder.statusPay = "1";
+      }
+      console.log("Check create order", this.dataOrder);
+      // Xử lý khi người dùng submit
+
+      axios.post("http://localhost:3838/oders", this.dataOrder).then((res) => {
+        if (res.data.status === 200) {
+          console.log("Thêm thành công !", res.data);
+          // console.log(this.dataUpdate.product_type);
+          // Thêm thông báo thành công
+          this.$swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Thêm don hang thành công !",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.$router.push("/profile");
+        } else {
+          // Thêm thông báo lỗi
+          console.log("Thêm thất bại !", res.data.message[0].message);
+          this.$swal.fire({
+            position: "center",
+            icon: "error",
+            title: res.data.message[0].message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+    },
     changePay() {
       this.selectedPay = !this.selectedPay;
     },
     changeTypePay(item) {
       this.selectedTypePay = item;
       this.dataOrder.typePay = item;
+      console.log("this.dataOrder.typePay", this.dataOrder.typePay);
     },
     changeConfirm() {
       this.confirm = !this.confirm;
-    },
-    Confirm() {
-      console.log("dataOrder", this.dataOrder);
     },
   },
 };

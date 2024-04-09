@@ -99,8 +99,31 @@
                   <i class="bi bi-star-fill"></i>
                   <i class="bi bi-star-fill"></i>
                 </div>
-                <strong>{{ formatPrice(item.price) }}</strong>
               </span>
+              <div class="price">
+                <strong :class="{ 'price-old': item.sellingPrice }">{{
+                  formatPrice(item.price)
+                }}</strong>
+                <strong
+                  class="price-current"
+                  v-if="item.sellingPrice"
+                  style="color: red; padding-left: 10px"
+                  >{{
+                    formatPrice(
+                      calculateCurrentPrice(item.price, item.sellingPrice)
+                    )
+                  }}</strong
+                >
+              </div>
+            </div>
+            <div class="products-hot-HOT">
+              <i class="bi bi-fire"></i> {{ item.product_type }}
+            </div>
+            <div class="products-hot-sale-off" v-if="item.sellingPrice">
+              <span class="products-hot-sale-off-percent">
+                {{ item.sellingPrice }}%</span
+              >
+              <span class="products-hot-sale-off-label"> GIẢM</span>
             </div>
           </div>
         </div>
@@ -147,8 +170,31 @@
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
                     </div>
-                    <strong>{{ formatPrice(item.price) }}</strong>
                   </span>
+                  <div class="price">
+                    <strong :class="{ 'price-old': item.sellingPrice }">{{
+                      formatPrice(item.price)
+                    }}</strong>
+                    <strong
+                      class="price-current"
+                      v-if="item.sellingPrice"
+                      style="color: red; padding-left: 10px"
+                      >{{
+                        formatPrice(
+                          calculateCurrentPrice(item.price, item.sellingPrice)
+                        )
+                      }}</strong
+                    >
+                  </div>
+                </div>
+                <div class="products-hot-HOT">
+                  <i class="bi bi-fire"></i> {{ item.product_type }}
+                </div>
+                <div class="products-hot-sale-off" v-if="item.sellingPrice">
+                  <span class="products-hot-sale-off-percent">
+                    {{ item.sellingPrice }}%</span
+                  >
+                  <span class="products-hot-sale-off-label"> GIẢM</span>
                 </div>
               </div>
             </div>
@@ -493,6 +539,10 @@ export default {
       listProduct: [],
       listProductNew: [],
       listProductHot: [],
+      item: {
+        sellingPrice: 0,
+        price: 0,
+      },
     };
   },
   created() {
@@ -505,6 +555,10 @@ export default {
         style: "currency",
         currency: "VND",
       }).format(price);
+    },
+    calculateCurrentPrice(originalPrice, discountPercent) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return originalPrice - originalPrice * (discountPercent / 100);
     },
     getAllProduct() {
       axios
@@ -540,6 +594,7 @@ export default {
   color: #ffd603;
 }
 .products-hot {
+  position: relative;
   border: 1px solid #dadada;
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -580,10 +635,19 @@ export default {
   padding: 0 20px;
   padding-bottom: 20px;
 }
-
+.products-hot-body .cart-title {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  height: 1.8rem;
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .products-hot-body a {
   text-decoration: none;
   color: #5b5b5b;
+  line-height: 2.8rem;
 }
 .products-hot-body a:hover {
   color: #ffd600;
@@ -719,5 +783,66 @@ export default {
 .link i {
   padding-right: 20px;
   font-size: 30px;
+}
+
+.products-hot-HOT {
+  position: absolute;
+  top: 10px;
+  left: -4px;
+  background-color: red;
+  padding: 0 5px;
+  color: #fff;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.products-hot-HOT::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  border-top: 3px solid currentColor;
+  border-left: 3px solid transparent;
+}
+
+.products-hot-sale-off {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 45px;
+  background-color: rgba(255, 216, 64, 0.95);
+  text-align: center;
+}
+
+.products-hot-sale-off::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  border-width: 0 22px 6px;
+  border-style: solid;
+  border-color: transparent rgba(255, 216, 64, 0.95) transparent
+    rgba(255, 216, 64, 0.95);
+}
+.products-hot-sale-off-percent {
+  color: red;
+  font-weight: 600;
+  /* font-size: 1.2rem; */
+  line-height: 1.2rem;
+  position: relative;
+  top: -1px;
+}
+.products-hot-sale-off-label {
+  color: #fff;
+  /* font-size: 1.4rem; */
+  line-height: 1.3rem;
+  position: relative;
+  top: -5px;
+  font-weight: 600;
+}
+.price-old {
+  text-decoration: line-through; /* Gạch ngang giá cũ */
+  color: #9d9d9d;
 }
 </style>

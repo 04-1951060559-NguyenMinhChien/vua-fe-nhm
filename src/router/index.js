@@ -11,7 +11,8 @@ import PageSpa from '../views/user/Spa/PageSpa.vue'
 import PageContact from '../views/user/Contact/PageContact.vue'
 import PageCart from '../views/user/Cart/PageCart.vue'
 import NotFound from '../views/user/NotFound/index.vue'
-import Order from '@/views/user/CheckOut/Order.vue'
+// import Order from '@/views/user/CheckOut/Order.vue'
+import Order from '../views/user/CheckOut/Order.vue'
 
 
 import PageAdidas from '../views/user/Products/PageAdidas.vue'
@@ -19,13 +20,13 @@ import PageNike from '../views/user/Products/PageNike.vue'
 import PageJordan from '../views/user/Products/PageJordan.vue'
 import PageYeezy from '../views/user/Products/PageYeezy.vue'
 import productDetails from '../views/user/Products/ProductDetails/index.vue'
-
+import profile from '../views/user/Login/Profile.vue'
 
 //Admin
 import AdminOrder from '../views/admin/orders/index.vue'
 import AdminProduct from '../views/admin/products/index.vue'
 import AdminUsers from '../views/admin/users/index.vue'
-import AdminStaff from '../views/admin/staff/index.vue'
+// import AdminStaff from '../views/admin/staff/index.vue'
 
 
 // import sizeManage from '@/views/admin/products/sizeManage.vue'
@@ -107,6 +108,12 @@ const routes = [
     meta: { requiresAuth: true, roles: ['administrator', '', 'user'] },
     component: PageLogin
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
+    component: profile
+  },
 
   {
     path: '/access-denied',
@@ -135,18 +142,18 @@ const routes = [
     meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminUsers
   },
-  {
-    path: '/admin/adminstaff',
-    name: 'admin-staff',
-    meta: { requiresAuth: true, roles: ['administrator'] },
-    component: AdminStaff
-  },
-  {
-    path: '/admin/adminstaff',
-    name: 'staff',
-    meta: { requiresAuth: true, roles: ['administrator'] },
-    component: AdminStaff
-  }
+  // {
+  //   path: '/admin/adminstaff',
+  //   name: 'admin-staff',
+  //   meta: { requiresAuth: true, roles: ['administrator'] },
+  //   component: AdminStaff
+  // },
+  // {
+  //   path: '/admin/adminstaff',
+  //   name: 'staff',
+  //   meta: { requiresAuth: true, roles: ['administrator'] },
+  //   component: AdminStaff
+  // }
 
 ]
 const router = new VueRouter({
