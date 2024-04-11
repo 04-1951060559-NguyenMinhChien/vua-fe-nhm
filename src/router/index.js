@@ -13,6 +13,7 @@ import PageCart from '../views/user/Cart/PageCart.vue'
 import NotFound from '../views/user/NotFound/index.vue'
 // import Order from '@/views/user/CheckOut/Order.vue'
 import Order from '../views/user/CheckOut/Order.vue'
+import SearchProducts from '../views/user/Products/SearchProduct/index.vue'
 
 
 import PageAdidas from '../views/user/Products/PageAdidas.vue'
@@ -101,6 +102,12 @@ const routes = [
     name: 'productDetails',
     meta: { requiresAuth: true, roles: ['', 'user'] },
     component: productDetails
+  },
+  {
+    path: '/search',
+    name: 'SearchProducts',
+    meta: { requiresAuth: true, roles: ['', 'user'] },
+    component: SearchProducts
   },
   {
     path: '/login',

@@ -1,7 +1,11 @@
 <template>
   <div class="sidebar">
     <h3>
-      <i class="bi bi-list" style="padding-left: 15px; font-weight: bold"></i>
+      <img
+        src="../assets/Logo/logo2.png"
+        alt=""
+        style="width: 30%; padding-left: 15px"
+      />
       QUẢN LÝ
     </h3>
     <div>
@@ -32,16 +36,33 @@
             ><i class="bi bi-clipboard2-data"></i>Quản lý thống kê</router-link
           >
         </li>
+        <li>
+          <button class="nav-link" @click="logout" v-if="userData">
+            <i class="bi bi-box-arrow-right"></i>Thoát
+          </button>
+        </li>
       </ul>
     </div>
-    <!-- <h3><i class="bi bi-gear-fill" style="padding-left: 15px"></i> CÀI ĐẶT</h3>
-    <h3>THOÁT</h3> -->
   </div>
 </template>
 
 <script>
 export default {
   name: "sidebar",
+  data() {
+    return {
+      userData: {},
+    };
+  },
+  created() {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("userData"); // Xóa token khỏi local storage
+      this.$router.push("/login"); // Chuyển hướng đến trang đăng nhập
+    },
+  },
 };
 </script>
 

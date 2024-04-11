@@ -44,7 +44,9 @@
             </div>
 
             <div>
-              <label for="diaChi">Địa chỉ nhận hàng:</label>
+              <label for="diaChi"
+                >Địa chỉ nhận hàng (SỐ nhà, khu, ngõ, ngách, hẻm...):</label
+              >
               <input
                 type="text"
                 id="diaChi"
@@ -56,7 +58,7 @@
 
             <div class="input-group">
               <div>
-                <label for="tinh">Tỉnh:</label>
+                <label for="tinh">Tỉnh/Thành Phố:</label>
                 <input
                   type="text"
                   id="tinh"
@@ -66,7 +68,7 @@
                 />
               </div>
               <div>
-                <label for="huyen">Huyện:</label>
+                <label for="huyen">Quận/Huyện:</label>
                 <input
                   type="text"
                   id="huyen"
@@ -76,7 +78,7 @@
                 />
               </div>
               <div>
-                <label for="xa">Xã:</label>
+                <label for="xa">Phường/Xã:</label>
                 <input
                   type="text"
                   id="xa"

@@ -92,12 +92,14 @@
                     </div>
                     <div class="price">
                       <p><b>Thành tiền: </b></p>
-                      <strong
+                      <!-- <strong
                         :class="{
                           'price-old': item.product_id.sellingPrice,
                         }"
                         v-if="!dataCart"
-                        >{{ formatPrice(item.product_id.price) }}</strong
+                        >{{
+                          formatPrice(item.product_id.price * item.quantity)
+                        }}</strong
                       >
                       <strong
                         class="price-current"
@@ -111,7 +113,12 @@
                             )
                           )
                         }}</strong
-                      >
+                      > -->
+                      <h5>
+                        <b>{{
+                          formatPrice(item.product_id.price * item.quantity)
+                        }}</b>
+                      </h5>
                     </div>
                   </div>
                 </div>
