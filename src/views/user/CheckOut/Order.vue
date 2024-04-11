@@ -430,7 +430,7 @@ export default {
         });
     },
     addOrder() {
-      if (this.dataOrder.typePay === "QR") {
+      if (this.dataOrder.typePay === "COD") {
         this.dataOrder.statusPay = "0";
       } else {
         this.dataOrder.statusPay = "1";

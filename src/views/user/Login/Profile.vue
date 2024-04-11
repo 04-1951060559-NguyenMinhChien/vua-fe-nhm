@@ -37,6 +37,7 @@
             <table class="table" v-if="selectedTable === 'Order'">
               <thead>
                 <tr style="background-color: #e0e0e0">
+                  <th scope="col" style="width: 7%">Ngày tạo</th>
                   <th scope="col" style="width: 7%">Tên người nhận</th>
                   <th scope="col" style="width: 9%">Số điện thoại</th>
                   <!-- <th scope="col">Email</th> -->
@@ -45,12 +46,12 @@
                   <th scope="col" style="width: 7%">Phương thức thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái đơn hàng</th>
-                  <th scope="col" style="width: 7%">Ngày tạo</th>
                   <th scope="col" style="width: 7%">Ghi chú</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in listOrder" :key="item.id">
+                  <td>{{ item.createdAt }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.phone }}</td>
                   <!-- <td>{{ item.email }}</td> -->
@@ -69,9 +70,9 @@
                   <td>{{ item.typePay }}</td>
                   <td>
                     {{
-                      item.statusPay === 0
-                        ? "thanh toán khi nhận hàng"
-                        : "đã thanh toán"
+                      item.statusPay === "0"
+                        ? "Thanh toán khi nhận hàng"
+                        : "Đã thanh toán"
                     }}
                   </td>
 
@@ -88,8 +89,6 @@
                         : ""
                     }}
                   </td>
-
-                  <td>{{ item.createdAt }}</td>
                   <td>{{ item.note }}</td>
                   <!-- <td>
                     <i class="bi bi-eye-fill"></i>
