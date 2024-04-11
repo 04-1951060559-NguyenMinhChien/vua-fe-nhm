@@ -241,7 +241,28 @@
               <div class="price">
                 <p>Thành tiền:</p>
                 <h5 style="color: red">
-                  {{ formatPrice(item.product_id.price * item.quantity) }}
+                  <b
+                    v-if="item.product_id.sellingPrice && item.product_id.price"
+                    >{{
+                      formatPrice(
+                        calculateCurrentPrice(
+                          item.product_id.price,
+                          item.product_id.sellingPrice
+                        ) * item.quantity
+                      )
+                    }}</b
+                  >
+                  <b
+                    v-if="
+                      !item.product_id.sellingPrice && item.product_id.price
+                    "
+                    >{{
+                      formatPrice(
+                        calculateCurrentPrice(item.product_id.price, 0) *
+                          item.quantity
+                      )
+                    }}</b
+                  >
                 </h5>
               </div>
             </div>
@@ -302,6 +323,7 @@ export default {
       dataShowCart: [],
       user: [],
       provinces: [],
+      user_id: "",
       // dataCart: [],
       dataOrder: {
         user_id: "",
@@ -323,33 +345,70 @@ export default {
     };
   },
   created() {
-    console.log("DDD", this.data, "dataa checkkkk");
-    this.data.forEach((cart) => {
-      this.dataOrder.user_id = cart.user_id._id;
-      cart.product.forEach((item) => {
-        this.dataShowCart.push({
-          product_id: item.product_id,
-          quantity: item.quantity,
-        });
-        this.dataOrder.product_data.push({
-          product_id: item.product_id._id,
-          quantity: item.quantity,
-        });
-      });
-    });
-    console.log("Thành công Cart chưa show!!!", this.data);
-    console.log("Thành công Cart!!!", this.dataShowCart);
+    const user = JSON.parse(localStorage.getItem("userData"));
+    this.user_id = user._id;
+    console.log("user_id in carts", this.user_id);
     this.getAllSize();
+    this.getAllCart();
   },
   methods: {
+    getAllCart() {
+      // console.log("user_id", this.user_id);
+
+      axios
+        .get(`http://localhost:3838/carts?user_id=${this.user_id}`)
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.dataCart = res.data.data;
+            console.log("dataCart: ", this.dataCart[0]);
+            this.dataCart.forEach((cart) => {
+              this.dataOrder.user_id = cart.user_id._id;
+              cart.product.forEach((item) => {
+                this.dataShowCart.push({
+                  product_id: item.product_id,
+                  quantity: item.quantity,
+                });
+                this.dataOrder.product_data.push({
+                  product_id: item.product_id._id,
+                  quantity: item.quantity,
+                });
+              });
+            });
+
+            console.log("Thành công Cart chưa show!!!", this.dataCart);
+            console.log("Thành công Cart!!!", this.dataShowCart);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    calculateCurrentPrice(originalPrice, discountPercent) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return originalPrice - originalPrice * (discountPercent / 100);
+    },
     calculateTotalAmount() {
       let total = 0;
-      this.dataShowCart.forEach((item) => {
-        total += item.quantity * item.product_id.price;
+      let data = this.dataShowCart.forEach((item) => {
+        // Chọn giá bán phù hợp: nếu có giá sale thì sử dụng giá sale, ngược lại sử dụng giá gốc
+        let price = item.product_id.sellingPrice
+          ? this.calculateCurrentPrice(
+              item.product_id.price,
+              item.product_id.sellingPrice
+            )
+          : this.calculateCurrentPrice(item.product_id.price, 0);
+
+        // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
+        total += price;
       });
+
+      // Cập nhật tổng số tiền cho đơn hàng
       this.dataOrder.totalPrice = total;
+
+      // Trả về tổng số tiền
       return total;
     },
+
     formatPrice(price) {
       return new Intl.NumberFormat("vi-VN", {
         style: "currency",
@@ -586,4 +645,5 @@ input[type="submit"]:hover {
 .color-change {
   animation: colorChange 1s infinite;
 }
-</style>>
+</style>
+>

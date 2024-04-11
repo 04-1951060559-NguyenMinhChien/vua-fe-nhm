@@ -131,9 +131,32 @@
                         }}</strong
                       > -->
                       <h5>
-                        <b>{{
-                          formatPrice(item.product_id.price * item.quantity)
-                        }}</b>
+                        <b
+                          v-if="
+                            item.product_id.sellingPrice &&
+                            item.product_id.price
+                          "
+                          >{{
+                            formatPrice(
+                              calculateCurrentPrice(
+                                item.product_id.price,
+                                item.product_id.sellingPrice
+                              ) * item.quantity
+                            )
+                          }}</b
+                        >
+                        <b
+                          v-if="
+                            !item.product_id.sellingPrice &&
+                            item.product_id.price
+                          "
+                          >{{
+                            formatPrice(
+                              calculateCurrentPrice(item.product_id.price, 0) *
+                                item.quantity
+                            )
+                          }}</b
+                        >
                       </h5>
                     </div>
                   </div>
