@@ -76,7 +76,10 @@
                           >
                           <strong
                             class="price-current"
-                            v-if="item.product_id.sellingPrice && dataCart"
+                            v-if="
+                              item.product_id.sellingPrice &&
+                              item.product_id.price
+                            "
                             style="color: red; padding-left: 10px"
                             >{{
                               formatPrice(
@@ -84,6 +87,19 @@
                                   item.product_id.price,
                                   item.product_id.sellingPrice
                                 )
+                              )
+                            }}</strong
+                          >
+                          <strong
+                            class="price-current"
+                            v-if="
+                              !item.product_id.sellingPrice &&
+                              item.product_id.price
+                            "
+                            style="color: red; padding-left: 10px"
+                            >{{
+                              formatPrice(
+                                calculateCurrentPrice(item.product_id.price, 0)
                               )
                             }}</strong
                           >
@@ -198,7 +214,7 @@ export default {
   created() {
     const user = JSON.parse(localStorage.getItem("userData"));
     this.user_id = user._id;
-    console.log("user_id", this.user_id);
+    console.log("user_id in carts", this.user_id);
     this.getAllCart();
   },
   methods: {
@@ -251,7 +267,7 @@ export default {
     },
 
     getAllCart() {
-      console.log("user_id", this.user_id);
+      // console.log("user_id", this.user_id);
 
       axios
         .get(`http://localhost:3838/carts?user_id=${this.user_id}`)
@@ -309,6 +325,7 @@ export default {
     },
     calculateCurrentPrice(originalPrice, discountPercent) {
       // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      console.log();
       return originalPrice - originalPrice * (discountPercent / 100);
     },
   },

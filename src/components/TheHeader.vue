@@ -101,7 +101,9 @@
                 <div class="nav-item-cart">
                   <router-link to="/cart">
                     <i class="bi bi-cart" style="position: relative"></i>
-                    <span class="nav-item-cart-quantity">3</span>
+                    <span class="nav-item-cart-quantity">{{
+                      numberProduct ? numberProduct : 0
+                    }}</span>
                   </router-link>
                 </div>
               </li>
@@ -122,8 +124,10 @@ export default {
   },
   data() {
     return {
+      userData: {},
       numberProduct: 0,
       listProductSearch: [],
+      user_id: "",
       listProduct: {
         name: "",
         description: "",
@@ -135,7 +139,6 @@ export default {
         product_type: "",
         numberInStock: "",
       },
-      userData: {},
       // search
       // search: "",
       // listProductSearch: [],
@@ -144,6 +147,9 @@ export default {
   },
   created() {
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(localStorage.getItem("userData"));
+    this.user_id = user._id;
+    console.log("user_id in header", this.user_id);
     this.getAllCart();
   },
   methods: {
@@ -158,9 +164,9 @@ export default {
           if (res.data.status === 200 && res.data.data) {
             this.dataCart = res.data.data;
             console.log("dataCart: ", this.dataCart[0]);
-            this.dataCart.forEach((cart) => {
-              this.numberProduct++;
-            });
+            // this.dataCart.forEach((cart) => {
+            this.numberProduct = this.dataCart[0].product.length;
+            // });
             console.log("this.numberProduct", this.numberProduct);
           }
         })
