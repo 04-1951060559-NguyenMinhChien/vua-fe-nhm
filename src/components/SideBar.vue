@@ -27,9 +27,11 @@
           </router-link>
         </li>
         <li>
-          <router-link class="nav-link" to="/admin/adminorder"
-            ><i class="bi bi-basket"></i>Quản lý đơn hàng</router-link
-          >
+          <router-link class="nav-link" to="/admin/adminorder">
+            <div class="order">
+              <i class="bi bi-basket"></i>Quản lý đơn hàng
+            </div>
+          </router-link>
         </li>
         <li>
           <router-link class="nav-link" to="/admin/adminorder"
@@ -37,7 +39,12 @@
           >
         </li>
         <li>
-          <button class="nav-link" @click="logout" v-if="userData">
+          <button
+            class="nav-link"
+            @click="logout"
+            v-if="userData"
+            style="padding: 10px 35px 10px"
+          >
             <i class="bi bi-box-arrow-right"></i>Thoát
           </button>
         </li>
@@ -89,7 +96,7 @@ export default {
   margin: 0;
 }
 
-.sidebar ul li {
+.sidebar ul li a {
   padding: 10px 35px 10px;
 }
 .sidebar ul li i {
