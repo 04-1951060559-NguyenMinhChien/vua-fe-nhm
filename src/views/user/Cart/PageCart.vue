@@ -317,9 +317,23 @@ export default {
     },
     calculateTotalAmount() {
       let total = 0;
-      this.dataShowCart.forEach((item) => {
-        total += item.quantity * item.product_id.price;
+      let data = this.dataShowCart.forEach((item) => {
+        // Chọn giá bán phù hợp: nếu có giá sale thì sử dụng giá sale, ngược lại sử dụng giá gốc
+        let price = item.product_id.sellingPrice
+          ? this.calculateCurrentPrice(
+              item.product_id.price,
+              item.product_id.sellingPrice
+            )
+          : this.calculateCurrentPrice(item.product_id.price, "0");
+
+        // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
+        total += price;
       });
+
+      // Cập nhật tổng số tiền cho đơn hàng
+      // this.dataOrder.totalPrice = total;
+
+      // Trả về tổng số tiền
       return total;
     },
     decreaseQuantity() {
@@ -339,17 +353,9 @@ export default {
         currency: "VND",
       }).format(price);
     },
-    calculateTotalAmount() {
-      let total = 0;
-      this.dataShowCart.forEach((item) => {
-        total += item.quantity * item.product_id.price;
-      });
-      return total;
-    },
-    calculateCurrentPrice(originalPrice, discountPercent) {
+    calculateCurrentPrice(price, sellingPrice) {
       // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
-      console.log();
-      return originalPrice - originalPrice * (discountPercent / 100);
+      return price - price * (sellingPrice / 100);
     },
   },
 };

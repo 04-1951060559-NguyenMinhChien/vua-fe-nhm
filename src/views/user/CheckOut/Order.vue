@@ -383,9 +383,9 @@ export default {
           console.log(err);
         });
     },
-    calculateCurrentPrice(originalPrice, discountPercent) {
+    calculateCurrentPrice(price, sellingPrice) {
       // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
-      return originalPrice - originalPrice * (discountPercent / 100);
+      return price - price * (sellingPrice / 100);
     },
     calculateTotalAmount() {
       let total = 0;
@@ -396,15 +396,15 @@ export default {
               item.product_id.price,
               item.product_id.sellingPrice
             )
-          : this.calculateCurrentPrice(item.product_id.price, 0);
+          : this.calculateCurrentPrice(item.product_id.price, "0");
 
         // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
         total += price;
       });
 
       // Cập nhật tổng số tiền cho đơn hàng
-      this.dataOrder.totalPrice = total;
 
+      // this.dataOrder.totalPrice = total;
       // Trả về tổng số tiền
       return total;
     },
