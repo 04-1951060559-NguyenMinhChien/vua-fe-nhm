@@ -23,9 +23,12 @@
             </router-link>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 d-flex justify-content-center">
           <div class="collapse navbar-collapse float-left" id="navbarReponsive">
-            <ul class="navbar-nav ml-auto" role="tablist">
+            <ul
+              class="navbar-nav ml-auto justify-content-center mr-auto"
+              role="tablist"
+            >
               <li class="nav-item item">
                 <router-link class="nav-link element" to="/about"
                   >GIỚI THIỆU</router-link
@@ -60,19 +63,21 @@
               <li class="nav-item">
                 <div class="search col-md-3">
                   <b-nav-form @submit.stop.prevent>
-                    <b-form-input
-                      size="sm"
-                      class="mr-sm-2"
-                      placeholder="Search"
-                      v-model="search"
-                    ></b-form-input>
-                    <b-button
-                      size="sm"
-                      class="my-2 my-sm-0"
-                      type="submit"
-                      @click="searchProduct()"
-                      >Search</b-button
-                    >
+                    <div class="search-container">
+                      <b-form-input
+                        size="sm"
+                        class="mr-sm-2 search-input"
+                        placeholder="Bạn muốn tìm gì ... ?"
+                        v-model="search"
+                      ></b-form-input>
+                      <b-button
+                        size="sm"
+                        class="my-2 my-sm-0 search-button"
+                        type="submit"
+                        @click="searchProduct()"
+                        ><i class="bi bi-search"></i>
+                      </b-button>
+                    </div>
                   </b-nav-form>
                 </div>
               </li>
@@ -80,7 +85,16 @@
                 <div class="dropdown">
                   <button class="dropbtn">
                     <i v-if="!userData" class="bi bi-person"></i>
-                    <span v-if="userData" style="font-size: 20px; width: 50px"
+                    <span
+                      v-if="userData"
+                      style="
+                        font-size: 15px;
+                        width: 50px;
+                        display: inline-block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
                       >Hi, {{ userData.name }}
                     </span>
                   </button>
@@ -323,5 +337,26 @@ label {
 }
 .logout {
   padding: 5px 0;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  border-radius: 20px;
+  padding: 20px 15px;
+  background-color: #e7e7e7;
+}
+
+.search-button {
+  border-radius: 20px; /* Điều chỉnh độ cong của góc phải */
+  margin-left: -43px;
+  border: 0;
+  background-color: #e7e7e7;
+}
+.search-button i {
+  color: #000;
 }
 </style>

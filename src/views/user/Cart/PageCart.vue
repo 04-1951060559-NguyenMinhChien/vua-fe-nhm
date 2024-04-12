@@ -29,7 +29,18 @@
                       <h3>{{ item.product_id.name }}</h3>
                     </div>
                     <div class="size">
-                      <span>Size giày: {{ item.product_id.size }}</span>
+                      <!-- <span>Size giày: {{ item.product_id.size_id }}</span> -->
+                      <div v-for="size in listSize" :key="size._id">
+                        <div
+                          v-if="
+                            size._id &&
+                            item.product_id &&
+                            item.product_id.size_id === size._id
+                          "
+                        >
+                          <span> Size: {{ size.name }} </span>
+                        </div>
+                      </div>
                     </div>
                     <div class="quantity">
                       <div class="product-details-quantity">
@@ -227,6 +238,7 @@ export default {
       modalShow: false,
       dataCart: [],
       dataShowCart: [],
+      listSize: [],
       // item: {
       //   sellingPrice: 0,
       //   price: 0,
@@ -239,6 +251,7 @@ export default {
     this.user_id = user._id;
     console.log("user_id in carts", this.user_id);
     this.getAllCart();
+    this.getAllSize();
   },
   methods: {
     deleteProductInCart(item) {
@@ -310,6 +323,20 @@ export default {
             console.log("Thành công Cart chưa show!!!", this.dataCart);
             console.log("Thành công Cart!!!", this.dataShowCart);
           }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllSize() {
+      axios
+        .get("http://localhost:3838/sizes")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.listSize = res.data.data; //Gan data vao optionSize
+            // this.optionsSize = res.data.data; //Gan data vao optionSize
+          }
+          console.log("Thành công lấy size", this.listSize);
         })
         .catch((err) => {
           console.log(err);

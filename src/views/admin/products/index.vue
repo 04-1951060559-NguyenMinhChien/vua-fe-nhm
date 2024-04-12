@@ -140,7 +140,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="productSellingPrice" class="form-label"
-                        >Price:</label
+                        >Sale (%):</label
                       >
                       <input
                         type="number"
@@ -148,7 +148,6 @@
                         class="form-control"
                         id="productSellingPrice"
                         v-model="dataCreate.sellingPrice"
-                        required
                       />
                     </div>
                     <div class="mb-3">
@@ -179,7 +178,6 @@
                         class="form-select"
                         id="productType"
                         v-model="dataCreate.product_type"
-                        required
                       >
                         <option value="">Chọn loại sản phẩm:</option>
                         <option
@@ -308,7 +306,6 @@
                         class="form-control"
                         id="productSellingPrice"
                         v-model="dataUpdate.sellingPrice"
-                        required
                       />
                     </div>
                     <div class="mb-3">
@@ -876,6 +873,11 @@ export default {
       optionProduct: [],
     };
   },
+  // computed: {
+  //   activeBrands() {
+  //     return this.optionsBrand.filter((brand) => brand.isActive === true);
+  //   },
+  // },
   created() {
     // Khởi tạo dữ liệu hoặc đăng ký sự kiện
     this.getAllProduct();

@@ -215,15 +215,82 @@
                 </div>
               </div>
               <hr />
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Lưu</button>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  @click="hideModalUpdateOrder"
-                >
-                  Hủy
-                </button>
+              <div class="totalPrice text-right">
+                <p>
+                <h5>TỔNG TIỀN: <b style="color:Red">{{ dataDetailOrder.totalPrice }} đ</b></h5>
+
+                </p>
+                
+              </div>
+              <div class="product-detail">
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table">
+                      <thead>
+                        <tr style="background-color: #e0e0e0">
+                          <th scope="col">Hình ảnh</th>
+                          <th scope="col">Thông tin sản phẩm</th>
+                          <th scope="col">Đơn giá</th>
+                          <th scope="col">Số lượng</th>
+                          <!-- <th scope="col">Tổng tiền</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item2 in dataDetailOrder.product">
+                          <td>
+                            <img
+                              :src="
+                                'http://localhost:3838/' +
+                                item2.product_id.image
+                              "
+                              alt=""
+                              style="width: 50px; height: 70px"
+                            />
+                          </td>
+                          <td>
+                            Tên sản phẩm: {{ item2.product_id.name }} <br>
+                            Size: {{ item2.product_id.size_id }}
+                          </td>
+                          <td>
+                            <p
+                              v-if="
+                                item2.product_id.sellingPrice &&
+                                item2.product_id.price
+                              "
+                            >
+                              {{
+                                formatPrice(
+                                  calculateCurrentPrice(
+                                    item2.product_id.price,
+                                    item2.product_id.sellingPrice
+                                  )
+                                )
+                              }}
+                            </p>
+                            <p
+                              v-if="
+                                !item2.product_id.sellingPrice &&
+                                item2.product_id.price
+                              "
+                            >
+                              {{
+                                formatPrice(
+                                  calculateCurrentPrice(
+                                    item2.product_id.price,
+                                    0
+                                  )
+                                )
+                              }}
+                            </p>
+                          </td>
+                          <!-- <td>{{ item2.product_id.size_id ? item2.product_id.size_id.name : "" }}</td> -->
+                          <td>{{ item2.quantity }}</td>
+                          <!-- <td rowspan="5">{{ dataDetailOrder.totalPrice }}</td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
@@ -272,9 +339,11 @@ export default {
         statusPay: "",
         statusOder: "0",
       },
+      dataProductDetail: {},
     };
   },
   created() {
+    this.getAllSize();
     this.getAllOrder();
     // this.userData = JSON.parse(localStorage.getItem("userData"));
     // localStorage.removeItem("userData");
@@ -287,7 +356,11 @@ export default {
     hideModalUpdateOrder() {
       this.$refs["my-modal-update-order"].hide();
     },
-
+    // handleImageUpload(event) {
+    //   const file = event.target.files[0];
+    //   this.dataCreate.image = file;
+    //   this.imageUrl = URL.createObjectURL(file);
+    // },
     handleSubmitUpdateOrder() {
       const formData = new FormData();
       formData.append("statusOder", this.dataUpdateOrder.statusOder);
@@ -328,8 +401,10 @@ export default {
     },
 
     showModalOrderDetail(item) {
+      console.log(item);
       this.dataDetailOrder = item;
       this.$refs["my-modal-order-detail"].show();
+      this.imageUrl = "http://localhost:3838/" + item.image;
     },
 
     hideModalOrderDetail() {
@@ -341,12 +416,69 @@ export default {
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             this.listOrder = res.data.data;
-            console.log("Thành công !!!", this.listOrder);
+            this.listOrder.forEach((element) => {
+              // console.log(element);
+              element.product.forEach((element3) => {
+                this.listSize.forEach((element2) => {
+                  if (element3.product_id.size_id === element2._id) {
+                    element3.product_id.size_id = element2.name;
+                  }
+                });
+              });
+            });
+            console.log(this.listOrder);
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    getAllSize() {
+      axios
+        .get("http://localhost:3838/sizes")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.listSize = res.data.data;
+          }
+
+          console.log("Thành công lấy size", this.listSize);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    calculateCurrentPrice(price, sellingPrice) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return price - price * (sellingPrice / 100);
+    },
+    calculateTotalAmount() {
+      let total = 0;
+      let data = this.dataShowCart.forEach((item) => {
+        // Chọn giá bán phù hợp: nếu có giá sale thì sử dụng giá sale, ngược lại sử dụng giá gốc
+        let price = item.product_id.sellingPrice
+          ? this.calculateCurrentPrice(
+              item.product_id.price,
+              item.product_id.sellingPrice
+            ) * item.quantity
+          : this.calculateCurrentPrice(item.product_id.price, "0") *
+            item.quantity;
+
+        // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
+        total += price;
+      });
+
+      // Cập nhật tổng số tiền cho đơn hàng
+
+      // this.dataOrder.totalPrice = total;
+      // Trả về tổng số tiền
+      return total;
+    },
+
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
     },
   },
 };

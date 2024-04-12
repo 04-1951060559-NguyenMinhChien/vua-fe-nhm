@@ -4,7 +4,7 @@
       <TheHeader />
     </div>
 
-    <div class="search1 " style="margin-top: 50px; margin-bottom: 50px ">
+    <!-- <div class="search1 " style="margin-top: 50px; margin-bottom: 50px ">
       <div class="container navbar-collapse" id="searchReponsive">
         <div class="row">
           <div class="search col-md-3">
@@ -45,7 +45,7 @@
               </select>
             </div>
           </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
               <div role="group" class="input-group">
                   <input
                     id="bv-icons-table-search"
@@ -71,7 +71,7 @@
                     <i @click="searchProduct" class="bi bi-search"></i>
                   </div>
                 </div>
-            </div> -->
+            </div>
           <div class="search col-md-3">
             <label for="">Tìm kiếm:</label>
             <b-nav-form @submit.stop.prevent>
@@ -90,26 +90,35 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- CONTENT -->
     <!-- Nike -->
-    <div class="container">
+    <div class="container" style="margin: 50px auto">
       <div class="row">
         <div class="col-9">
           <div class="row">
-            <div class="center" v-if="message">{{ message }}</div> <!-- Hiển thị thông báo tìm kiếm -->
+            <div class="center" v-if="message">{{ message }}</div>
+            <!-- Hiển thị thông báo tìm kiếm -->
 
             <div class="col-md-3" v-for="item in listProduct" :key="item._id">
               <div class="products-hot">
                 <div class="products-hot-img">
-                  <router-link :to="{ name: 'productDetails', params: { id: item._id } }">
-                    <img :src="'http://localhost:3838/' + item.image" alt="" style="width: 100%" />
+                  <router-link
+                    :to="{ name: 'productDetails', params: { id: item._id } }"
+                  >
+                    <img
+                      :src="'http://localhost:3838/' + item.image"
+                      alt=""
+                      style="width: 100%"
+                    />
                   </router-link>
                 </div>
                 <div class="products-hot-body">
                   <h4 class="card-title text-uppercase">
-                    <router-link :to="{ name: 'productDetails', params: { id: item._id } }">
+                    <router-link
+                      :to="{ name: 'productDetails', params: { id: item._id } }"
+                    >
                       {{ item.name }}
                     </router-link>
                   </h4>
@@ -140,12 +149,12 @@
                   <!-- <div class="products-hot-HOT">
                   <i class="bi bi-fire"></i> {{ item.product_type }}
                 </div> -->
-                <div class="products-hot-sale-off" v-if="item.sellingPrice">
-                  <span class="products-hot-sale-off-percent">
-                    {{ item.sellingPrice }}%</span
-                  >
-                  <span class="products-hot-sale-off-label"> GIẢM</span>
-                </div>
+                  <div class="products-hot-sale-off" v-if="item.sellingPrice">
+                    <span class="products-hot-sale-off-percent">
+                      {{ item.sellingPrice }}%</span
+                    >
+                    <span class="products-hot-sale-off-label"> GIẢM</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,9 +163,11 @@
         <div class="col-3">
           <div class="aside">
             <div class="aside aside-footwate">
-              <a href=""><img src="../../../assets/Banner/bannersitebar01.jpg" alt=""></a>
+              <a href=""
+                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=""
+              /></a>
             </div>
-            <hr>
+            <hr />
             <div class="aside aside-news">
               <div class="container">
                 <div class="row-5">
@@ -164,8 +175,10 @@
                     <h3><b>TIN TỨC MỚI</b></h3>
                   </div>
                   <div class="aside-news-conten">
-                    <img src="../../../assets/Blog/Blog1.jpg" alt="">
-                    <p>Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình - Kingshoesvn
+                    <img src="../../../assets/Blog/Blog1.jpg" alt="" />
+                    <p>
+                      Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
+                      Kingshoesvn
                     </p>
                   </div>
                 </div>
