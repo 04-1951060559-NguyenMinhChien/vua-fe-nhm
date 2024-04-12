@@ -61,7 +61,7 @@
                 <div class="dropdown">
                   <button class="dropbtn">
                     <i v-if="!userData" class="bi bi-person"></i>
-                    <span v-if="userData" style="font-size: 20px"
+                    <span v-if="userData" style="font-size: 20px; width: 50px"
                       >Hi, {{ userData.name }}
                     </span>
                   </button>

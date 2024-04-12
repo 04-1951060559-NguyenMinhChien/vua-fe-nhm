@@ -33,7 +33,17 @@
               />
             </div>
             <div>
-              <label for="email">Gmail:</label>
+              <label for="soDienThoai">Gmail:</label>
+              <input
+                type="gmail"
+                id="gmail"
+                name="gmail"
+                required
+                v-model="dataOrder.email"
+              />
+            </div>
+            <!-- <div>
+              <label for="gmail">Gmail:</label>
               <input
                 type="email"
                 id="email"
@@ -41,11 +51,11 @@
                 required
                 v-model="dataOrder.email"
               />
-            </div>
+            </div> -->
 
             <div>
               <label for="diaChi"
-                >Địa chỉ nhận hàng (SỐ nhà, khu, ngõ, ngách, hẻm...):</label
+                >Địa chỉ nhận hàng (Số nhà, khu, ngõ, ngách, hẻm...):</label
               >
               <input
                 type="text"
@@ -115,12 +125,6 @@
                   Chọn phương thức thanh toán
                 </span>
               </div>
-
-              <!-- <input
-                type="submit"
-                value="Tiếp tục đến phương thức thanh toán"
-                style="width: 50%"
-              /> -->
             </div>
             <hr />
             <div class="pay" v-if="selectedPay">
@@ -309,7 +313,7 @@
 </template>
 
 <script>
-import { selectProps } from "ant-design-vue/es/select";
+// import { selectProps } from "ant-design-vue/es/select";
 import axios from "axios";
 export default {
   props: ["data"],
@@ -430,7 +434,7 @@ export default {
         });
     },
     addOrder() {
-      if (this.dataOrder.typePay === "QR") {
+      if (this.dataOrder.typePay === "COD") {
         this.dataOrder.statusPay = "0";
       } else {
         this.dataOrder.statusPay = "1";

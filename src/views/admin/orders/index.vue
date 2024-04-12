@@ -15,9 +15,10 @@
             <div>
               <h5>QUẢN LÝ ĐƠN HÀNG</h5>
             </div>
-            <table class="table" v-if="selectedTable === 'Order'">
+            <table class="table">
               <thead>
                 <tr style="background-color: #e0e0e0">
+                  <th scope="col" style="width: 7%">Ngày tạo</th>
                   <th scope="col" style="width: 7%">Tên người nhận</th>
                   <th scope="col" style="width: 9%">Số điện thoại</th>
                   <th scope="col">Email</th>
@@ -26,13 +27,13 @@
                   <th scope="col" style="width: 7%">Phương thức thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái đơn hàng</th>
-                  <th scope="col" style="width: 7%">Ngày tạo</th>
                   <th scope="col" style="width: 7%">Ghi chú</th>
                   <th scope="col" style="width: 9%">Tác vụ</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in listOrder" :key="item.id">
+                  <td>{{ item.createdAt }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.phone }}</td>
                   <td>{{ item.email }}</td>
@@ -52,8 +53,8 @@
                   <td>
                     {{
                       item.statusPay === "0"
-                        ? "thanh toán khi nhận hàng"
-                        : "đã thanh toán"
+                        ? "Thanh toán khi nhận hàng"
+                        : "Đã thanh toán"
                     }}
                   </td>
 
@@ -64,24 +65,169 @@
                         : item.statusOder === "1"
                         ? "Xác nhận"
                         : item.statusOder === "2"
-                        ? "Đang giao"
+                        ? "Đang giao hàng"
                         : item.statusOder === "3"
-                        ? "Thành công"
+                        ? "Giao hàng thành công"
+                        : item.statusOder === "4"
+                        ? "Giao hàng thất bại"
                         : ""
                     }}
                   </td>
-
-                  <td>{{ item.createdAt }}</td>
+                  <!-- <td>{{ item.statusOder }}</td> -->
                   <td>{{ item.note }}</td>
                   <td>
-                    <i class="bi bi-eye-fill"></i>
-                    <i class="bi bi-pencil-square"></i>
+                    <i
+                      @click="showModalOrderDetail(item)"
+                      class="bi bi-eye-fill"
+                    ></i>
+                    <i
+                      @click="showModalUpdateOrder(item)"
+                      class="bi bi-pencil-square"
+                    ></i>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+
+        <!-- MODAL UPDATE -->
+        <b-modal
+          ref="my-modal-update-order"
+          id="modal-xl"
+          centered
+          hide-footer
+          title="Cập nhật thông tin đơn hàng"
+        >
+          <div class="modal-body">
+            <form @submit.prevent="handleSubmitUpdateOrder">
+              <div class="mb-3">
+                <label for="productType" class="form-label"
+                  >Trạng thái đơn hàng</label
+                >
+                <select
+                  class="form-select"
+                  id="productType"
+                  v-model="dataUpdateOrder.statusOder"
+                  required
+                >
+                  <option value="">Cập nhật trạng thái đơn hàng:</option>
+                  <option
+                    v-for="type in statusOder"
+                    :key="type._id"
+                    :value="type._id"
+                  >
+                    {{ type.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  @click="hideModalUpdateOrder"
+                >
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+        </b-modal>
+        <!-- MODAL XEM CHI TIET DON HANG -->
+        <b-modal
+          ref="my-modal-order-detail"
+          id="modal-xl"
+          size="xl"
+          centered
+          hide-footer
+          title="Chi tiết đơn đặt hàng"
+        >
+          <div class="modal-body">
+            <form @submit.prevent="">
+              <div class="mb-3 order-detail">
+                <div class="row">
+                  <div class="col-4">
+                    <b>Ngày tạo: </b>{{ dataDetailOrder.createdAt }}
+                  </div>
+                  <div class="col-4">
+                    <b>Trạng thái thanh toán: </b>
+                    {{
+                      dataDetailOrder.statusPay === "0"
+                        ? "Thanh toán khi nhận hàng"
+                        : "Đã thanh toán"
+                    }}
+                  </div>
+                  <div class="col-4">
+                    <b>Trạng thái vận chuyển:</b>
+                    {{
+                      dataDetailOrder.statusOder === "0"
+                        ? "Chờ xác nhận"
+                        : item.statusOder === "1"
+                        ? "Xác nhận"
+                        : item.statusOder === "2"
+                        ? "Đang giao hàng"
+                        : item.statusOder === "3"
+                        ? "Giao hàng thành công"
+                        : item.statusOder === "4"
+                        ? "Giao hàng thất bại"
+                        : ""
+                    }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <b>Thông tin giao hàng:</b>
+                    <div class="information">
+                      <p><b>- Tên người nhận: </b>{{ dataDetailOrder.name }}</p>
+                      <p><b>- Số điện thoại: </b>{{ dataDetailOrder.phone }}</p>
+                      <p>
+                        <b>- Địa chỉ: </b
+                        >{{
+                          dataDetailOrder.address +
+                          ", " +
+                          dataDetailOrder.ward +
+                          ", " +
+                          dataDetailOrder.district +
+                          ", " +
+                          dataDetailOrder.province
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <b>Phương thức thanh toán: </b>
+                    <div class="typePay">
+                      {{ dataDetailOrder.typePay }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <b>Ghi chú: </b>
+                    <div class="note" v-if="dataDetailOrder.note">
+                      {{ dataDetailOrder.note }}
+                    </div>
+                    <div class="note" v-if="!dataDetailOrder.note">
+                      Không có ghi chú !!!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  @click="hideModalUpdateOrder"
+                >
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+        </b-modal>
       </div>
     </div>
   </div>
@@ -98,8 +244,34 @@ export default {
   data() {
     return {
       // userData: {},
-      selectedTable: "Order",
+      // selectedTable: "Order",
       listOrder: [],
+      statusOder: [
+        { _id: "0", name: "Chờ xác nhận" },
+        { _id: "1", name: "Đã xác nhận" },
+        { _id: "2", name: "Đang giao hàng" },
+        { _id: "3", name: "Giao hàng thành công" },
+        { _id: "4", name: "Giao hàng không thành công" },
+      ],
+      dataUpdateOrder: {
+        statusOder: "",
+      },
+      dataDetailOrder: {
+        user_id: "",
+        product_data: [],
+        name: "",
+        email: "",
+        address: "",
+        ward: "",
+        district: "",
+        province: "",
+        phone: "",
+        totalPrice: "",
+        note: "",
+        typePay: "COD",
+        statusPay: "",
+        statusOder: "0",
+      },
     };
   },
   created() {
@@ -108,6 +280,61 @@ export default {
     // localStorage.removeItem("userData");
   },
   methods: {
+    showModalUpdateOrder() {
+      this.$refs["my-modal-update-order"].show();
+    },
+
+    hideModalUpdateOrder() {
+      this.$refs["my-modal-update-order"].hide();
+    },
+
+    handleSubmitUpdateOrder() {
+      const formData = new FormData();
+      formData.append("statusOder", this.dataUpdateOrder.statusOder);
+      axios
+        .put(
+          `http://localhost:3838/oders/${this.dataUpdateOrder._id}`,
+          formData
+        )
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Sửa thành công !", res.data);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Sửa sản phẩm thành công !",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            this.getAllProduct();
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Sửa thất bại !", res);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message[0].message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.hideModalUpdateOrder();
+    },
+
+    showModalOrderDetail(item) {
+      this.dataDetailOrder = item;
+      this.$refs["my-modal-order-detail"].show();
+    },
+
+    hideModalOrderDetail() {
+      this.$refs["my-modal-order-detail"].hide();
+    },
     getAllOrder() {
       axios
         .get("http://localhost:3838/oders")
@@ -191,5 +418,23 @@ table tr:hover {
   padding: 0 5px;
   border-radius: 10px;
   background-color: #ddd;
+}
+.order-detail .row {
+  padding: 20px 0;
+}
+.information,
+.typePay,
+.note {
+  /* border: 1px solid; */
+  background-color: #ddd;
+  padding-left: 30px;
+  margin: 10px 0;
+  padding: 10px 0;
+  padding-left: 20px;
+  border-radius: 5px;
+}
+.information p {
+  margin: 0;
+  padding: 10px 0;
 }
 </style>

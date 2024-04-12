@@ -39,13 +39,18 @@
             </div>
             <span>hoặc sử dụng email và mật khẩu của bạn</span>
             <input type="email" v-model="userLogin.email" placeholder="Email" />
+            <!-- <span v-if="errors.email" class="error">{{ errors.email }}</span> -->
             <input
               type="password"
               v-model="userLogin.password"
               placeholder="Password"
             />
+            <!-- <span v-if="errors.password" class="error">{{
+              errors.password
+            }}</span> -->
             <a href="">Bạn quên mật khẩu ?</a>
-            <button @click="login">Đăng Nhập</button>
+            <button @click.prevent="login">Đăng Nhập</button>
+            <!-- <span v-if="errorMessage" class="error">{{ errorMessage }}</span> -->
           </form>
         </div>
         <div class="toggle-container">
@@ -77,7 +82,7 @@
         
   <script>
 import axios from "axios";
-import router from "@/router";
+// import router from "@/router";
 export default {
   name: "PageLogin",
   props: {
@@ -96,6 +101,15 @@ export default {
         email: "",
         password: "",
       },
+      // userLogin: {
+      //   email: "",
+      //   password: "",
+      // },
+      // errors: {
+      //   email: "",
+      //   password: "",
+      // },
+      // errorMessage: "",
     };
   },
 
@@ -168,6 +182,30 @@ export default {
           console.log(err);
         });
     },
+    // login() {
+    //   // Reset errors
+    //   this.errors = {};
+
+    //   // Validate email
+    //   if (!this.userLogin.email) {
+    //     this.errors.email = "Vui lòng nhập email của bạn.";
+    //   }
+
+    //   // Validate password
+    //   if (!this.userLogin.password) {
+    //     this.errors.password = "Vui lòng nhập mật khẩu của bạn.";
+    //   }
+
+    //   // Check if there are any errors
+    //   if (Object.keys(this.errors).length > 0) {
+    //     return;
+    //   }
+
+    //   // TODO: Call login API
+    //   // For now, just show error message
+    //   this.errorMessage =
+    //     "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập.";
+    // },
   },
 };
 </script>
@@ -386,5 +424,10 @@ body {
 
 .container.active .toggle-right {
   transform: translateX(200%);
+}
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
 }
 </style>
