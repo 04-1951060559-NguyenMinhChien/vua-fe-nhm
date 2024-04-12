@@ -399,8 +399,9 @@ export default {
           ? this.calculateCurrentPrice(
               item.product_id.price,
               item.product_id.sellingPrice
-            )
-          : this.calculateCurrentPrice(item.product_id.price, "0");
+            ) * item.quantity
+          : this.calculateCurrentPrice(item.product_id.price, "0") *
+            item.quantity;
 
         // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
         total += price;
