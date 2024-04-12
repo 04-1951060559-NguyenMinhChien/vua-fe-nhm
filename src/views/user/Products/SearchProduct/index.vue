@@ -183,6 +183,7 @@
 import TheHeader from "../../../../components/TheHeader.vue";
 import TheFooter from "../../../../components/TheFooter.vue";
 import axios from "axios";
+import { mapGetters } from 'vuex';
 export default {
   name: "SearchProduct",
   props: {
@@ -204,9 +205,12 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(['getSearch']),
+  },
   created() {
     // Khởi tạo dữ liệu hoặc đăng ký sự kiện
-    this.getAllProduct();
+    //this.getAllProduct();
   },
   methods: {
     formatPrice(price) {
@@ -234,10 +238,10 @@ export default {
         });
     },
     searchProduct() {
-      console.log(" SEARCH  !!!", this.search);
-      if (this.search) {
+      console.log(" SEARCH in VUEX !!!", this.$store.state.search,);
+      if ( this.$store.state.search) {
         axios
-          .post(`http://localhost:3838/products/search/${this.search}`)
+          .post(`http://localhost:3838/products/search/${this.$store.state.search}`)
           .then((res) => {
             if (res.data.status === 200 && res.data.data !== null) {
               this.listProduct = res.data.data;
@@ -256,6 +260,17 @@ export default {
         this.listProduct = "";
         this.message = "Vui lòng nhập từ khóa tìm kiếm";
       }
+    },
+  },
+  watch: {
+    '$store.state.search': {
+      handler(newValue, oldValue) {
+        // Xử lý khi giá trị của search thay đổi
+        if (newValue !== oldValue) {
+          this.searchProduct();
+        }
+      },
+      immediate: true, // Thực thi ngay lập tức khi watcher được tạo
     },
   },
 };

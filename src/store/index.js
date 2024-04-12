@@ -1,31 +1,26 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// store/index.js
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // isAuthenticated: false
-  },
-  getters: {
-    // isAuthenticated: state => state.isAuthenticated
+    search: '',
   },
   mutations: {
-    // LOGIN(state) {
-    //   state.isAuthenticated = true;
-    // },
-    // LOGOUT(state) {
-    //   state.isAuthenticated = false;
-    // }
+    setSearch(state, payload) {
+      state.search = payload;
+    },
   },
   actions: {
-    // login({ commit }) {
-    //   commit('LOGIN');
-    // },
-    // logout({ commit }) {
-    //   commit('LOGOUT');
-    // }
+    setSearch(context, payload) {
+      context.commit('setSearch', payload);
+    },
   },
-  modules: {
-  }
-})
+  getters: {
+    getSearch(state) {
+      return state.search;
+    },
+  },
+});

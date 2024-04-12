@@ -58,6 +58,25 @@
           <div class="collapse navbar-collapse" id="navbarReponsive">
             <ul class="navbar-nav ml-auto" role="tablist" style="float: center">
               <li class="nav-item">
+                <div class="search col-md-3">
+                  <b-nav-form @submit.stop.prevent>
+                    <b-form-input
+                      size="sm"
+                      class="mr-sm-2"
+                      placeholder="Search"
+                      v-model="search"
+                    ></b-form-input>
+                    <b-button
+                      size="sm"
+                      class="my-2 my-sm-0"
+                      type="submit"
+                      @click="searchProduct()"
+                      >Search</b-button
+                    >
+                  </b-nav-form>
+                </div>
+              </li>
+              <li class="nav-item">
                 <div class="dropdown">
                   <button class="dropbtn">
                     <i v-if="!userData" class="bi bi-person"></i>
@@ -117,6 +136,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "the-header",
   props: {
@@ -140,10 +160,13 @@ export default {
         numberInStock: "",
       },
       // search
-      // search: "",
+      search: "",
       // listProductSearch: [],
       // message: "",
     };
+  },
+  computed: {
+    ...mapGetters(["getSearch"]),
   },
   created() {
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -174,30 +197,18 @@ export default {
           console.log(err);
         });
     },
-    // searchProduct() {
-    //   console.log(" SEARCH  !!!", this.search);
-    //   if (this.search) {
-    //     axios
-    //       .post(`http://localhost:3838/products/search/${this.search}`)
-    //       .then((res) => {
-    //         if (res.data.status === 200 && res.data.data !== null) {
-    //           this.listProductSearch = res.data.data;
-    //           this.message = "";
-
-    //           console.log("Thành công SEARCH  !!!", this.listProductSearch);
-    //         } else {
-    //           this.listProductSearch = "";
-    //           this.message = "Không tìm thấy sản phẩm !!!";
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   } else {
-    //     this.listProductSearch = "";
-    //     this.message = "Vui lòng nhập từ khóa tìm kiếm";
-    //   }
-    // },
+    searchProduct() {
+      // console.log(" SEARCH  !!!", this.search);
+      // this.$store.dispatch("setSearch", this.search);
+      if (this.$route.path !== "/search") {
+        this.$router.push({
+          path: "/search",
+        });
+        this.$store.dispatch("setSearch", this.search);
+      } else {
+        this.$store.dispatch("setSearch", this.search);
+      }
+    },
   },
 };
 </script>
