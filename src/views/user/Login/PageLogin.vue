@@ -15,17 +15,23 @@
             </div>
             <span>hoặc đăng ký tài khoản với email của bạn</span>
             <input type="text" v-model="user.name" placeholder="Name" />
+            <span v-if="errors.name" class="error">{{ errors.name }}</span>
             <input type="email" v-model="user.email" placeholder="Email" />
+            <span v-if="errors.email" class="error">{{ errors.email }}</span>
             <input
               type="text"
               v-model="user.phone"
               placeholder="Số điện thoại"
             />
+            <span v-if="errors.phone" class="error">{{ errors.phone }}</span>
             <input
               type="password"
               v-model="user.password"
               placeholder="Password"
             />
+            <span v-if="errors.password" class="error">{{
+              errors.password
+            }}</span>
             <button @click="signup">Đăng Ký</button>
           </form>
         </div>
@@ -39,18 +45,18 @@
             </div>
             <span>hoặc sử dụng email và mật khẩu của bạn</span>
             <input type="email" v-model="userLogin.email" placeholder="Email" />
-            <!-- <span v-if="errors.email" class="error">{{ errors.email }}</span> -->
+            <span v-if="errors.email" class="error">{{ errors.email }}</span>
             <input
               type="password"
               v-model="userLogin.password"
               placeholder="Password"
             />
-            <!-- <span v-if="errors.password" class="error">{{
+            <span v-if="errors.password" class="error">{{
               errors.password
-            }}</span> -->
+            }}</span>
             <a href="">Bạn quên mật khẩu ?</a>
             <button @click.prevent="login">Đăng Nhập</button>
-            <!-- <span v-if="errorMessage" class="error">{{ errorMessage }}</span> -->
+            <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
           </form>
         </div>
         <div class="toggle-container">
@@ -101,33 +107,70 @@ export default {
         email: "",
         password: "",
       },
-      // userLogin: {
-      //   email: "",
-      //   password: "",
-      // },
-      // errors: {
-      //   email: "",
-      //   password: "",
-      // },
-      // errorMessage: "",
+      errors: {
+        email: "",
+        password: "",
+        phone: "",
+        name: "",
+      },
+      errorMessage: "",
     };
   },
 
   methods: {
-    changeSwitch() {
-      const container = document.getElementById("container");
-      const registerBtn = document.getElementById("register");
-      const loginBtn = document.getElementById("login");
-
-      registerBtn.addEventListener("click", () => {
-        container.classList.add("active");
-      });
-
-      loginBtn.addEventListener("click", () => {
-        container.classList.remove("active");
-      });
+    isValidEmail(email) {
+      // Simple email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    isValidPhone(phone) {
+      const phoneRegex = /^[0-9]{10}$/; // 10 số
+      return phoneRegex.test(phone);
     },
     signup(e) {
+      this.errors.name = "";
+      this.errors.email = "";
+      this.errors.phone = "";
+      this.errors.password = "";
+      this.errorMessage = "";
+
+      // Validate name
+      if (!this.user.name) {
+        this.errors.name = "Vui lòng nhập tên.";
+      }
+
+      // Validate email
+      if (!this.user.email) {
+        this.errors.email = "Vui lòng nhập email.";
+      } else if (!this.isValidEmail(this.user.email)) {
+        this.errors.email = "Email không hợp lệ.";
+      }
+
+      // Validate phone
+      if (!this.user.phone) {
+        this.errors.phone = "Vui lòng nhập số điện thoại.";
+      } else if (!this.isValidPhone(this.user.phone)) {
+        this.errors.phone = "Số điện thoại không hợp lệ.";
+      }
+
+      // Validate password
+      if (!this.user.password) {
+        this.errors.password = "Vui lòng nhập mật khẩu.";
+      } else if (this.user.password.length < 6) {
+        this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+      }
+
+      // If no errors, proceed to signup
+      if (
+        !this.errors.name &&
+        !this.errors.email &&
+        !this.errors.phone &&
+        !this.errors.password
+      ) {
+        // Call API to signup
+        // For this example, I'll just show an error message
+        this.errorMessage = "Đăng ký không thành công.";
+      }
       e.preventDefault(); // Ngan form tu submit
       console.log("Day la thong tin nguoi dung dang ky", this.user);
       axios
@@ -142,70 +185,100 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            window.location.reload();
+            // window.location.reload();
           }
         })
         .catch((err) => {
           console.log(err);
+          // Kiểm tra nếu lỗi là do tài khoản không chính xác
+          if (err.response && err.response.status === 401) {
+            this.errorMessage = "Email hoặc mật khẩu không chính xác.";
+            // Reload trang đăng nhập
+            // this.userLogin.email = "";
+            // this.userLogin.password = "";
+          }
         });
     },
 
     login(e) {
       e.preventDefault(); // Ngan form tu submit
-      console.log("Day la thong tin nguoi dung dang nhap", this.userLogin);
-      axios
-        .post("http://localhost:3838/login", this.userLogin)
-        .then((res) => {
-          console.log("thanh cong", res);
-          if (res.data.status === 200 && res.data.data.user) {
-            this.$swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Dang nhap thanh cong",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            localStorage.setItem(
-              "userData",
-              JSON.stringify(res.data.data.user)
-            );
-            if (res.data.data.user.role === "administrator") {
-              console.log("Chạy 1");
-              this.$router.push({ name: "products" });
-            } else {
-              this.$router.push({ name: "home" });
-              console.log("Chạy 2");
+
+      // Reset errors and errorMessage
+      this.errors.email = "";
+      this.errors.password = "";
+      this.errorMessage = "";
+
+      // Validate email
+      if (!this.userLogin.email) {
+        this.errors.email = "Vui lòng nhập email.";
+      } else if (!this.isValidEmail(this.userLogin.email)) {
+        this.errors.email = "Email không hợp lệ.";
+        this.userLogin.email = "";
+      }
+
+      // Validate password
+      if (!this.userLogin.password) {
+        this.errors.password = "Vui lòng nhập mật khẩu.";
+        this.userLogin.password = "";
+      } else if (this.userLogin.password.length < 6) {
+        this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+        this.userLogin.password = "";
+      }
+
+      // If no errors, proceed to login
+      if (!this.errors.email && !this.errors.password) {
+        console.log("Day la thong tin nguoi dung dang nhap", this.userLogin);
+        axios
+          .post("http://localhost:3838/login", this.userLogin)
+          .then((res) => {
+            console.log("thanh cong", res);
+            if (res.data.status === 200 && res.data.data.user) {
+              this.$swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Dang nhap thanh cong",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              localStorage.setItem(
+                "userData",
+                JSON.stringify(res.data.data.user)
+              );
+              if (res.data.data.user.role === "administrator") {
+                console.log("Chạy 1");
+                this.$router.push({ name: "products" });
+              } else {
+                this.$router.push({ name: "home" });
+                console.log("Chạy 2");
+              }
             }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          })
+          .catch((err) => {
+            console.log(err);
+            // Kiểm tra nếu lỗi là do tài khoản không chính xác
+            if (err.response && err.response.status === 401) {
+              this.errorMessage = "Email hoặc mật khẩu không chính xác.";
+              // Reload trang đăng nhập
+              this.userLogin.email = "";
+              this.userLogin.password = "";
+            }
+          });
+      }
     },
-    // login() {
-    //   // Reset errors
-    //   this.errors = {};
 
-    //   // Validate email
-    //   if (!this.userLogin.email) {
-    //     this.errors.email = "Vui lòng nhập email của bạn.";
-    //   }
+    changeSwitch() {
+      const container = document.getElementById("container");
+      const registerBtn = document.getElementById("register");
+      const loginBtn = document.getElementById("login");
 
-    //   // Validate password
-    //   if (!this.userLogin.password) {
-    //     this.errors.password = "Vui lòng nhập mật khẩu của bạn.";
-    //   }
+      registerBtn.addEventListener("click", () => {
+        container.classList.add("active");
+      });
 
-    //   // Check if there are any errors
-    //   if (Object.keys(this.errors).length > 0) {
-    //     return;
-    //   }
-
-    //   // TODO: Call login API
-    //   // For now, just show error message
-    //   this.errorMessage =
-    //     "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập.";
-    // },
+      loginBtn.addEventListener("click", () => {
+        container.classList.remove("active");
+      });
+    },
   },
 };
 </script>

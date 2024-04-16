@@ -1,18 +1,6 @@
 <template>
   <div>
     <div><TheHeader /></div>
-
-    <div class="contact" style="margin-bottom: 50px; margin-top: 1px">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d244.94941242857888!2d106.65353722261744!3d10.796709437749403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529a490ac0839%3A0x95c47664bcd7d113!2zS0lORyBTSE9FUyAtIEPhu61hIGjDoG5nIGdpw6B5IFNuZWFrZXIgY2jDrW5oIGjDo25nIHThuqFpIEhDTQ!5e0!3m2!1svi!2s!4v1660110090209!5m2!1svi!2s"
-        width="100%"
-        height="450"
-        style="border: 0"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
     <div class="container" style="margin-top: 50px">
       <div class="row">
         <div class="contact col-md-6">
@@ -65,7 +53,19 @@
           </div>
         </div>
       </div>
+      <div class="contact" style="margin-bottom: 50px; margin-top: 1px">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d244.94941242857888!2d106.65353722261744!3d10.796709437749403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529a490ac0839%3A0x95c47664bcd7d113!2zS0lORyBTSE9FUyAtIEPhu61hIGjDoG5nIGdpw6B5IFNuZWFrZXIgY2jDrW5oIGjDo25nIHThuqFpIEhDTQ!5e0!3m2!1svi!2s!4v1660110090209!5m2!1svi!2s"
+          width="100%"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </div>
+
     <div><TheFooter /></div>
   </div>
 </template>

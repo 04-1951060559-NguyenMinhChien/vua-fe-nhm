@@ -146,9 +146,9 @@
                       }}</strong
                     >
                   </div>
-                  <!-- <div class="products-hot-HOT">
-                  <i class="bi bi-fire"></i> {{ item.product_type }}
-                </div> -->
+                  <div class="products-hot-HOT" v-if="item.product_type">
+                    <i class="bi bi-fire"></i> {{ item.product_type }}
+                  </div>
                   <div class="products-hot-sale-off" v-if="item.sellingPrice">
                     <span class="products-hot-sale-off-percent">
                       {{ item.sellingPrice }}%</span
@@ -163,24 +163,22 @@
         <div class="col-3">
           <div class="aside">
             <div class="aside aside-footwate">
-              <a href=""
-                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=""
+              <a href=" "
+                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=" "
               /></a>
             </div>
             <hr />
             <div class="aside aside-news">
-              <div class="container">
-                <div class="row-5">
-                  <div class="aside-news-header">
-                    <h3><b>TIN TỨC MỚI</b></h3>
-                  </div>
-                  <div class="aside-news-conten">
-                    <img src="../../../assets/Blog/Blog1.jpg" alt="" />
-                    <p>
-                      Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
-                      Kingshoesvn
-                    </p>
-                  </div>
+              <div class="row-5">
+                <div class="aside-news-header">
+                  <h3><b>TIN TỨC MỚI</b></h3>
+                </div>
+                <div class="aside-news-conten">
+                  <img src="../../../assets/Blog/Blog1.jpg" alt=" " />
+                  <p>
+                    Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
+                    Kingshoesvn
+                  </p>
                 </div>
               </div>
             </div>
@@ -284,6 +282,9 @@ export default {
 .aside-news img {
   width: 100%;
 }
+img {
+  width: 100%;
+}
 
 .products-hot {
   border: 1px solid #dadada;
@@ -340,9 +341,10 @@ export default {
   margin-bottom: 10px;
 }
 .products-hot-HOT {
+  font-size: 13px;
   position: absolute;
   top: 10px;
-  left: -4px;
+  left: 10px;
   background-color: red;
   padding: 0 5px;
   color: #fff;

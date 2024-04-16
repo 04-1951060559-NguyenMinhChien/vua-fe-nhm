@@ -83,7 +83,6 @@
                         id="textarea productName"
                         class="form-control"
                         v-model="dataCreate.description"
-                        required
                       ></textarea>
                     </div>
 
@@ -241,7 +240,6 @@
                         id="textarea productName"
                         class="form-control"
                         v-model="dataUpdate.description"
-                        required
                       ></textarea>
                     </div>
 
@@ -336,7 +334,6 @@
                         class="form-select"
                         id="productType"
                         v-model="dataUpdate.product_type"
-                        required
                       >
                         <option value="">Chọn loại sản phẩm:</option>
                         <option

@@ -116,7 +116,7 @@
                 >
               </div>
             </div>
-            <div class="products-hot-HOT">
+            <div class="products-hot-HOT" v-if="item.product_type">
               <i class="bi bi-fire"></i> {{ item.product_type }}
             </div>
             <div class="products-hot-sale-off" v-if="item.sellingPrice">
@@ -187,7 +187,7 @@
                     >
                   </div>
                 </div>
-                <div class="products-hot-HOT">
+                <div class="products-hot-HOT" v-if="item.product_type">
                   <i class="bi bi-fire"></i> {{ item.product_type }}
                 </div>
                 <div class="products-hot-sale-off" v-if="item.sellingPrice">
@@ -200,163 +200,71 @@
             </div>
           </div>
           <br />
-          <!-- Nav tabs -->
-          <!-- <ul class="nav nav-tabs mr-auto" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#home"
-                ><b>NIKE</b>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#menu1"
-                ><b>ADIDAS</b></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#menu2"
-                ><b>JORDAN</b></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#menu3"
-                ><b>YEEZY</b></a
-              >
-            </li>
-          </ul> -->
-
-          <!-- Tab panes -->
-          <!-- HOME-NIKE -->
-          <div class="tab-content">
-            <div id="home" class="container tab-pane active">
-              <br />
-              <!-- <div class="row">
-                                <div class="col-md-3">
-                                    <div class="products-hot">
-                                        <div class="products-hot-img">
-                                            <router-link to="/users/productdetails">
-                                                <img :src="'http://localhost:3838/' + item.image" alt=""
-                                                    style="width: 100%" />
-                                            </router-link>
-                                        </div>
-                                        <div class="products-hot-body">
-                                            <h4 class="card-title text-uppercase">
-                                                <router-link to="/users/productdetails">
-                                                    {{ item.name }}
-                                                </router-link>
-                                            </h4>
-                                            <p class="card-text">
-                                            <div class="star ">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <strong>{{ formatPrice(item.price) }}</strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-            </div>
-            <!-- ADIDAS -->
-            <div id="menu1" class="container tab-pane fade">
-              <br />
-              <!-- <div class="row">
-                                <div class="col-md-3">
-                                    <div class="products-hot">
-                                        <div class="products-hot-img">
-                                            <router-link to="/users/productdetails">
-                                                <img :src="'http://localhost:3838/' + item.image" alt=""
-                                                    style="width: 100%" />
-                                            </router-link>
-                                        </div>
-                                        <div class="products-hot-body">
-                                            <h4 class="card-title text-uppercase">
-                                                <router-link to="/users/productdetails">
-                                                    {{ item.name }}
-                                                </router-link>
-                                            </h4>
-                                            <p class="card-text">
-                                            <div class="star ">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <strong>{{ formatPrice(item.price) }}</strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-            </div>
-            <!-- JORDAN -->
-            <div id="menu2" class="container tab-pane fade">
-              <br />
-              <!-- <div class="row">
-                                <div class="col-md-3">
-                                    <div class="products-hot">
-                                        <div class="products-hot-img">
-                                            <router-link to="/users/productdetails">
-                                                <img :src="'http://localhost:3838/' + item.image" alt=""
-                                                    style="width: 100%" />
-                                            </router-link>
-                                        </div>
-                                        <div class="products-hot-body">
-                                            <h4 class="card-title text-uppercase">
-                                                <router-link to="/users/productdetails">
-                                                    {{ item.name }}
-                                                </router-link>
-                                            </h4>
-                                            <p class="card-text">
-                                            <div class="star ">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <strong>{{ formatPrice(item.price) }}</strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-            </div>
-            <!-- YEEZY -->
-            <div id="menu3" class="container tab-pane fade">
-              <br />
-              <!-- <div class="row">
-                                <div class="col-md-3">
-                                    <div class="products-hot">
-                                        <div class="products-hot-img">
-                                            <router-link to="/users/productdetails">
-                                                <img :src="'http://localhost:3838/' + item.image" alt=""
-                                                    style="width: 100%" />
-                                            </router-link>
-                                        </div>
-                                        <div class="products-hot-body">
-                                            <h4 class="card-title text-uppercase">
-                                                <router-link to="/users/productdetails">
-                                                    {{ item.name }}
-                                                </router-link>
-                                            </h4>
-                                            <p class="card-text">
-                                            <div class="star ">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                            </div>
-                                            <strong>{{ formatPrice(item.price) }}</strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+          <hr />
+          <h3 class="ps-section__title text-left" data-mask="Discount">
+            - Sản phẩm khuyến mãi
+          </h3>
+          <div class="row">
+            <div
+              class="col-md-3 text-left"
+              v-for="item in listProductSale"
+              :key="item.id"
+            >
+              <div class="products-hot">
+                <div class="products-hot-img">
+                  <router-link
+                    :to="{ name: 'productDetails', params: { id: item._id } }"
+                  >
+                    <img
+                      :src="'http://localhost:3838/' + item.image"
+                      alt=""
+                      style="width: 100%"
+                    />
+                  </router-link>
+                </div>
+                <div class="products-hot-body">
+                  <h4 class="card-title text-uppercase">
+                    <router-link
+                      :to="{ name: 'productDetails', params: { id: item._id } }"
+                    >
+                      {{ item.name }}
+                    </router-link>
+                  </h4>
+                  <span class="card-text">
+                    <div class="star">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                    </div>
+                  </span>
+                  <div class="price">
+                    <strong :class="{ 'price-old': item.sellingPrice }">{{
+                      formatPrice(item.price)
+                    }}</strong>
+                    <strong
+                      class="price-current"
+                      v-if="item.sellingPrice"
+                      style="color: red; padding-left: 10px"
+                      >{{
+                        formatPrice(
+                          calculateCurrentPrice(item.price, item.sellingPrice)
+                        )
+                      }}</strong
+                    >
+                  </div>
+                </div>
+                <div class="products-hot-HOT" v-if="item.product_type">
+                  <i class="bi bi-fire"></i> {{ item.product_type }}
+                </div>
+                <div class="products-hot-sale-off" v-if="item.sellingPrice">
+                  <span class="products-hot-sale-off-percent">
+                    {{ item.sellingPrice }}%</span
+                  >
+                  <span class="products-hot-sale-off-label"> GIẢM</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -539,6 +447,7 @@ export default {
       listProduct: [],
       listProductNew: [],
       listProductHot: [],
+      listProductSale: [],
       item: {
         sellingPrice: 0,
         price: 0,
@@ -574,8 +483,12 @@ export default {
               if (element.product_type === "HOT") {
                 this.listProductHot.push(element);
               }
+              if (element.sellingPrice) {
+                this.listProductSale.push(element);
+              }
             });
           }
+          console.log("Sale", this.listProductSale);
         })
         .catch((err) => {
           console.log(err);
@@ -777,7 +690,7 @@ export default {
   padding: 5px 10px;
   border-radius: 50%;
   background: red;
-  height: 30px;
+  /* height: 30px; */
   color: #fff;
 }
 .link i {

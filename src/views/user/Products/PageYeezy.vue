@@ -84,8 +84,31 @@
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
                     </div>
-                    <strong>{{ formatPrice(item.price) }}</strong>
                   </span>
+                  <div class="price">
+                    <strong :class="{ 'price-old': item.sellingPrice }">{{
+                      formatPrice(item.price)
+                    }}</strong>
+                    <strong
+                      class="price-current"
+                      v-if="item.sellingPrice"
+                      style="color: red; padding-left: 10px"
+                      >{{
+                        formatPrice(
+                          calculateCurrentPrice(item.price, item.sellingPrice)
+                        )
+                      }}</strong
+                    >
+                  </div>
+                </div>
+                <div class="products-hot-HOT" v-if="item.product_type">
+                  <i class="bi bi-fire"></i> {{ item.product_type }}
+                </div>
+                <div class="products-hot-sale-off" v-if="item.sellingPrice">
+                  <span class="products-hot-sale-off-percent">
+                    {{ item.sellingPrice }}%</span
+                  >
+                  <span class="products-hot-sale-off-label"> GIẢM</span>
                 </div>
               </div>
             </div>
@@ -94,24 +117,22 @@
         <div class="col-3">
           <div class="aside">
             <div class="aside aside-footwate">
-              <a href=""
-                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=""
+              <a href=" "
+                ><img src="../../../assets/Banner/bannersitebar01.jpg" alt=" "
               /></a>
             </div>
             <hr />
             <div class="aside aside-news">
-              <div class="container">
-                <div class="row-5">
-                  <div class="aside-news-header">
-                    <h3><b>TIN TỨC MỚI</b></h3>
-                  </div>
-                  <div class="aside-news-conten">
-                    <img src="../../../assets/Blog/Blog1.jpg" alt="" />
-                    <p>
-                      Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
-                      Kingshoesvn
-                    </p>
-                  </div>
+              <div class="row-5">
+                <div class="aside-news-header">
+                  <h3><b>TIN TỨC MỚI</b></h3>
+                </div>
+                <div class="aside-news-conten">
+                  <img src="../../../assets/Blog/Blog1.jpg" alt=" " />
+                  <p>
+                    Dịch Vụ Vệ Sinh Giày Sneaker Chuyên Nghiệp Tại Tân Bình -
+                    Kingshoesvn
+                  </p>
                 </div>
               </div>
             </div>
@@ -155,6 +176,10 @@ export default {
         style: "currency",
         currency: "VND",
       }).format(price);
+    },
+    calculateCurrentPrice(originalPrice, discountPercent) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return originalPrice - originalPrice * (discountPercent / 100);
     },
     getAllProduct() {
       axios
@@ -239,8 +264,9 @@ export default {
 }
 .products-hot-HOT {
   position: absolute;
+  font-size: 13px;
   top: 10px;
-  left: -4px;
+  left: 10px;
   background-color: red;
   padding: 0 5px;
   color: #fff;
