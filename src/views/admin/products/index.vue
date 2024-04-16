@@ -880,6 +880,8 @@ export default {
     this.getAllProduct();
     this.getAllSize();
     this.getAllBrand();
+    this.getAllBrandOn();
+    this.getAllSizeOn();
   },
   methods: {
     //Them moi san pham
@@ -1168,6 +1170,7 @@ export default {
             });
 
             this.getAllSize();
+            this.getAllSizeOn();
           } else {
             // Thêm thông báo lỗi
             console.log("Thêm thất bại !", res);
@@ -1192,6 +1195,18 @@ export default {
           if (res.data.status === 200 && res.data.data) {
             console.log("Thành công lấy size", res);
             this.listSize = res.data.data; //Gan data vao optionSize
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllSizeOn() {
+      axios
+        .get("http://localhost:3838/sizes-on")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("Thành công lấy size", res);
             this.optionsSize = res.data.data; //Gan data vao optionSize
           }
         })
@@ -1350,6 +1365,7 @@ export default {
             });
 
             this.getAllBrand();
+            this.getAllBrandOn();
           } else {
             // Thêm thông báo lỗi
             console.log("Sửa thất bại !", res);
@@ -1380,6 +1396,18 @@ export default {
           if (res.data.status === 200 && res.data.data) {
             console.log("Thành công lấy brand", res);
             this.listBrand = res.data.data; //Gan data vao optionSize
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllBrandOn() {
+      axios
+        .get("http://localhost:3838/brands-on")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            console.log("Thành công lấy brand", res);
             this.optionsBrand = res.data.data; //Gan data vao optionSize
           }
         })

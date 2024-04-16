@@ -185,8 +185,9 @@ export default {
   created() {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     const user = JSON.parse(localStorage.getItem("userData"));
-    this.user_id = user._id;
-    console.log("user_id in header", this.user_id);
+    if (user && user._id) {
+      this.user_id = user._id;
+    }
     this.getAllCart();
   },
   methods: {

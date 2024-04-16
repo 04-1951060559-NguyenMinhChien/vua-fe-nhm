@@ -158,9 +158,10 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(localStorage.getItem("userData"));
-    console.log(this.user);
-    this.dataAddCart.user_id = this.user._id;
-    console.log("this.dataAddCart.user_id", this.user._id);
+    console.log("cart", this.user);
+    if (this.user && this.user._id) {
+      this.dataAddCart.user_id = this.user._id;
+    }
   },
   data() {
     return {
@@ -197,66 +198,74 @@ export default {
       }
     },
     addCart() {
-      axios
-        .post("http://localhost:3838/carts", this.dataAddCart)
-        .then((res) => {
-          if (res.data.status === 200) {
-            console.log("Thêm thành công !", res.data);
-            // console.log(this.dataUpdate.product_type);
-            // Thêm thông báo thành công
-            this.$swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Thêm sản phẩm thành công !",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          } else {
-            // Thêm thông báo lỗi
-            console.log("Thêm thất bại !", res.data.message[0].message);
-            this.$swal.fire({
-              position: "center",
-              icon: "error",
-              title: res.data.message[0].message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.user && this.user._id) {
+        axios
+          .post("http://localhost:3838/carts", this.dataAddCart)
+          .then((res) => {
+            if (res.data.status === 200) {
+              console.log("Thêm thành công !", res.data);
+              // console.log(this.dataUpdate.product_type);
+              // Thêm thông báo thành công
+              this.$swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Thêm sản phẩm thành công !",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              // Thêm thông báo lỗi
+              console.log("Thêm thất bại !", res.data.message[0].message);
+              this.$swal.fire({
+                position: "center",
+                icon: "error",
+                title: res.data.message[0].message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$router.push("/login");
+      }
     },
     buyNow() {
-      axios
-        .post("http://localhost:3838/carts", this.dataAddCart)
-        .then((res) => {
-          if (res.data.status === 200) {
-            console.log("Thêm thành công !", res.data);
+      if (this.user && this.user._id) {
+        axios
+          .post("http://localhost:3838/carts", this.dataAddCart)
+          .then((res) => {
+            if (res.data.status === 200) {
+              console.log("Thêm thành công !", res.data);
 
-            this.$swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Thêm sản phẩm thành công !",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            router.push({ path: "/cart" });
-          } else {
-            // Thêm thông báo lỗi
-            console.log("Thêm thất bại !", res.data.message[0].message);
-            this.$swal.fire({
-              position: "center",
-              icon: "error",
-              title: res.data.message[0].message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+              this.$swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Thêm sản phẩm thành công !",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              router.push({ path: "/cart" });
+            } else {
+              // Thêm thông báo lỗi
+              console.log("Thêm thất bại !", res.data.message[0].message);
+              this.$swal.fire({
+                position: "center",
+                icon: "error",
+                title: res.data.message[0].message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$router.push("/login");
+      }
     },
     getAllProductById() {
       axios
