@@ -37,16 +37,17 @@
             <table class="table" v-if="selectedTable === 'Order'">
               <thead>
                 <tr style="background-color: #e0e0e0">
-                  <th scope="col" style="width: 7%">Ngày tạo</th>
-                  <th scope="col" style="width: 7%">Tên người nhận</th>
+                  <th scope="col">Ngày tạo</th>
+                  <th scope="col" style="width: 9%">Tên người nhận</th>
                   <th scope="col" style="width: 9%">Số điện thoại</th>
                   <!-- <th scope="col">Email</th> -->
-                  <th scope="col">Địa chỉ</th>
-                  <th scope="col" style="width: 7%">Tổng tiền</th>
+                  <th scope="col" style="width: 10%">Địa chỉ</th>
+                  <th scope="col" style="width: 10%">Tổng tiền</th>
                   <th scope="col" style="width: 7%">Phương thức thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái đơn hàng</th>
                   <th scope="col" style="width: 7%">Ghi chú</th>
+                  <th scope="col">Ghi chú</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,14 +91,176 @@
                     }}
                   </td>
                   <td>{{ item.note }}</td>
-                  <!-- <td>
-                    <i class="bi bi-eye-fill"></i>
-                    <i class="bi bi-pencil-square"></i>
-                  </td> -->
+                  <td>
+                    <i @click="showModalOrderDetail(item)" class="bi bi-eye-fill"></i>
+                    <!-- <i class="bi bi-pencil-square"></i> -->
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
+          <!-- Modal xem chi tiet don hang -->
+          <b-modal
+          ref="my-modal-order-detail"
+          id="modal-xl"
+          size="xl"
+          centered
+          hide-footer
+          title="Chi tiết đơn đặt hàng"
+        >
+          <div class="modal-body">
+            <form @submit.prevent="">
+              <div class="mb-3 order-detail">
+                <div class="row">
+                  <div class="col-4">
+                    <b>Ngày tạo: </b>{{ dataDetailOrder.createdAt }}
+                  </div>
+                  <div class="col-4">
+                    <b>Trạng thái thanh toán: </b>
+                    {{
+                      dataDetailOrder.statusPay === "0"
+                        ? "Thanh toán khi nhận hàng"
+                        : "Đã thanh toán"
+                    }}
+                  </div>
+                  <div class="col-4">
+                    <b>Trạng thái vận chuyển:</b>
+                    {{
+                      dataDetailOrder.statusOder === "0"
+                        ? "Chờ xác nhận"
+                        : item.statusOder === "1"
+                        ? "Xác nhận"
+                        : item.statusOder === "2"
+                        ? "Đang giao hàng"
+                        : item.statusOder === "3"
+                        ? "Giao hàng thành công"
+                        : item.statusOder === "4"
+                        ? "Giao hàng thất bại"
+                        : ""
+                    }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <b>Thông tin giao hàng:</b>
+                    <div class="information">
+                      <p><b>- Tên người nhận: </b>{{ dataDetailOrder.name }}</p>
+                      <p><b>- Số điện thoại: </b>{{ dataDetailOrder.phone }}</p>
+                      <p>
+                        <b>- Địa chỉ: </b
+                        >{{
+                          dataDetailOrder.address +
+                          ", " +
+                          dataDetailOrder.ward +
+                          ", " +
+                          dataDetailOrder.district +
+                          ", " +
+                          dataDetailOrder.province
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <b>Phương thức thanh toán: </b>
+                    <div class="typePay">
+                      {{ dataDetailOrder.typePay }}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <b>Ghi chú: </b>
+                    <div class="note" v-if="dataDetailOrder.note">
+                      {{ dataDetailOrder.note }}
+                    </div>
+                    <div class="note" v-if="!dataDetailOrder.note">
+                      Không có ghi chú !!!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="totalPrice text-right">
+                <p>
+                <h5>TỔNG TIỀN: <b style="color:Red">{{ formatPrice(dataDetailOrder.totalPrice)  }}</b></h5>
+
+                </p>
+                
+              </div>
+              <div class="product-detail">
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table">
+                      <thead>
+                        <tr style="background-color: #e0e0e0">
+                          <th scope="col" style="width: 10%">Hình ảnh</th>
+                          <th scope="col">Thông tin sản phẩm</th>
+                          <th scope="col">Đơn giá</th>
+                          <th scope="col"style="width: 5%">Số lượng</th>
+                          <!-- <th scope="col">Tổng tiền</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item2 in dataDetailOrder.product">
+                          <td>
+                            <img
+                              :src="
+                                'http://localhost:3838/' +
+                                item2.product_id.image
+                              "
+                              alt=""
+                              style="width: 100%; height: 100%"
+                            />
+                          </td>
+                          <td>
+                            Tên sản phẩm: {{ item2.product_id.name }} <br>
+                            Size: {{ item2.product_id.size_id }}
+                          </td>
+                          <td>
+                            <p
+                              v-if="
+                                item2.product_id.sellingPrice &&
+                                item2.product_id.price
+                              "
+                            >
+                              {{
+                                formatPrice(
+                                  calculateCurrentPrice(
+                                    item2.product_id.price,
+                                    item2.product_id.sellingPrice
+                                  )
+                                )
+                              }}
+                            </p>
+                            <p
+                              v-if="
+                                !item2.product_id.sellingPrice &&
+                                item2.product_id.price
+                              "
+                            >
+                              {{
+                                formatPrice(
+                                  calculateCurrentPrice(
+                                    item2.product_id.price,
+                                    0
+                                  )
+                                )
+                              }}
+                            </p>
+                          </td>
+                          <!-- <td>{{ item2.product_id.size_id ? item2.product_id.size_id.name : "" }}</td> -->
+                          <td>{{ item2.quantity }}</td>
+                          <!-- <td rowspan="5">{{ dataDetailOrder.totalPrice }}</td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </b-modal>
         </div>
       </div>
     </div>
@@ -124,15 +287,43 @@ export default {
       userData: {},
       selectedTable: "Order",
       listOrder: [],
+      dataDetailOrder: {
+        user_id: "",
+        product_data: [],
+        name: "",
+        email: "",
+        address: "",
+        ward: "",
+        district: "",
+        province: "",
+        phone: "",
+        totalPrice: "",
+        note: "",
+        typePay: "COD",
+        statusPay: "",
+        statusOder: "0",
+      },
+      dataProductDetail: {},
     };
   },
   created() {
+    this.getAllSize();
     this.getAllUser();
     this.userData = JSON.parse(localStorage.getItem("userData"));
 
     this.getAllOrder();
   },
   methods: {
+    showModalOrderDetail(item) {
+      console.log(item);
+      this.dataDetailOrder = item;
+      this.$refs["my-modal-order-detail"].show();
+      this.imageUrl = "http://localhost:3838/" + item.image;
+    },
+
+    hideModalOrderDetail() {
+      this.$refs["my-modal-order-detail"].hide();
+    },
     getAllUser() {
       axios
         .get("http://localhost:3838/users")
@@ -147,6 +338,20 @@ export default {
           console.log(err);
         });
     },
+    getAllSize() {
+      axios
+        .get("http://localhost:3838/sizes")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.listSize = res.data.data;
+          }
+
+          console.log("Thành công lấy size", this.listSize);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
 
     getAllOrder() {
       axios
@@ -155,6 +360,16 @@ export default {
           if (res.data.status === 200 && res.data.data) {
             this.listOrder = res.data.data;
             console.log("Thành công !!!", this.listOrder);
+            this.listOrder.forEach((element) => {
+              // console.log(element);
+              element.product.forEach((element3) => {
+                this.listSize.forEach((element2) => {
+                  if (element3.product_id.size_id === element2._id) {
+                    element3.product_id.size_id = element2.name;
+                  }
+                });
+              });
+            });
           }
         })
         .catch((err) => {
@@ -166,6 +381,32 @@ export default {
         style: "currency",
         currency: "VND",
       }).format(price);
+    },
+    calculateCurrentPrice(price, sellingPrice) {
+      // Tính giá tiền hiện tại dựa trên giá gốc và phần trăm giảm giá
+      return price - price * (sellingPrice / 100);
+    },
+    calculateTotalAmount() {
+      let total = 0;
+      let data = this.dataShowCart.forEach((item) => {
+        // Chọn giá bán phù hợp: nếu có giá sale thì sử dụng giá sale, ngược lại sử dụng giá gốc
+        let price = item.product_id.sellingPrice
+          ? this.calculateCurrentPrice(
+              item.product_id.price,
+              item.product_id.sellingPrice
+            ) * item.quantity
+          : this.calculateCurrentPrice(item.product_id.price, "0") *
+            item.quantity;
+
+        // Tính tổng số tiền cho từng sản phẩm trong giỏ hàng
+        total += price;
+      });
+
+      // Cập nhật tổng số tiền cho đơn hàng
+
+      this.dataOrder.totalPrice = total;
+      // Trả về tổng số tiền
+      return total;
     },
   },
 };
@@ -229,5 +470,23 @@ table td {
 
 table tr:hover {
   background-color: #ddd;
+}
+.order-detail .row {
+  padding: 20px 0;
+}
+.information,
+.typePay,
+.note {
+  /* border: 1px solid; */
+  background-color: #ddd;
+  padding-left: 30px;
+  margin: 10px 0;
+  padding: 10px 0;
+  padding-left: 20px;
+  border-radius: 5px;
+}
+.information p {
+  margin: 0;
+  padding: 10px 0;
 }
 </style>
