@@ -359,7 +359,7 @@ export default {
       });
 
       // Cập nhật tổng số tiền cho đơn hàng
-      // this.dataOrder.totalPrice = total;
+      //this.dataOrder.totalPrice = total;
 
       // Trả về tổng số tiền
       return total;

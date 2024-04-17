@@ -33,6 +33,7 @@
               errors.password
             }}</span>
             <button @click="signup">Đăng Ký</button>
+            <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
           </form>
         </div>
         <div class="form-container sign-in">
@@ -45,18 +46,22 @@
             </div>
             <span>hoặc sử dụng email và mật khẩu của bạn</span>
             <input type="email" v-model="userLogin.email" placeholder="Email" />
-            <span v-if="errors.email" class="error">{{ errors.email }}</span>
+            <span v-if="errorsLogIn.email" class="error">{{
+              errorsLogIn.email
+            }}</span>
             <input
               type="password"
               v-model="userLogin.password"
               placeholder="Password"
             />
-            <span v-if="errors.password" class="error">{{
-              errors.password
+            <span v-if="errorsLogIn.password" class="error">{{
+              errorsLogIn.password
             }}</span>
             <a href="">Bạn quên mật khẩu ?</a>
             <button @click.prevent="login">Đăng Nhập</button>
-            <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
+            <span v-if="errorMessageLogin" class="error">{{
+              errorMessageLogin
+            }}</span>
           </form>
         </div>
         <div class="toggle-container">
@@ -113,7 +118,15 @@ export default {
         phone: "",
         name: "",
       },
+      errorsLogIn: {
+        email: "",
+        password: "",
+        // phone: "",
+        // name: "",
+      },
       errorMessage: "",
+      errorMessageLogin: "",
+      // data: "",
     };
   },
 
@@ -128,106 +141,102 @@ export default {
       return phoneRegex.test(phone);
     },
     signup(e) {
+      e.preventDefault(); // Ngan form tu submit
+
+      // Reset errors and errorMessage
       this.errors.name = "";
       this.errors.email = "";
       this.errors.phone = "";
       this.errors.password = "";
       this.errorMessage = "";
 
-      // Validate name
+      //Validate name
       if (!this.user.name) {
-        this.errors.name = "Vui lòng nhập tên.";
+        this.errors.name = "Vui lòng nhập họ tên của bạn !";
       }
 
       // Validate email
+
       if (!this.user.email) {
-        this.errors.email = "Vui lòng nhập email.";
+        this.errors.email = "Vui lòng nhập email !";
       } else if (!this.isValidEmail(this.user.email)) {
-        this.errors.email = "Email không hợp lệ.";
+        this.errors.email = "Email không hợp lệ !";
+        this.user.email = "";
       }
 
-      // Validate phone
+      //Validate phone
       if (!this.user.phone) {
-        this.errors.phone = "Vui lòng nhập số điện thoại.";
+        this.errors.phone = "Vui lòng nhập số điện thoại !";
       } else if (!this.isValidPhone(this.user.phone)) {
-        this.errors.phone = "Số điện thoại không hợp lệ.";
+        this.errors.phone = "Số điện thoại không hợp lệ !";
+        this.user.phone = "";
       }
 
       // Validate password
       if (!this.user.password) {
-        this.errors.password = "Vui lòng nhập mật khẩu.";
+        this.errors.password = "Vui lòng nhập mật khẩu !";
+        this.user.password = "";
       } else if (this.user.password.length < 6) {
-        this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+        this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự !";
+        this.user.password = "";
       }
 
-      // If no errors, proceed to signup
-      if (
-        !this.errors.name &&
-        !this.errors.email &&
-        !this.errors.phone &&
-        !this.errors.password
-      ) {
-        // Call API to signup
-        // For this example, I'll just show an error message
-        this.errorMessage = "Đăng ký không thành công.";
+      // If no errors, proceed to login
+      if (!this.errors.email && !this.errors.password) {
+        console.log("Đây là thông tin người dùng đăng ký", this.user);
+        axios
+          .post("http://localhost:3838/signup", this.user)
+          .then((res) => {
+            console.log("thanh cong", res);
+            if (res.data.status === 200) {
+              this.$swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Đăng ký tài khoản thành công",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              // window.location.reload();
+            } else {
+              this.errorMessage = "Tài khoản đã tồn tại !";
+              this.userLogin.email = "";
+              this.userLogin.password = "";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
-      e.preventDefault(); // Ngan form tu submit
-      console.log("Day la thong tin nguoi dung dang ky", this.user);
-      axios
-        .post("http://localhost:3838/signup", this.user)
-        .then((res) => {
-          console.log("thanh cong", res);
-          if (res.data.status === 200) {
-            this.$swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Your work has been saved",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            // window.location.reload();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          // Kiểm tra nếu lỗi là do tài khoản không chính xác
-          if (err.response && err.response.status === 401) {
-            this.errorMessage = "Email hoặc mật khẩu không chính xác.";
-            // Reload trang đăng nhập
-            // this.userLogin.email = "";
-            // this.userLogin.password = "";
-          }
-        });
     },
 
     login(e) {
       e.preventDefault(); // Ngan form tu submit
 
       // Reset errors and errorMessage
-      this.errors.email = "";
-      this.errors.password = "";
-      this.errorMessage = "";
+      this.errorsLogIn.email = "";
+      this.errorsLogIn.password = "";
+      this.errorMessageLogin = "";
 
       // Validate email
       if (!this.userLogin.email) {
-        this.errors.email = "Vui lòng nhập email.";
+        this.errorsLogIn.email = "Vui lòng nhập email !";
       } else if (!this.isValidEmail(this.userLogin.email)) {
-        this.errors.email = "Email không hợp lệ.";
+        this.errorsLogIn.email = "Email không hợp lệ !";
         this.userLogin.email = "";
       }
 
       // Validate password
       if (!this.userLogin.password) {
-        this.errors.password = "Vui lòng nhập mật khẩu.";
+        this.errorsLogIn.password = "Vui lòng nhập mật khẩu !";
         this.userLogin.password = "";
       } else if (this.userLogin.password.length < 6) {
-        this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+        this.errorsLogIn.password = "Mật khẩu phải có ít nhất 6 ký tự !";
         this.userLogin.password = "";
       }
 
       // If no errors, proceed to login
-      if (!this.errors.email && !this.errors.password) {
-        console.log("Day la thong tin nguoi dung dang nhap", this.userLogin);
+      if (!this.errorsLogIn.email && !this.errorsLogIn.password) {
+        console.log("Đây là thông tin người dùng đăng nhập", this.userLogin);
         axios
           .post("http://localhost:3838/login", this.userLogin)
           .then((res) => {
@@ -236,7 +245,7 @@ export default {
               this.$swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "Dang nhap thanh cong",
+                title: "Đăng nhập thành công",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -251,17 +260,18 @@ export default {
                 this.$router.push({ name: "home" });
                 console.log("Chạy 2");
               }
+            } else {
+              this.errorMessageLogin = "Email hoặc mật khẩu không chính xác !";
+              this.userLogin.email = "";
+              this.userLogin.password = "";
             }
           })
           .catch((err) => {
             console.log(err);
             // Kiểm tra nếu lỗi là do tài khoản không chính xác
-            if (err.response && err.response.status === 401) {
-              this.errorMessage = "Email hoặc mật khẩu không chính xác.";
-              // Reload trang đăng nhập
-              this.userLogin.email = "";
-              this.userLogin.password = "";
-            }
+            // if (err.response && err.response.status === 401) {
+
+            // }
           });
       }
     },
@@ -283,7 +293,7 @@ export default {
 };
 </script>
         
-        <style scoped>
+<style scoped>
 * {
   font-family: "Montserrat", sans-serif;
 }
@@ -306,7 +316,7 @@ body {
   overflow: hidden;
   width: 768px;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 580px;
   margin-top: 10%;
 }
 

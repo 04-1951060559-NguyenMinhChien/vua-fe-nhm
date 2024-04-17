@@ -138,7 +138,7 @@ export default {
         .get("http://localhost:3838/users")
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
-            this.listUser = res.data.data; //Gan data vao optionSize
+            this.listUser = res.data.data; //Gan data vao optionSize`
             console.log("Thành công lấy user", res);
             // this.optionsUser = res.data.data; //Gan data vao optionSize
           }
@@ -150,7 +150,7 @@ export default {
 
     getAllOrder() {
       axios
-        .get("http://localhost:3838/oders")
+        .get(`http://localhost:3838/oders/${this.userData._id}`)
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             this.listOrder = res.data.data;
