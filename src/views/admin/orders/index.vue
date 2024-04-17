@@ -48,7 +48,7 @@
                       item.province
                     }}
                   </td>
-                  <td>{{ item.totalPrice }} đ</td>
+                  <td>{{ formatPrice( item.totalPrice )}} </td>
                   <td>{{ item.typePay }}</td>
                   <td>
                     {{
@@ -217,7 +217,7 @@
               <hr />
               <div class="totalPrice text-right">
                 <p>
-                <h5>TỔNG TIỀN: <b style="color:Red">{{ dataDetailOrder.totalPrice }} đ</b></h5>
+                <h5>TỔNG TIỀN: <b style="color:Red">{{ formatPrice(dataDetailOrder.totalPrice)  }}</b></h5>
 
                 </p>
                 
@@ -228,10 +228,10 @@
                     <table class="table">
                       <thead>
                         <tr style="background-color: #e0e0e0">
-                          <th scope="col">Hình ảnh</th>
+                          <th scope="col" style="width: 10%">Hình ảnh</th>
                           <th scope="col">Thông tin sản phẩm</th>
                           <th scope="col">Đơn giá</th>
-                          <th scope="col">Số lượng</th>
+                          <th scope="col"style="width: 5%">Số lượng</th>
                           <!-- <th scope="col">Tổng tiền</th> -->
                         </tr>
                       </thead>
@@ -244,7 +244,7 @@
                                 item2.product_id.image
                               "
                               alt=""
-                              style="width: 50px; height: 70px"
+                              style="width: 100%; height: 100%"
                             />
                           </td>
                           <td>
@@ -469,7 +469,7 @@ export default {
 
       // Cập nhật tổng số tiền cho đơn hàng
 
-      // this.dataOrder.totalPrice = total;
+      this.dataOrder.totalPrice = total;
       // Trả về tổng số tiền
       return total;
     },

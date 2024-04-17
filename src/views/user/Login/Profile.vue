@@ -66,7 +66,7 @@
                       item.province
                     }}
                   </td>
-                  <td>{{ item.totalPrice }} đ</td>
+                  <td>{{ formatPrice(item.totalPrice) }}</td>
                   <td>{{ item.typePay }}</td>
                   <td>
                     {{
@@ -160,6 +160,12 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
     },
   },
 };

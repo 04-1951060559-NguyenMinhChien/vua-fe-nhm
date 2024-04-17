@@ -650,8 +650,8 @@
                   <th scope="col">Size</th>
                   <th scope="col">Giá bán</th>
                   <th scope="col">SALE</th>
-                  <th scope="col">Hình ảnh</th>
-                  <th scope="col">Loại sản phẩm</th>
+                  <th scope="col" style="width: 10%">Hình ảnh</th>
+                  <th scope="col" style="width: 7%">Loại sản phẩm</th>
                   <th scope="col">Số lượng</th>
                   <!-- <th scope="col">Trạng thái</th> -->
                   <th scope="col">Tác vụ</th>
@@ -663,7 +663,7 @@
                   <td>{{ item.brand_id ? item.brand_id.name : "" }}</td>
                   <td>{{ item.description }}</td>
                   <td>{{ item.size_id ? item.size_id.name : "" }}</td>
-                  <td>{{ item.price }} đ</td>
+                  <td>{{ formatPrice(item.price) }}</td>
                   <td>
                     {{ item.sellingPrice ? item.sellingPrice + "%" : "" }}
                   </td>
@@ -671,7 +671,7 @@
                     <img
                       :src="'http://localhost:3838/' + item.image"
                       alt=""
-                      style="width: 50px; height: 70px"
+                      style="width: 100%; height: 100%"
                     />
                   </td>
                   <td>{{ item.product_type }}</td>
@@ -711,7 +711,7 @@
                       class="bi bi-pencil-square"
                     ></i>
 
-                    <i @click="deleteSize(item)" class="bi bi-trash"></i>
+                    <!-- <i @click="deleteSize(item)" class="bi bi-trash"></i> -->
                   </td>
                 </tr>
               </tbody>
@@ -725,7 +725,7 @@
                   <th scope="col">Email</th>
                   <th scope="col">Số Điện Thoại</th>
                   <th scope="col">Địa Chỉ</th>
-                  <th scope="col">Hình ảnh</th>
+                  <th scope="col" style="width: 7%">Hình ảnh</th>
                   <th scope="col">Trạng thái</th>
                   <th scope="col">Tác vụ</th>
                 </tr>
@@ -740,7 +740,7 @@
                     <img
                       :src="'http://localhost:3838/' + item.image"
                       alt=""
-                      style="width: 50px; height: 70px"
+                      style="width: 100%; height: 100%"
                     />
                   </td>
 
@@ -752,7 +752,7 @@
                       @click="showModalUpdateBrand(item)"
                       class="bi bi-pencil-square"
                     ></i>
-                    <i @click="deleteBrand(item)" class="bi bi-trash"></i>
+                    <!-- <i @click="deleteBrand(item)" class="bi bi-trash"></i> -->
                   </td>
                 </tr>
               </tbody>
@@ -1460,6 +1460,12 @@ export default {
               });
           }
         });
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
     },
 
     changeTable(selected) {

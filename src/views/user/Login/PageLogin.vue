@@ -153,12 +153,14 @@ export default {
       //Validate name
       if (!this.user.name) {
         this.errors.name = "Vui lòng nhập họ tên của bạn !";
+        this.errors.name = "";
       }
 
       // Validate email
 
       if (!this.user.email) {
         this.errors.email = "Vui lòng nhập email !";
+        this.user.email = "";
       } else if (!this.isValidEmail(this.user.email)) {
         this.errors.email = "Email không hợp lệ !";
         this.user.email = "";
@@ -167,6 +169,7 @@ export default {
       //Validate phone
       if (!this.user.phone) {
         this.errors.phone = "Vui lòng nhập số điện thoại !";
+        this.user.phone = "";
       } else if (!this.isValidPhone(this.user.phone)) {
         this.errors.phone = "Số điện thoại không hợp lệ !";
         this.user.phone = "";
@@ -198,9 +201,10 @@ export default {
               });
               // window.location.reload();
             } else {
-              this.errorMessage = "Tài khoản đã tồn tại !";
-              this.userLogin.email = "";
-              this.userLogin.password = "";
+              this.errorMessage = res.data.message ? res.data.message : "";
+              this.user.email = "";
+              this.user.password = "";
+              this.user.phone = "";
             }
           })
           .catch((err) => {
@@ -261,7 +265,7 @@ export default {
                 console.log("Chạy 2");
               }
             } else {
-              this.errorMessageLogin = "Email hoặc mật khẩu không chính xác !";
+              this.errorMessageLogin = res.data.message ? res.data.message : "";
               this.userLogin.email = "";
               this.userLogin.password = "";
             }
