@@ -322,7 +322,12 @@ img {
 .products-hot-img:hover img {
   transform: scale(1.1); /* Phóng to 110% khi di chuột vào */
 }
-
+.card-title {
+  width: 200px; /* Đặt chiều rộng tùy ý */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .products-hot-body {
   padding: 0 20px;
   padding-bottom: 20px;

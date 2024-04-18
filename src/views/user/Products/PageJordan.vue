@@ -282,7 +282,12 @@ export default {
   border-top: 3px solid currentColor;
   border-left: 3px solid transparent;
 }
-
+.card-title {
+  width: 200px; /* Đặt chiều rộng tùy ý */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .products-hot-sale-off {
   position: absolute;
   top: 0;

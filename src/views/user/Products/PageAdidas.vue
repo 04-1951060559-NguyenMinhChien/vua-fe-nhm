@@ -228,7 +228,12 @@ export default {
 
   margin-bottom: 20px;
 }
-
+.card-title {
+  width: 200px; /* Đặt chiều rộng tùy ý */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .products-hot-img img {
   position: absolute;
   top: 0;
