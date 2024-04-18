@@ -69,33 +69,42 @@
             <div class="input-group">
               <div>
                 <label for="tinh">Tỉnh/Thành Phố:</label>
-                <input
-                  type="text"
-                  id="tinh"
-                  name="tinh"
-                  required
-                  v-model="dataOrder.province"
-                />
+                <select v-model="dataOrder.province" @change="provinceChanged">
+                  <option value="">Chọn tỉnh/thành phố</option>
+                  <option
+                    v-for="province in provinces"
+                    :key="province.idProvince"
+                    :value="province.name"
+                  >
+                    {{ province.name }}
+                  </option>
+                </select>
               </div>
               <div>
                 <label for="huyen">Quận/Huyện:</label>
-                <input
-                  type="text"
-                  id="huyen"
-                  name="huyen"
-                  required
-                  v-model="dataOrder.district"
-                />
+                <select v-model="dataOrder.district" @change="districtsChanged">
+                  <option value="">Chọn quận/huyện</option>
+                  <option
+                    v-for="district in filteredDistricts"
+                    :key="district.idDistrict"
+                    :value="district.name"
+                  >
+                    {{ district.name }}
+                  </option>
+                </select>
               </div>
               <div>
                 <label for="xa">Phường/Xã:</label>
-                <input
-                  type="text"
-                  id="xa"
-                  name="xa"
-                  required
-                  v-model="dataOrder.ward"
-                />
+                <select v-model="dataOrder.ward">
+                  <option value="">Chọn phường/xã</option>
+                  <option
+                    v-for="ward in filteredCommunes"
+                    :key="ward.idCommune"
+                    :value="ward.name"
+                  >
+                    {{ ward.name }}
+                  </option>
+                </select>
               </div>
             </div>
 
@@ -315,10 +324,18 @@
 <script>
 // import { selectProps } from "ant-design-vue/es/select";
 import axios from "axios";
+import addressData from "../../../../db.json";
 export default {
   props: ["data"],
   data() {
     return {
+      provinces: [], // Danh sách tỉnh/thành phố
+      districts: [], // Danh sách quận/huyện
+      ward: [], // Danh sách phường/xã
+      selectedProvince: "", // Tỉnh/thành phố được chọn
+      selectedDistricts: "", // Tỉnh/thành phố được chọn
+      filteredDistricts: [], // Danh sách quận/huyện được lọc theo tỉnh/thành phố
+      filteredCommunes: [], // Danh sách phường/xã được lọc theo quận/huyện
       confirm: false,
       selectedPay: false,
       selectedTypePay: "",
@@ -326,7 +343,6 @@ export default {
       quantity: 1,
       dataShowCart: [],
       user: [],
-      provinces: [],
       user_id: "",
       // dataCart: [],
       dataOrder: {
@@ -354,6 +370,11 @@ export default {
     console.log("user_id in carts", this.user_id);
     this.getAllSize();
     this.getAllCart();
+    console.log(addressData);
+    this.provinces = addressData.province; // Lọc ra các tỉnh/thành phố
+    this.districts = addressData.district; // Lọc ra các quận/huyện
+    this.ward = addressData.commune; // Lọc ra các phường/xã
+    console.log(this.ward, this.districts, this.provinces);
   },
   methods: {
     getAllCart() {
@@ -479,6 +500,23 @@ export default {
     },
     changeConfirm() {
       this.confirm = !this.confirm;
+    },
+    provinceChanged() {
+      let datacheck = this.provinces.filter(
+        (provinces) => provinces.name === this.dataOrder.province
+      );
+      // console.log("datacheck", datacheck);
+      this.filteredDistricts = this.districts.filter(
+        (district) => district.idProvince === datacheck[0].idProvince
+      );
+    },
+    districtsChanged() {
+      let datacheck = this.districts.filter(
+        (districts) => districts.name === this.dataOrder.district
+      );
+      this.filteredCommunes = this.ward.filter(
+        (ward) => ward.idDistrict === datacheck[0].idDistrict
+      );
     },
   },
 };
