@@ -47,7 +47,7 @@
                   <th scope="col" style="width: 7%">Trạng thái thanh toán</th>
                   <th scope="col" style="width: 7%">Trạng thái đơn hàng</th>
                   <th scope="col" style="width: 7%">Ghi chú</th>
-                  <th scope="col">Ghi chú</th>
+                  <th scope="col">Tác vụ</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,16 +84,20 @@
                         : item.statusOder === "1"
                         ? "Xác nhận"
                         : item.statusOder === "2"
-                        ? "Đang giao"
+                        ? "Đang giao hàng"
                         : item.statusOder === "3"
-                        ? "Thành công"
+                        ? "Giao hàng thành công"
+                        : item.statusOder === "4"
+                        ? "Giao hàng thất bại"
+                        : item.statusOder === "5"
+                        ? "Đơn đã hủy"
                         : ""
                     }}
                   </td>
                   <td>{{ item.note }}</td>
                   <td>
                     <i @click="showModalOrderDetail(item)" class="bi bi-eye-fill"></i>
-                    <!-- <i class="bi bi-pencil-square"></i> -->
+                    <i class="bi bi-pencil-square" @click="updateOder(item)"></i>
                   </td>
                 </tr>
               </tbody>
@@ -129,14 +133,16 @@
                     {{
                       dataDetailOrder.statusOder === "0"
                         ? "Chờ xác nhận"
-                        : item.statusOder === "1"
+                        : dataDetailOrder.statusOder === "1"
                         ? "Xác nhận"
-                        : item.statusOder === "2"
+                        : dataDetailOrder.statusOder === "2"
                         ? "Đang giao hàng"
-                        : item.statusOder === "3"
+                        : dataDetailOrder.statusOder === "3"
                         ? "Giao hàng thành công"
-                        : item.statusOder === "4"
+                        : dataDetailOrder.statusOder === "4"
                         ? "Giao hàng thất bại"
+                        : dataDetailOrder.statusOder === "5"
+                        ? "Đơn đã hủy"
                         : ""
                     }}
                   </div>
@@ -408,6 +414,63 @@ export default {
       // Trả về tổng số tiền
       return total;
     },
+    updateOder(item) {
+      let dataUpdate = {}
+      dataUpdate.statusOder = "5"
+      dataUpdate.statusPay = item.statusPay
+      dataUpdate._id = item._id
+      
+      if (item.statusOder === '0') {
+        this.$swal
+        .fire({
+          title: "Bạn chắc chắn muốn hủy ?",
+          text: "Bạn sẽ không thể khôi phục đơn hàng đã Hủy!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Đồng ý, Hủy ngay !!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            // Nếu người dùng đã xác nhận xóa
+            axios
+              .put(`http://localhost:3838/oders`, dataUpdate)
+              .then((res) => {
+                if (res.data.status === 200) {
+                  console.log("Hủy thành công", res);
+
+                  // Thông báo xóa thành công
+                  this.$swal.fire({
+                    title: "Đã Hủy !",
+                    text: "Đơn hàng đã được Hủy thành công",
+                    icon: "success",
+                  });
+
+                  // Cập nhật danh sách sản phẩm (giả sử bạn đã có hàm này là getAllProduct())
+                  this.getAllOrder();
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+
+                // Thông báo lỗi khi xóa sản phẩm
+                this.$swal.fire({
+                  title: "Error!",
+                  text: "An error occurred while deleting the product.",
+                  icon: "error",
+                });
+              });
+          }
+        });
+      }else{
+        this.$swal.fire({
+                    title: "Lỗi rồi",
+                    text: "Bạn chỉ có thể hủy đơn hàng chưa xác nhận",
+                    icon: "error",
+                  });
+      }
+    }
   },
 };
 </script>
