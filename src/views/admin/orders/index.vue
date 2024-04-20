@@ -113,7 +113,7 @@
                 >
                   <option value="">Cập nhật trạng thái đơn hàng:</option>
                   <option
-                    v-for="type in statusOder"
+                    v-for="type in statusOderSeleced"
                     :key="type._id"
                     :value="type._id"
                   >
@@ -313,7 +313,7 @@ export default {
       // userData: {},
       // selectedTable: "Order",
       listOrder: [],
-      statusOder: [
+      statusOderSeleced: [
         { _id: "0", name: "Chờ xác nhận" },
         { _id: "1", name: "Đã xác nhận" },
         { _id: "2", name: "Đang giao hàng" },
@@ -349,7 +349,8 @@ export default {
     // localStorage.removeItem("userData");
   },
   methods: {
-    showModalUpdateOrder() {
+    showModalUpdateOrder(item) {
+      this.dataUpdateOrder = item
       this.$refs["my-modal-update-order"].show();
     },
 
@@ -362,12 +363,10 @@ export default {
     //   this.imageUrl = URL.createObjectURL(file);
     // },
     handleSubmitUpdateOrder() {
-      const formData = new FormData();
-      formData.append("statusOder", this.dataUpdateOrder.statusOder);
       axios
         .put(
-          `http://localhost:3838/oders/${this.dataUpdateOrder._id}`,
-          formData
+          `http://localhost:3838/oders`,
+          this.dataUpdateOrder
         )
         .then((res) => {
           if (res.data.status === 200) {
@@ -380,8 +379,6 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-
-            this.getAllProduct();
           } else {
             // Thêm thông báo lỗi
             console.log("Sửa thất bại !", res);
