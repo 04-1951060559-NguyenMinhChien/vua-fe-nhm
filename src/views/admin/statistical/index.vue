@@ -1,0 +1,482 @@
+<template>
+  <div>
+    <div class="container-fluid" id="container">
+      <div class="row">
+        <!-- SIDE BAR -->
+        <div class="col-sm-2 d-none d-sm-flex" style="padding: 15px">
+          <div class="sidebar-manager">
+            <SideBar />
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-10" style="padding: 15px">
+          <div class="container-fluid" id="container">
+            <div class="panel panel-container">
+              <div class="row">
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
+                  <div class="panel panel-teal panel-widget border-right">
+                    <div class="row no-padding">
+                      <i class="bi bi-cart-check-fill"></i>
+                      <div class="large">120</div>
+                      <div class="text-muted">Đơn hàng</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
+                  <div class="panel panel-blue panel-widget border-right">
+                    <div class="row no-padding">
+                      <i class="bi bi-clipboard2-data"></i>
+                      <div class="large">52 Triệu</div>
+                      <div class="text-muted">Doanh thu</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
+                  <div class="panel panel-orange panel-widget border-right">
+                    <div class="row no-padding">
+                      <i class="bi bi-people-fill"></i>
+                      <div class="large">24</div>
+                      <div class="text-muted">Người dùng</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/.row-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+  
+  <script>
+import SideBar from "@/components/SideBar.vue";
+import axios from "axios";
+export default {
+  name: "statistical",
+  components: {
+    SideBar,
+  },
+  data() {
+    return {
+      // userData: {},
+      // selectedTable: "Order",
+      listOrder: [],
+      statusOder: [
+        { _id: "0", name: "Chờ xác nhận" },
+        { _id: "1", name: "Đã xác nhận" },
+        { _id: "2", name: "Đang giao hàng" },
+        { _id: "3", name: "Giao hàng thành công" },
+        { _id: "4", name: "Giao hàng không thành công" },
+      ],
+      dataUpdateOrder: {
+        statusOder: "",
+      },
+      dataDetailOrder: {
+        user_id: "",
+        product_data: [],
+        name: "",
+        email: "",
+        address: "",
+        ward: "",
+        district: "",
+        province: "",
+        phone: "",
+        totalPrice: "",
+        note: "",
+        typePay: "COD",
+        statusPay: "",
+        statusOder: "0",
+      },
+      dataProductDetail: {},
+    };
+  },
+  created() {
+    this.getAllSize();
+    this.getAllOrder();
+    // this.userData = JSON.parse(localStorage.getItem("userData"));
+    // localStorage.removeItem("userData");
+  },
+};
+</script>
+  
+  <style scoped>
+.product-manager h5 {
+  padding-top: 5px;
+}
+
+.active {
+  background-color: #6c757d;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.navbar {
+  padding: 0 15px;
+  background-color: #ffd600;
+}
+
+tbody i {
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+h2 {
+  padding-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+.bi-pencil-square {
+  color: green;
+}
+
+.bi-trash {
+  color: red;
+}
+
+.bi-pencil-square,
+.bi-trash {
+  border: 1px solid #a1a1a1;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: #ddd;
+}
+
+.panel {
+  border: 0;
+}
+
+.panel-container {
+  padding-top: 20px;
+}
+
+.panel-heading .fa-toggle-up,
+.panel-heading .fa-toggle-down {
+  font-size: 17px;
+}
+
+.panel-primary > .panel-heading {
+  background-color: #30a5ff;
+  color: #fff;
+  border: none;
+}
+
+.panel-success > .panel-heading {
+  background-color: #8ad919;
+  color: #fff;
+  border: none;
+}
+
+.panel-info > .panel-heading {
+  background-color: #30a5ff;
+  color: #fff;
+  border: none;
+}
+
+.panel-warning > .panel-heading {
+  background-color: #ffb53e;
+  color: #fff;
+  border: none;
+}
+
+.panel-danger > .panel-heading {
+  background-color: #f9243f;
+  color: #fff;
+  border: none;
+}
+
+.panel-primary .panel-settings,
+.panel-primary .panel-toggle,
+.panel-success .panel-settings,
+.panel-success .panel-toggle,
+.panel-info .panel-settings,
+.panel-info .panel-toggle,
+.panel-warning .panel-settings,
+.panel-warning .panel-toggle,
+.panel-danger .panel-settings,
+.panel-danger .panel-toggle {
+  border: none;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.panel-primary .panel-settings:hover,
+.panel-primary .panel-toggle:hover,
+.panel-success .panel-settings:hover,
+.panel-success .panel-toggle:hover,
+.panel-info .panel-settings:hover,
+.panel-info .panel-toggle:hover,
+.panel-warning .panel-settings:hover,
+.panel-warning .panel-toggle:hover,
+.panel-danger .panel-settings:hover,
+.panel-danger .panel-toggle:hover {
+  border: none;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.panel-blue {
+  background: #30a5ff;
+  color: #fff;
+}
+
+.panel-teal {
+  background: #1ebfae;
+  color: #fff;
+}
+
+.panel-orange {
+  background: #ffb53e;
+  color: #fff;
+}
+
+.panel-red {
+  background: #f9243f;
+  color: #fff;
+}
+
+.dark-overlay {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.panel-blue p,
+.panel-teal p,
+.panel-orange p,
+.panel-red p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.panel-heading {
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+  height: 60px;
+  line-height: 38px;
+}
+
+.panel-default .panel-heading {
+  background: #fff;
+  border-bottom: 1px solid #e9ecf2;
+  color: #444444;
+}
+
+.panel-footer {
+  background: #fff;
+  border-top: 1px solid #e9ecf2;
+}
+
+.panel-widget {
+  padding: 10px 0;
+  position: relative;
+  box-shadow: none;
+  border-radius: 0;
+  background: none;
+  text-align: center;
+  color: #333;
+}
+
+.panel-widget .panel-footer {
+  border: 0;
+  text-align: center;
+}
+
+.panel-footer .input-group {
+  padding: 0px;
+  margin: 0 -5px;
+}
+
+.panel-footer .input-group-btn:last-child > .btn,
+.panel-footer .input-group-btn:last-child > .btn-group {
+  margin: 0;
+}
+
+.panel-widget .panel-footer a {
+  color: #999;
+}
+
+.panel-widget .panel-footer a:hover {
+  color: #666;
+  text-decoration: none;
+}
+
+.panel-widget .text-muted {
+  margin-top: -6px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.panel-widget .large {
+  color: #373b45;
+  font-size: 3em;
+}
+
+.panel-settings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.panel-settings .dropdown a.dropdown-toggle,
+.panel-settings a {
+  padding: 0;
+  background: none;
+  color: #7c7c7c;
+}
+
+.panel-settings a,
+.panel-toggle {
+  width: 40px;
+  padding: 2px 0 0 0;
+}
+
+.panel-settings:hover,
+.panel-toggle:hover,
+.panel-settings .dropdown a.dropdown-toggle:hover,
+.panel-settings:active,
+.panel-toggle:active,
+.panel-settings .dropdown a.dropdown-toggle:active,
+.panel-settings:focus,
+.panel-toggle:focus,
+.panel-settings .dropdown a.dropdown-toggle:focus {
+  background: #f1f4f7;
+  color: #444444;
+}
+
+.panel-settings,
+.panel-toggle {
+  display: inline-block;
+  margin: -1px -5px 0 15px !important;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid #e9ecf2;
+  color: #7c7c7c;
+  background: #fff;
+  width: 42px;
+}
+
+.panel-settings {
+  width: 42px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.panel-settings li.dropdown {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-settings {
+  border: 1px solid #fff;
+  width: 220px;
+  font-size: 0.9em;
+  padding: 0;
+}
+
+.dropdown-settings li {
+  list-style: none;
+  padding: 0 10px;
+  width: 220px;
+  height: 26px;
+  line-height: 26px;
+}
+
+.dropdown-settings .divider {
+  margin: 7px 0;
+}
+
+.dropdown-settings li a {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  width: 100%;
+  color: #444444;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.panel-heading span {
+  margin: 0px;
+  font-size: 14px;
+}
+
+.panel-button-tab-right {
+  margin-left: 4px !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.panel-button-tab-left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.border-top {
+  border-top: 1px solid #dadbda;
+}
+
+.border-right {
+  border-right: 1px solid #dadbda;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #dadbda;
+}
+
+.border-left {
+  border-left: 1px solid #dadbda;
+}
+
+.panel .border-top,
+.panel .border-right,
+.panel .border-bottom,
+.panel .border-left {
+  border-color: #e9ecf2;
+}
+
+.bi-cart-check-fill,
+.bi-clipboard2-data,
+.bi-people-fill {
+  font-size: 40px;
+}
+
+.bi-cart-check-fill {
+  color: #30a5ff;
+}
+.bi-clipboard2-data {
+  color: red;
+}
+.bi-people-fill {
+  color: green;
+}
+</style>
+  

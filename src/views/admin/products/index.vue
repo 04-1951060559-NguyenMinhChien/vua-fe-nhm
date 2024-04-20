@@ -677,6 +677,8 @@
                   <td>{{ item.product_type }}</td>
                   <td>
                     {{ item.numberInStock ? item.numberInStock + " đôi" : "" }}
+                    <br />
+                    <span v-if="item.numberInStock < 10"> Sap het</span>
                   </td>
                   <td>
                     <i

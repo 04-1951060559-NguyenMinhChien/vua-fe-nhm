@@ -27,6 +27,7 @@ import profile from '../views/user/Login/Profile.vue'
 import AdminOrder from '../views/admin/orders/index.vue'
 import AdminProduct from '../views/admin/products/index.vue'
 import AdminUsers from '../views/admin/users/index.vue'
+import AdminStatistical from '../views/admin/statistical/index.vue'
 // import AdminStaff from '../views/admin/staff/index.vue'
 
 
@@ -149,18 +150,12 @@ const routes = [
     meta: { requiresAuth: true, roles: ['administrator'] },
     component: AdminUsers
   },
-  // {
-  //   path: '/admin/adminstaff',
-  //   name: 'admin-staff',
-  //   meta: { requiresAuth: true, roles: ['administrator'] },
-  //   component: AdminStaff
-  // },
-  // {
-  //   path: '/admin/adminstaff',
-  //   name: 'staff',
-  //   meta: { requiresAuth: true, roles: ['administrator'] },
-  //   component: AdminStaff
-  // }
+  {
+    path: '/admin/adminstatistical',
+    name: 'statistical',
+    meta: { requiresAuth: true, roles: ['administrator'] },
+    component: AdminStatistical
+  },
 
 ]
 const router = new VueRouter({

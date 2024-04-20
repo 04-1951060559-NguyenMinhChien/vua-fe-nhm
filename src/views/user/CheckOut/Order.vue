@@ -479,11 +479,11 @@ export default {
           this.$router.push("/profile");
         } else {
           // Thêm thông báo lỗi
-          console.log("Thêm thất bại !", res.data.message[0].message);
+          console.log("Thêm thất bại !", res.data.message);
           this.$swal.fire({
             position: "center",
             icon: "error",
-            title: res.data.message[0].message,
+            title: res.data.message,
             showConfirmButton: false,
             timer: 1500,
           });

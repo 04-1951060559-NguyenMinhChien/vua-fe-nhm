@@ -34,7 +34,7 @@
           </router-link>
         </li>
         <li>
-          <router-link class="nav-link" to="/admin/adminorder"
+          <router-link class="nav-link" to="/admin/adminstatistical"
             ><i class="bi bi-clipboard2-data"></i>Quản lý thống kê</router-link
           >
         </li>
