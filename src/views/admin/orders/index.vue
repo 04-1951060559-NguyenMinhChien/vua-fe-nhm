@@ -103,12 +103,13 @@
             <form @submit.prevent="handleSubmitUpdateOrder">
               <div class="mb-3">
                 <label for="productType" class="form-label"
-                  >Trạng thái đơn hàng</label
+                  >Trạng thái đơn hàng <br><span class="text-danger" v-if="dataUpdateOrder.statusOder === '3'">Đơn hàng đã thành công không thể sửa</span></label
                 >
                 <select
                   class="form-select"
                   id="productType"
                   v-model="dataUpdateOrder.statusOder"
+                  :disabled="dataUpdateOrder.statusOder === '3'"
                   required
                 >
                   <option value="">Cập nhật trạng thái đơn hàng:</option>
