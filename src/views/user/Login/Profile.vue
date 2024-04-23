@@ -694,4 +694,10 @@ table tr:hover {
   margin: 0;
   padding: 10px 0;
 }
+.change-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
 </style>

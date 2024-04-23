@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <img
-      src="../../../assets/Logo/logo.png"
-      alt=""
-      style="width: 30%; padding-top: 50px"
-    />
+    <router-link to="/">
+      <img
+        src="../../../assets/Logo/logo.png"
+        alt=""
+        style="width: 30%; padding-top: 50px"
+      />
+    </router-link>
     <div class="row" style="padding: 20px 0">
       <div class="col-8">
         <div class="delivery-address" style="padding-right: 70px">
@@ -127,7 +129,7 @@
               "
             >
               <router-link to="/cart" class="backCart">
-                Quay về trang giỏ hàng
+                <span class="btn btn-primary">Quay về trang giỏ hàng</span>
               </router-link>
               <div class="pay float-right" @click="changePay">
                 <span class="btn btn-primary">
@@ -137,8 +139,9 @@
             </div>
             <hr />
             <div class="pay" v-if="selectedPay">
-              <label class="container-pay"
-                >Thanh toán khi nhận hàng (COD)
+              <label class="container-pay">
+                <i class="bi bi-truck" style="padding: 0 10px"></i> Thanh toán
+                khi nhận hàng (COD)
 
                 <input
                   type="radio"
@@ -149,6 +152,7 @@
                 <span class="checkmark"></span>
               </label>
               <label class="container-pay"
+                ><i class="bi bi-credit-card-2-back" style="padding: 0 10px"></i
                 >Chuyển khoản ngân hàng
                 <input type="radio" name="radio" @click="changeTypePay('QR')" />
                 <span class="checkmark"></span>
@@ -198,7 +202,12 @@
                 hơn)
               </p>
             </div>
-            <button class="btn btn-primary" type="submit">
+            <button
+              class="btn btn-primary"
+              type="submit"
+              v-if="selectedPay"
+              style="font-weight: bold"
+            >
               HOÀN TẤT THANH TOÁN
             </button>
           </form>
@@ -583,6 +592,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #0056b3;
 }
+
 /* .order-information {
   background-color: #fff;
   padding: 20px;
@@ -590,14 +600,10 @@ input[type="submit"]:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
 } */
-.backCart {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #b5b5b5;
-  text-decoration: none;
-  color: #fff;
+.backCart .btn-primary {
+  background-color: #666;
 }
+
 .pay-COD,
 .pay-transfer {
   padding: 10px;
@@ -667,19 +673,24 @@ input[type="submit"]:hover {
   border-radius: 50%;
   background: white;
 }
+
 @keyframes colorChange {
   0% {
     color: red;
   }
+
   25% {
     color: blue;
   }
+
   50% {
     color: green;
   }
+
   75% {
     color: yellow;
   }
+
   100% {
     color: red;
   }
@@ -687,6 +698,17 @@ input[type="submit"]:hover {
 
 .color-change {
   animation: colorChange 1s infinite;
+}
+.btn-primary {
+  margin-top: 10px;
+}
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 </style>
 >
