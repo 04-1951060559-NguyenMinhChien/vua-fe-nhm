@@ -30,6 +30,103 @@
               </div>
             </div>
           </div>
+          <div class="change-profile">
+                  <b-button
+                    id="show-btn"
+                    @click="showModalUpdateUser()"
+                    >Cập nhật thông tin tài khoản</b-button
+                  >
+
+           <b-modal
+                ref="my-modal-update-users"
+                hide-footer
+                title="Cập nhật thông tin tài khoản"
+              >
+                <div class="modal-body">
+                  <form @submit.prevent="handleSubmitUpdateUsers">
+                    <div class="mb-3">
+                      <label for="userName" class="form-label"
+                        >Tên nguời dùng:</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="brandName"
+                        v-model="userData.name"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="UserPhoneNumber" class="form-label"
+                        >Số điện thoại:</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="UserPhoneNumber"
+                        v-model="userData.phone"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="emailUser" class="form-label">Email:</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="emailUser"
+                        v-model="userData.email"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Mật khẩu:</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        v-model="userData.password"
+                        required
+                      />
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label for="userImage" class="form-label"
+                        >Hình ảnh:</label
+                      >
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="userImage"
+                        @change="handleImageUserUploadUpdate"
+                        accept="image/*"
+                      />
+                      <div v-if="imageUrl">
+                        <img :src="imageUrl" alt="Ảnh người dùng" />
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="status" class="form-label">Trạng thái:</label>
+                      <input
+                        type="checkbox"
+                        id="status"
+                        v-model="dataCreateUsers.status"
+                      />
+                      <label for="status">Hoạt động</label>
+                    </div> -->
+
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Lưu</button>
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        @click="hideModalUpdateUsers"
+                      >
+                        Hủy
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </b-modal>
+          </div>
         </div>
         <div class="col-8" style="border-left: 1px solid #acacac">
           <h5>LỊCH SỬ ĐẶT HÀNG</h5>
@@ -309,7 +406,9 @@ export default {
         statusPay: "",
         statusOder: "0",
       },
+
       dataProductDetail: {},
+      dataUpdateUsers: [],
     };
   },
   created() {
@@ -329,6 +428,49 @@ export default {
 
     hideModalOrderDetail() {
       this.$refs["my-modal-order-detail"].hide();
+    },
+    showModalUpdateUser() {
+      this.dataUpdateUsers = this.userData;
+      this.$refs["my-modal-update-users"].show();
+    },
+    hideModalUpdateUsers() {
+      this.$refs["my-modal-update-users"].hide();
+    },
+    handleSubmitUpdateUsers() {
+      axios
+        .put(
+          `http://localhost:3838/users/${this.dataUpdateUsers._id}`,
+          this.dataUpdateUsers
+        )
+        .then((res) => {
+          if (res.data.status === 200) {
+            console.log("Cập nhật thành công !", res.data);
+            // Thêm thông báo thành công
+            this.$swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Sửa user thành công",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            this.getAllUser();
+          } else {
+            // Thêm thông báo lỗi
+            console.log("Sửa thất bại", res.data.message);
+            this.$swal.fire({
+              position: "center",
+              icon: "error",
+              title: res.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.hideModalUpdateUsers();
     },
     getAllUser() {
       axios
@@ -415,62 +557,62 @@ export default {
       return total;
     },
     updateOder(item) {
-      let dataUpdate = {}
-      dataUpdate.statusOder = "5"
-      dataUpdate.statusPay = item.statusPay
-      dataUpdate._id = item._id
-      
-      if (item.statusOder === '0') {
+      let dataUpdate = {};
+      dataUpdate.statusOder = "5";
+      dataUpdate.statusPay = item.statusPay;
+      dataUpdate._id = item._id;
+
+      if (item.statusOder === "0") {
         this.$swal
-        .fire({
-          title: "Bạn chắc chắn muốn hủy ?",
-          text: "Bạn sẽ không thể khôi phục đơn hàng đã Hủy!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Đồng ý, Hủy ngay !!",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            // Nếu người dùng đã xác nhận xóa
-            axios
-              .put(`http://localhost:3838/oders`, dataUpdate)
-              .then((res) => {
-                if (res.data.status === 200) {
-                  console.log("Hủy thành công", res);
+          .fire({
+            title: "Bạn chắc chắn muốn hủy ?",
+            text: "Bạn sẽ không thể khôi phục đơn hàng đã Hủy!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Đồng ý, Hủy ngay !!",
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              // Nếu người dùng đã xác nhận xóa
+              axios
+                .put(`http://localhost:3838/oders`, dataUpdate)
+                .then((res) => {
+                  if (res.data.status === 200) {
+                    console.log("Hủy thành công", res);
 
-                  // Thông báo xóa thành công
+                    // Thông báo xóa thành công
+                    this.$swal.fire({
+                      title: "Đã Hủy !",
+                      text: "Đơn hàng đã được Hủy thành công",
+                      icon: "success",
+                    });
+
+                    // Cập nhật danh sách sản phẩm (giả sử bạn đã có hàm này là getAllProduct())
+                    this.getAllOrder();
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+
+                  // Thông báo lỗi khi xóa sản phẩm
                   this.$swal.fire({
-                    title: "Đã Hủy !",
-                    text: "Đơn hàng đã được Hủy thành công",
-                    icon: "success",
-                  });
-
-                  // Cập nhật danh sách sản phẩm (giả sử bạn đã có hàm này là getAllProduct())
-                  this.getAllOrder();
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-
-                // Thông báo lỗi khi xóa sản phẩm
-                this.$swal.fire({
-                  title: "Error!",
-                  text: "An error occurred while deleting the product.",
-                  icon: "error",
-                });
-              });
-          }
-        });
-      }else{
-        this.$swal.fire({
-                    title: "Lỗi rồi",
-                    text: "Bạn chỉ có thể hủy đơn hàng chưa xác nhận",
+                    title: "Error!",
+                    text: "An error occurred while deleting the product.",
                     icon: "error",
                   });
+                });
+            }
+          });
+      } else {
+        this.$swal.fire({
+          title: "Lỗi rồi",
+          text: "Bạn chỉ có thể hủy đơn hàng chưa xác nhận",
+          icon: "error",
+        });
       }
-    }
+    },
   },
 };
 </script>
