@@ -17,7 +17,7 @@
                   <div class="panel panel-teal panel-widget border-right">
                     <div class="row no-padding">
                       <i class="bi bi-cart-check-fill"></i>
-                      <div class="large">120</div>
+                      <div class="large">{{ totalOrder }}</div>
                       <div class="text-muted">Đơn hàng</div>
                     </div>
                   </div>
@@ -26,7 +26,7 @@
                   <div class="panel panel-blue panel-widget border-right">
                     <div class="row no-padding">
                       <i class="bi bi-clipboard2-data"></i>
-                      <div class="large">52 Triệu</div>
+                      <div class="large">{{ totalPrice }}</div>
                       <div class="text-muted">Doanh thu</div>
                     </div>
                   </div>
@@ -42,6 +42,10 @@
                 </div>
               </div>
               <!--/.row-->
+
+              <figure class="highcharts-figure">
+                <div id="chart"></div>
+              </figure>
             </div>
           </div>
         </div>
@@ -53,13 +57,20 @@
   <script>
 import SideBar from "@/components/SideBar.vue";
 import axios from "axios";
+import Highcharts from "highcharts";
+import HighchartsVue from "highcharts-vue";
 export default {
   name: "statistical",
   components: {
     SideBar,
+    HighchartsVue,
   },
   data() {
     return {
+      type: "month",
+      dataTime: [],
+      dataCountOrder: [],
+      dataCountPrice: [],
       // userData: {},
       // selectedTable: "Order",
       listOrder: [],
@@ -90,13 +101,102 @@ export default {
         statusOder: "0",
       },
       dataProductDetail: {},
+      totalPrice: "",
+      totalOrder: "",
     };
   },
   created() {
-    this.getAllSize();
-    this.getAllOrder();
+    this.getStatistical();
+    // this.getAllSize();
+    // this.getAllOrder();
     // this.userData = JSON.parse(localStorage.getItem("userData"));
     // localStorage.removeItem("userData");
+  },
+  mounted() {},
+  methods: {
+    getStatistical() {
+      axios
+        .get(`http://localhost:3838/statistical?type=${this.type}`)
+        .then((res) => {
+          if (
+            res.data.status === 200 &&
+            res.data.data &&
+            res.data.data.length
+          ) {
+            res.data.data.forEach((element) => {
+              this.totalPrice += parseFloat(
+                element.totalRevenue.$numberDecimal
+              );
+              this.totalOrder += parseFloat(element.totalOrders);
+              this.dataTime.push(element._id.day);
+              this.dataCountPrice.push(
+                this.fomatPrice(element.totalRevenue.$numberDecimal)
+              );
+              this.dataCountOrder.push(element.totalOrders);
+            });
+          }
+
+          this.DrawChart();
+          console.log(
+            "Thành công !!!",
+            this.dataTime,
+            this.dataCountOrder,
+            this.dataCountPrice
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    fomatPrice(price) {
+      return price / 1000000;
+    },
+    formatNumber(number) {
+      return parseFloat(number);
+    },
+    DrawChart() {
+      Highcharts.chart("chart", {
+        chart: {
+          type: "column",
+        },
+        title: {
+          text: "Thống kê cửa hàng KING SHOES",
+          align: "center",
+        },
+        xAxis: {
+          categories: this.dataTime,
+          crosshair: true,
+          accessibility: {
+            description: "Countries",
+          },
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "",
+          },
+        },
+        // tooltip: {
+        //   valueSuffix: " (1000 MT)",
+        // },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+          },
+        },
+        series: [
+          {
+            name: "Doanh thu (triệu đồng)",
+            data: this.dataCountPrice,
+          },
+          {
+            name: "Đơn hàng (Đơn)",
+            data: this.dataCountOrder,
+          },
+        ],
+      });
+    },
   },
 };
 </script>
@@ -477,6 +577,53 @@ table tr:hover {
 }
 .bi-people-fill {
   color: green;
+}
+
+/* .highcharts-figure,
+.highcharts-data-table table {
+  min-width: 310px;
+  max-width: 800px;
+  margin: 1em auto;
+} */
+
+#container {
+  height: 400px;
+}
+
+.highcharts-data-table table {
+  font-family: Verdana, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #ebebeb;
+  margin: 10px auto;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.highcharts-data-table caption {
+  padding: 1em 0;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.highcharts-data-table th {
+  font-weight: 600;
+  padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+  padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+  background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+  background: #f1f7ff;
 }
 </style>
   

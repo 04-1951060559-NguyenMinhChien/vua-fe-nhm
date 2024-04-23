@@ -7,6 +7,7 @@ import store from './store'
 import swal from 'vue-sweetalert2'
 import "sweetalert2/dist/sweetalert2.min.css";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import HighchartsVue from 'highcharts-vue'
 // import 'ant-design-vue/dist/reset.css';
 // import axios from 'axios'
 // window.axios=axios;
@@ -20,12 +21,14 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 // Vue.use(DatePicker);
+Vue.use(HighchartsVue)
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  HighchartsVue,
 
   render: h => h(App)
 }).$mount('#app')
