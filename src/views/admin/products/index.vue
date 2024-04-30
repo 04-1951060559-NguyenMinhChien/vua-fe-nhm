@@ -13,6 +13,7 @@
         <div class="col-12 col-sm-10" style="padding: 15px">
           <div class="container-fluid" id="container">
             <div class="product-manager">
+              <!-- Điều hướng -->
               <div class="row" style="margin: 0 0 20px 0px">
                 <div
                   class="col-3 text-center"
@@ -37,6 +38,8 @@
                 >
                   <h5>QUẢN LÝ SIZE</h5>
                 </div>
+
+                <!-- Button Thêm -->
                 <div class="col-3 text-right">
                   <!-- BUTTON THEM SAN PHAM -->
                   <b-button
@@ -214,6 +217,7 @@
                   </form>
                 </div>
               </b-modal>
+
               <!-- modal sửa sản phẩm -->
               <b-modal
                 ref="my-modal-update"
@@ -641,56 +645,104 @@
             <!-- TABLE -->
 
             <!-- TABLE SAN PHAM -->
-            <table class="table" v-if="selectedTable === 'Product'">
-              <thead>
-                <tr style="background-color: #e0e0e0">
-                  <th scope="col">Tên sản phẩm</th>
-                  <th scope="col">Thương hiệu</th>
-                  <th scope="col">Mô tả</th>
-                  <th scope="col">Size</th>
-                  <th scope="col">Giá bán</th>
-                  <th scope="col">SALE</th>
-                  <th scope="col" style="width: 10%">Hình ảnh</th>
-                  <th scope="col" style="width: 7%">Loại sản phẩm</th>
-                  <th scope="col">Số lượng</th>
-                  <!-- <th scope="col">Trạng thái</th> -->
-                  <th scope="col">Tác vụ</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in listProduct" :key="item.id">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.brand_id ? item.brand_id.name : "" }}</td>
-                  <td>{{ item.description }}</td>
-                  <td>{{ item.size_id ? item.size_id.name : "" }}</td>
-                  <td>{{ formatPrice(item.price) }}</td>
-                  <td>
-                    {{ item.sellingPrice ? item.sellingPrice + "%" : "" }}
-                  </td>
-                  <td>
-                    <img
-                      :src="'http://localhost:3838/' + item.image"
-                      alt=""
-                      style="width: 100%; height: 100%"
-                    />
-                  </td>
-                  <td>{{ item.product_type }}</td>
-                  <td>
-                    {{ item.numberInStock ? item.numberInStock + " đôi" : "" }}
-                    <br />
-                    <span v-if="item.numberInStock < 10"> Sap het</span>
-                  </td>
-                  <td>
-                    <i
-                      @click="showModalUpdate(item)"
-                      class="bi bi-pencil-square"
-                    ></i>
+            <div class="tbl-products">
+              <div class="row" style="padding-bottom: 20px">
+                <div class="col-3">
+                  <b-nav-form @submit.stop.prevent>
+                    <div class="search-container">
+                      <b-form-input
+                        size="sm"
+                        class="mr-sm-2 search-input"
+                        placeholder="Bạn muốn tìm gì ... ?"
+                        v-model="search"
+                      ></b-form-input>
+                      <b-button
+                        size="sm"
+                        class="my-2 my-sm-0 search-button"
+                        type="submit"
+                        @click="searchProduct()"
+                        ><i class="bi bi-search"></i>
+                      </b-button>
+                    </div>
+                  </b-nav-form>
+                </div>
+              </div>
+              <table class="table" v-if="selectedTable === 'Product'">
+                <thead>
+                  <tr style="background-color: #e0e0e0">
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Thương hiệu</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Giá bán</th>
+                    <th scope="col">SALE</th>
+                    <th scope="col" style="width: 10%">Hình ảnh</th>
+                    <th scope="col" style="width: 7%">Loại sản phẩm</th>
+                    <th scope="col">Số lượng</th>
+                    <!-- <th scope="col">Trạng thái</th> -->
+                    <th scope="col">Tác vụ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in listProduct" :key="item.id">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.brand_id ? item.brand_id.name : "" }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.size_id ? item.size_id.name : "" }}</td>
+                    <td>{{ formatPrice(item.price) }}</td>
+                    <td>
+                      {{ item.sellingPrice ? item.sellingPrice + "%" : "" }}
+                    </td>
+                    <td>
+                      <img
+                        :src="'http://localhost:3838/' + item.image"
+                        alt=""
+                        style="width: 100%; height: 100%"
+                      />
+                    </td>
+                    <td>{{ item.product_type }}</td>
+                    <td>
+                      {{
+                        item.numberInStock ? item.numberInStock + " đôi" : ""
+                      }}
+                      <br />
+                      <span
+                        v-if="item.numberInStock == 0"
+                        style="
+                          text-align: center;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          background-color: red;
+                          border-radius: 5px;
+                        "
+                        >ĐÃ HẾT</span
+                      >
+                      <span
+                        v-if="item.numberInStock > 0 && item.numberInStock < 10"
+                        style="
+                          text-align: center;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          background-color: orange;
+                          border-radius: 5px;
+                        "
+                        >SẮP HẾT</span
+                      >
+                    </td>
+                    <td>
+                      <i
+                        @click="showModalUpdate(item)"
+                        class="bi bi-pencil-square"
+                      ></i>
 
-                    <i @click="deleteProduct(item)" class="bi bi-trash"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <i @click="deleteProduct(item)" class="bi bi-trash"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <!-- TABLE SIZE -->
             <table class="table" v-if="selectedTable === 'Size'">
@@ -870,6 +922,7 @@ export default {
       optionsBrand: [],
       optionsSize: [],
       optionProduct: [],
+      search: "",
     };
   },
   // computed: {
@@ -1472,6 +1525,24 @@ export default {
 
     changeTable(selected) {
       this.selectedTable = selected;
+    },
+    searchProduct() {
+      axios
+        .post(`http://localhost:3838/products/search/${this.search}`)
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data !== null) {
+            this.listProduct = res.data.data;
+            this.message = "";
+
+            console.log("Thành công SEARCH  !!!", this.listProduct);
+          } else {
+            this.listProduct = "";
+            this.message = "Không tìm thấy sản phẩm !!!";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -246,30 +246,30 @@ export default {
           console.log(err);
         });
     },
-    searchProduct() {
-      console.log(" SEARCH  !!!", this.search);
-      if (this.search) {
-        axios
-          .post(`http://localhost:3838/products/search/${this.search}`)
-          .then((res) => {
-            if (res.data.status === 200 && res.data.data !== null) {
-              this.listProduct = res.data.data;
-              this.message = "";
+    // searchProduct() {
+    //   console.log(" SEARCH  !!!", this.search);
+    //   if (this.search) {
+    //     axios
+    //       .post(`http://localhost:3838/products/search/${this.search}`)
+    //       .then((res) => {
+    //         if (res.data.status === 200 && res.data.data !== null) {
+    //           this.listProduct = res.data.data;
+    //           this.message = "";
 
-              console.log("Thành công SEARCH  !!!", this.listProduct);
-            } else {
-              this.listProduct = "";
-              this.message = "Không tìm thấy sản phẩm !!!";
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        this.listProduct = "";
-        this.message = "Vui lòng nhập từ khóa tìm kiếm";
-      }
-    },
+    //           console.log("Thành công SEARCH  !!!", this.listProduct);
+    //         } else {
+    //           this.listProduct = "";
+    //           this.message = "Không tìm thấy sản phẩm !!!";
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   } else {
+    //     this.listProduct = "";
+    //     this.message = "Vui lòng nhập từ khóa tìm kiếm";
+    //   }
+    // },
   },
 };
 </script>

@@ -481,14 +481,14 @@ export default {
           this.$swal.fire({
             position: "center",
             icon: "success",
-            title: "Thêm don hang thành công !",
+            title: "Tạo đơn hàng thành công !",
             showConfirmButton: false,
             timer: 1500,
           });
           this.$router.push("/profile");
         } else {
           // Thêm thông báo lỗi
-          console.log("Thêm thất bại !", res.data.message);
+          console.log("Tạo thất bại !", res.data.message);
           this.$swal.fire({
             position: "center",
             icon: "error",

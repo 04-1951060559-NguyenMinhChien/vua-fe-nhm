@@ -149,7 +149,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in listOrder" :key="item.id">
-                  <td>{{ item.createdAt }}</td>
+                  <td>{{ getDate(item.createdAt) }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.phone }}</td>
                   <!-- <td>{{ item.email }}</td> -->
@@ -376,6 +376,7 @@
 import TheHeader from "../../../components/TheHeader.vue";
 import TheFooter from "../../../components/TheFooter.vue";
 import axios from "axios";
+import moment from "moment";
 export default {
   name: "Profile",
   props: {
@@ -555,6 +556,13 @@ export default {
       this.dataOrder.totalPrice = total;
       // Trả về tổng số tiền
       return total;
+    },
+    getDate(date) {
+      try {
+        return moment(date).format(`DD/MM/YYYY`);
+      } catch (error) {
+        return ``;
+      }
     },
     updateOder(item) {
       let dataUpdate = {};

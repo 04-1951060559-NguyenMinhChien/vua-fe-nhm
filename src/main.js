@@ -8,6 +8,7 @@ import swal from 'vue-sweetalert2'
 import "sweetalert2/dist/sweetalert2.min.css";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import HighchartsVue from 'highcharts-vue'
+
 // import 'ant-design-vue/dist/reset.css';
 // import axios from 'axios'
 // window.axios=axios;

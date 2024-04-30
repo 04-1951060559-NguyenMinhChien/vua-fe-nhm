@@ -15,6 +15,53 @@
             <div>
               <h5>QUẢN LÝ ĐƠN HÀNG</h5>
             </div>
+            <div class="row" style="margin: 0 0 20px 0px">
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-All' }"
+                  @click="changeTable('Order-All')"
+                  style="border: 1px solid"
+                >
+                  <h5>Tất cả</h5>
+                </div>
+
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-WaitingConfirmation' }"
+                  @click="changeTable('Order-WaitingConfirmation')"
+                >
+                  <h5>Chờ xác nhận</h5>
+                </div>
+
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-Confirm' }"
+                  @click="changeTable('Size')"
+                >
+                  <h5>Đang giao</h5>
+                </div>
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-Delivery' }"
+                  @click="changeTable('Order-Delivery')"
+                >
+                  <h5>Giao thất bại</h5>
+                </div>
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-All' }"
+                  @click="changeTable('Size')"
+                >
+                  <h5>Giao thành công</h5>
+                </div>
+                <div
+                  class="col-2 text-center"
+                  :class="{ active: selectedTable === 'Order-All' }"
+                  @click="changeTable('Size')"
+                >
+                  <h5>Đã hủy</h5>
+                </div>
+              </div>
             <table class="table">
               <thead>
                 <tr style="background-color: #e0e0e0">
@@ -33,7 +80,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in listOrder" :key="item.id">
-                  <td>{{ item.createdAt }}</td>
+                  <td>{{ getDate(item.createdAt) }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.phone }}</td>
                   <td>{{ item.email }}</td>
@@ -304,6 +351,7 @@
 <script>
 import SideBar from "@/components/SideBar.vue";
 import axios from "axios";
+import moment from "moment";
 export default {
   name: "order",
   components: {
@@ -351,7 +399,7 @@ export default {
   },
   methods: {
     showModalUpdateOrder(item) {
-      this.dataUpdateOrder = item
+      this.dataUpdateOrder = item;
       this.$refs["my-modal-update-order"].show();
     },
 
@@ -365,10 +413,7 @@ export default {
     // },
     handleSubmitUpdateOrder() {
       axios
-        .put(
-          `http://localhost:3838/oders`,
-          this.dataUpdateOrder
-        )
+        .put(`http://localhost:3838/oders`, this.dataUpdateOrder)
         .then((res) => {
           if (res.data.status === 200) {
             console.log("Sửa thành công !", res.data);
@@ -477,6 +522,13 @@ export default {
         style: "currency",
         currency: "VND",
       }).format(price);
+    },
+    getDate(date) {
+      try {
+        return moment(date).format(`DD/MM/YYYY`);
+      } catch (error) {
+        return ``;
+      }
     },
   },
 };

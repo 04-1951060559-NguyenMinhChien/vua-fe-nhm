@@ -13,37 +13,76 @@
           <div class="container-fluid" id="container">
             <div class="panel panel-container">
               <div class="row">
-                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
-                  <div class="panel panel-teal panel-widget border-right">
-                    <div class="row no-padding">
-                      <i class="bi bi-cart-check-fill"></i>
-                      <div class="large">{{ totalOrder }}</div>
-                      <div class="text-muted">Đơn hàng</div>
+          <div class="search col-md-4">
+            <div class="form-group">
+              <label for="">THỐNG KÊ THEO</label>
+              <select class="form-control" name="" id="" v-model="selectedType" @change="handleChangeTime">
+                <option active:>Tháng</option>
+                <option>Năm</option>
+              </select>
+            </div>
+          </div>
+          </div>
+              <div class="row">
+                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                  <router-link
+                    to="/admin/adminorder"
+                    style="text-decoration: none"
+                  >
+                    <div class="panel panel-teal panel-widget border-right">
+                      <div class="row no-padding">
+                        <i class="bi bi-cart-check-fill"></i>
+                        <div class="large">{{ totalOrder }}</div>
+                        <div class="text-muted">Đơn hàng</div>
+                      </div>
                     </div>
-                  </div>
+                  </router-link>
                 </div>
-                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
-                  <div class="panel panel-blue panel-widget border-right">
-                    <div class="row no-padding">
-                      <i class="bi bi-clipboard2-data"></i>
-                      <div class="large">{{ totalPrice }}</div>
-                      <div class="text-muted">Doanh thu</div>
+                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                  <router-link to="" style="text-decoration: none">
+                    <div class="panel panel-blue panel-widget border-right">
+                      <div class="row no-padding">
+                        <i class="bi bi-clipboard2-data"></i>
+                        <div class="large">
+                          {{ formatPriceTotal(totalPrice) }}
+                        </div>
+                        <div class="text-muted">Doanh thu</div>
+                      </div>
                     </div>
-                  </div>
+                  </router-link>
                 </div>
-                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
-                  <div class="panel panel-orange panel-widget border-right">
-                    <div class="row no-padding">
-                      <i class="bi bi-people-fill"></i>
-                      <div class="large">24</div>
-                      <div class="text-muted">Người dùng</div>
+                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                  <router-link
+                    to="/admin/adminproducts"
+                    style="text-decoration: none"
+                  >
+                    <div class="panel panel-orange panel-widget border-right">
+                      <div class="row no-padding">
+                        <i class="bi bi-handbag"></i>
+                        <div class="large">{{ totalProduct }}</div>
+                        <div class="text-muted">Sản phẩm</div>
+                      </div>
                     </div>
-                  </div>
+                  </router-link>
+                </div>
+                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                  <router-link
+                    to="/admin/adminusers"
+                    style="text-decoration: none"
+                  >
+                    <div class="panel panel-orange panel-widget border-right">
+                      <div class="row no-padding">
+                        <i class="bi bi-people-fill"></i>
+                        <div class="large">{{ totalUser }}</div>
+                        <div class="text-muted">Người dùng</div>
+                      </div>
+                    </div>
+                  </router-link>
                 </div>
               </div>
               <!--/.row-->
 
-              <figure class="highcharts-figure">
+              <figure class="highcharts-figure" style="margin-top: 50px">
                 <div id="chart"></div>
               </figure>
             </div>
@@ -67,6 +106,7 @@ export default {
   },
   data() {
     return {
+      selectedType: "Tháng",
       type: "month",
       dataTime: [],
       dataCountOrder: [],
@@ -103,14 +143,14 @@ export default {
       dataProductDetail: {},
       totalPrice: "",
       totalOrder: "",
+      totalProduct: "",
+      totalUser: "",
     };
   },
   created() {
     this.getStatistical();
-    // this.getAllSize();
-    // this.getAllOrder();
-    // this.userData = JSON.parse(localStorage.getItem("userData"));
-    // localStorage.removeItem("userData");
+    this.getAllProduct();
+    this.getAllUser();
   },
   mounted() {},
   methods: {
@@ -123,14 +163,22 @@ export default {
             res.data.data &&
             res.data.data.length
           ) {
+            (this.dataTime = []),
+              (this.dataCountOrder = []),
+              (this.dataCountPrice = []),
+              (this.totalPrice = 0); // Khởi tạo là số 0
+            this.totalOrder = 0; // Khởi tạo là số 0
+
             res.data.data.forEach((element) => {
               this.totalPrice += parseFloat(
                 element.totalRevenue.$numberDecimal
               );
               this.totalOrder += parseFloat(element.totalOrders);
-              this.dataTime.push(element._id.day);
+              element._id.day
+                ? this.dataTime.push(element._id.day)
+                : this.dataTime.push(element._id.month);
               this.dataCountPrice.push(
-                this.fomatPrice(element.totalRevenue.$numberDecimal)
+                this.formatPrice(element.totalRevenue.$numberDecimal)
               );
               this.dataCountOrder.push(element.totalOrders);
             });
@@ -148,11 +196,17 @@ export default {
           console.log(err);
         });
     },
-    fomatPrice(price) {
+    formatPrice(price) {
       return price / 1000000;
     },
     formatNumber(number) {
       return parseFloat(number);
+    },
+    formatPriceTotal(price) {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price);
     },
     DrawChart() {
       Highcharts.chart("chart", {
@@ -196,6 +250,42 @@ export default {
           },
         ],
       });
+    },
+    handleChangeTime() {
+      if (this.selectedType === "Năm") {
+        console.log(this.type, "111111111");
+        this.type = "year";
+        this.getStatistical();
+      }
+      if (this.selectedType === "Tháng") {
+        console.log(this.type, "2222222222");
+        this.type = "month";
+        this.getStatistical();
+      }
+    },
+    getAllProduct() {
+      axios
+        .get("http://localhost:3838/products")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.totalProduct = res.data.data.length;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllUser() {
+      axios
+        .get("http://localhost:3838/users")
+        .then((res) => {
+          if (res.data.status === 200 && res.data.data) {
+            this.totalUser = res.data.data.length;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -565,7 +655,8 @@ table tr:hover {
 
 .bi-cart-check-fill,
 .bi-clipboard2-data,
-.bi-people-fill {
+.bi-people-fill,
+.bi-handbag {
   font-size: 40px;
 }
 
@@ -578,7 +669,9 @@ table tr:hover {
 .bi-people-fill {
   color: green;
 }
-
+.bi-handbag {
+  color: #8ad919;
+}
 /* .highcharts-figure,
 .highcharts-data-table table {
   min-width: 310px;
