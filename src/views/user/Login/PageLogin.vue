@@ -153,39 +153,36 @@ export default {
       //Validate name
       if (!this.user.name) {
         this.errors.name = "Vui lòng nhập họ tên của bạn !";
-        this.errors.name = "";
       }
 
       // Validate email
-
       if (!this.user.email) {
         this.errors.email = "Vui lòng nhập email !";
-        this.user.email = "";
       } else if (!this.isValidEmail(this.user.email)) {
         this.errors.email = "Email không hợp lệ !";
-        this.user.email = "";
       }
 
       //Validate phone
       if (!this.user.phone) {
         this.errors.phone = "Vui lòng nhập số điện thoại !";
-        this.user.phone = "";
       } else if (!this.isValidPhone(this.user.phone)) {
         this.errors.phone = "Số điện thoại không hợp lệ !";
-        this.user.phone = "";
       }
 
       // Validate password
       if (!this.user.password) {
         this.errors.password = "Vui lòng nhập mật khẩu !";
-        this.user.password = "";
       } else if (this.user.password.length < 6) {
         this.errors.password = "Mật khẩu phải có ít nhất 6 ký tự !";
-        this.user.password = "";
       }
 
       // If no errors, proceed to login
-      if (!this.errors.email && !this.errors.password) {
+      if (
+        !this.errors.name &&
+        !this.errors.email &&
+        !this.errors.phone &&
+        !this.errors.password
+      ) {
         console.log("Đây là thông tin người dùng đăng ký", this.user);
         axios
           .post("http://localhost:3838/signup", this.user)

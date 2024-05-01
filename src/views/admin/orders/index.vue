@@ -15,53 +15,20 @@
             <div>
               <h5>QUẢN LÝ ĐƠN HÀNG</h5>
             </div>
-            <div class="row" style="margin: 0 0 20px 0px">
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-All' }"
-                  @click="changeTable('Order-All')"
-                  style="border: 1px solid"
-                >
-                  <h5>Tất cả</h5>
-                </div>
-
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-WaitingConfirmation' }"
-                  @click="changeTable('Order-WaitingConfirmation')"
-                >
-                  <h5>Chờ xác nhận</h5>
-                </div>
-
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-Confirm' }"
-                  @click="changeTable('Size')"
-                >
-                  <h5>Đang giao</h5>
-                </div>
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-Delivery' }"
-                  @click="changeTable('Order-Delivery')"
-                >
-                  <h5>Giao thất bại</h5>
-                </div>
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-All' }"
-                  @click="changeTable('Size')"
-                >
-                  <h5>Giao thành công</h5>
-                </div>
-                <div
-                  class="col-2 text-center"
-                  :class="{ active: selectedTable === 'Order-All' }"
-                  @click="changeTable('Size')"
-                >
-                  <h5>Đã hủy</h5>
-                </div>
-              </div>
+            <div class="search col-md-4">
+            <div class="form-group">
+              <!-- <label for="">Trạng thái đơn hàng</label> -->
+              <select class="form-control" name="" id=""  v-model="selectedStatus" @change="handleChangeStatus">
+                <option active:>Tất cả đơn hàng</option>
+                <option>Chờ xác nhận</option>
+                <option>Đã xác nhận</option>
+                <option>Đang giao hàng</option>
+                <option>Giao hàng thành công</option>
+                <option>Giao hàng thất bại</option>
+                <option>Đơn hàng đã hủy</option>
+              </select>
+            </div>
+          </div>
             <table class="table">
               <thead>
                 <tr style="background-color: #e0e0e0">
@@ -117,6 +84,8 @@
                         ? "Giao hàng thành công"
                         : item.statusOder === "4"
                         ? "Giao hàng thất bại"
+                        : item.statusOder === "5"
+                        ? "Đơn đã hủy"
                         : ""
                     }}
                   </td>
@@ -219,6 +188,8 @@
                         ? "Giao hàng thành công"
                         : item.statusOder === "4"
                         ? "Giao hàng thất bại"
+                        : item.statusOder === "5"
+                        ? "Đơn đã hủy"
                         : ""
                     }}
                   </div>
@@ -368,6 +339,7 @@ export default {
         { _id: "2", name: "Đang giao hàng" },
         { _id: "3", name: "Giao hàng thành công" },
         { _id: "4", name: "Giao hàng không thành công" },
+        { _id: "5", name: "Đơn hàng đã hủy" },
       ],
       dataUpdateOrder: {
         statusOder: "",
@@ -389,6 +361,8 @@ export default {
         statusOder: "0",
       },
       dataProductDetail: {},
+      selectedStatus: "Tất cả đơn hàng",
+      status: "",
     };
   },
   created() {
@@ -406,11 +380,6 @@ export default {
     hideModalUpdateOrder() {
       this.$refs["my-modal-update-order"].hide();
     },
-    // handleImageUpload(event) {
-    //   const file = event.target.files[0];
-    //   this.dataCreate.image = file;
-    //   this.imageUrl = URL.createObjectURL(file);
-    // },
     handleSubmitUpdateOrder() {
       axios
         .put(`http://localhost:3838/oders`, this.dataUpdateOrder)
@@ -455,7 +424,7 @@ export default {
     },
     getAllOrder() {
       axios
-        .get("http://localhost:3838/oders")
+        .get(`http://localhost:3838/oders?statusOder=${this.status}`)
         .then((res) => {
           if (res.data.status === 200 && res.data.data) {
             this.listOrder = res.data.data;
@@ -475,6 +444,44 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    handleChangeStatus() {
+      if (this.selectedStatus === "Tất cả đơn hàng") {
+        console.log(this.status, "33434343");
+        this.status = "";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Chờ xác nhận") {
+        console.log(this.status, "111111111");
+        this.status = "0";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Đã xác nhận") {
+        console.log(this.status, "111111111");
+        this.status = "1";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Đang giao hàng") {
+        console.log(this.status, "111111111");
+        this.status = "2";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Giao hàng thành công") {
+        console.log(this.status, "111111111");
+        this.status = "3";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Giao hàng thất bại") {
+        console.log(this.status, "111111111");
+        this.status = "4";
+        this.getAllOrder();
+      }
+      if (this.selectedStatus === "Đơn hàng đã hủy") {
+        console.log(this.status, "111111111");
+        this.status = "5";
+        this.getAllOrder();
+      }
     },
     getAllSize() {
       axios
