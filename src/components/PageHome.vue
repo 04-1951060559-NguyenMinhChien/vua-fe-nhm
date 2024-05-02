@@ -84,13 +84,18 @@
               </router-link>
             </div>
             <div class="products-hot-body">
-              <h4 class="card-title text-uppercase">
-                <router-link
-                  :to="{ name: 'productDetails', params: { id: item._id } }"
-                >
-                  {{ item.name }}
-                </router-link>
-              </h4>
+              <div class="product-info">
+                <h4 class="card-title text-uppercase">
+                  <router-link
+                    :to="{ name: 'productDetails', params: { id: item._id } }"
+                  >
+                    {{ item.name }}
+                  </router-link>
+                </h4>
+
+                <i class="stock-info">Số lượng: {{ item.numberInStock }}</i>
+              </div>
+
               <span class="card-text">
                 <div class="star">
                   <i class="bi bi-star-fill"></i>
@@ -155,13 +160,20 @@
                   </router-link>
                 </div>
                 <div class="products-hot-body">
-                  <h4 class="card-title text-uppercase">
-                    <router-link
-                      :to="{ name: 'productDetails', params: { id: item._id } }"
-                    >
-                      {{ item.name }}
-                    </router-link>
-                  </h4>
+                  <div class="product-info">
+                    <h4 class="card-title text-uppercase">
+                      <router-link
+                        :to="{
+                          name: 'productDetails',
+                          params: { id: item._id },
+                        }"
+                      >
+                        {{ item.name }}
+                      </router-link>
+                    </h4>
+
+                    <i class="stock-info">Số lượng: {{ item.numberInStock }}</i>
+                  </div>
                   <span class="card-text">
                     <div class="star">
                       <i class="bi bi-star-fill"></i>
@@ -223,13 +235,20 @@
                   </router-link>
                 </div>
                 <div class="products-hot-body">
-                  <h4 class="card-title text-uppercase">
-                    <router-link
-                      :to="{ name: 'productDetails', params: { id: item._id } }"
-                    >
-                      {{ item.name }}
-                    </router-link>
-                  </h4>
+                  <div class="product-info">
+                    <h4 class="card-title text-uppercase">
+                      <router-link
+                        :to="{
+                          name: 'productDetails',
+                          params: { id: item._id },
+                        }"
+                      >
+                        {{ item.name }}
+                      </router-link>
+                    </h4>
+
+                    <i class="stock-info">Số lượng: {{ item.numberInStock }}</i>
+                  </div>
                   <span class="card-text">
                     <div class="star">
                       <i class="bi bi-star-fill"></i>
@@ -735,5 +754,20 @@ export default {
 .price-old {
   text-decoration: line-through; /* Gạch ngang giá cũ */
   color: #9d9d9d;
+}
+.product-info {
+  display: flex;
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.card-title {
+  flex: 1; /* Đảm bảo tiêu đề sản phẩm chiếm hết phần còn lại của hàng */
+  white-space: nowrap; /* Ngăn tiêu đề sản phẩm xuống dòng */
+  overflow: hidden; /* Ẩn phần nội dung vượt quá chiều rộng */
+  text-overflow: ellipsis; /* Hiển thị dấu "..." khi nội dung vượt quá */
+}
+
+.stock-info {
+  margin-left: 10px;
 }
 </style>

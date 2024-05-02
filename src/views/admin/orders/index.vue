@@ -165,7 +165,7 @@
               <div class="mb-3 order-detail">
                 <div class="row">
                   <div class="col-4">
-                    <b>Ngày tạo: </b>{{ dataDetailOrder.createdAt }}
+                    <b>Ngày tạo: </b>{{ getDate(dataDetailOrder.createdAt) }}
                   </div>
                   <div class="col-4">
                     <b>Trạng thái thanh toán: </b>

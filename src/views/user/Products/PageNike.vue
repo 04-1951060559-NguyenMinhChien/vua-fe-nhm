@@ -3,7 +3,6 @@
     <div>
       <TheHeader />
     </div>
-
     <!-- <div class="search1 " style="margin-top: 50px; margin-bottom: 50px ">
       <div class="container navbar-collapse" id="searchReponsive">
         <div class="row">
@@ -115,13 +114,22 @@
                   </router-link>
                 </div>
                 <div class="products-hot-body">
-                  <h4 class="card-title text-uppercase">
-                    <router-link
-                      :to="{ name: 'productDetails', params: { id: item._id } }"
+                  <div class="product-info">
+                    <h5 class="card-title text-uppercase">
+                      <router-link
+                        :to="{
+                          name: 'productDetails',
+                          params: { id: item._id },
+                        }"
+                      >
+                        {{ item.name }}
+                      </router-link>
+                    </h5>
+
+                    <i class="stock-info" style="font-size: 13px"
+                      >Số lượng: {{ item.numberInStock }}</i
                     >
-                      {{ item.name }}
-                    </router-link>
-                  </h4>
+                  </div>
                   <span class="card-text">
                     <div class="star">
                       <i class="bi bi-star-fill"></i>
@@ -405,5 +413,20 @@ img {
 .price-old {
   text-decoration: line-through; /* Gạch ngang giá cũ */
   color: #9d9d9d;
+}
+.product-info {
+  display: flex;
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.card-title {
+  flex: 1; /* Đảm bảo tiêu đề sản phẩm chiếm hết phần còn lại của hàng */
+  white-space: nowrap; /* Ngăn tiêu đề sản phẩm xuống dòng */
+  overflow: hidden; /* Ẩn phần nội dung vượt quá chiều rộng */
+  text-overflow: ellipsis; /* Hiển thị dấu "..." khi nội dung vượt quá */
+}
+
+.stock-info {
+  margin-left: 10px;
 }
 </style>

@@ -215,7 +215,7 @@
               <div class="mb-3 order-detail">
                 <div class="row">
                   <div class="col-4">
-                    <b>Ngày tạo: </b>{{ dataDetailOrder.createdAt }}
+                    <b>Ngày tạo: </b>{{ getDate(dataDetailOrder.createdAt) }}
                   </div>
                   <div class="col-4">
                     <b>Trạng thái thanh toán: </b>
@@ -619,6 +619,13 @@ export default {
           text: "Bạn chỉ có thể hủy đơn hàng chưa xác nhận",
           icon: "error",
         });
+      }
+    },
+    getDate(date) {
+      try {
+        return moment(date).format(`DD/MM/YYYY`);
+      } catch (error) {
+        return ``;
       }
     },
   },

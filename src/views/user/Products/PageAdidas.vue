@@ -3,52 +3,6 @@
     <div>
       <TheHeader />
     </div>
-
-    <!-- <div class="search1 " style="margin-top: 50px; margin-bottom: 50px ">
-      <div class="container navbar-collapse" id="searchReponsive">
-        <div class="row">
-          <div class="search col-md-4">
-            <div class="form-group">
-              <label for="">Chọn size giày</label>
-              <select class="form-control" name="" id="">
-                <option active:>Size</option>
-                <option>37</option>
-                <option>38</option>
-                <option>39</option>
-                <option>40</option>
-                <option>41</option>
-                <option>42</option>
-                <option>43</option>
-              </select>
-            </div>
-          </div>
-          <div class="search col-md-4">
-            <div class="form-group">
-              <label for="">Khoảng giá</label>
-              <select class="form-control" name="" id="">
-                <option>Tất cả</option>
-                <option>Dưới 3 Triệu</option>
-                <option>Từ 3 đến 5 Triệu</option>
-                <option>Từ 5 đến 10 Triệu</option>
-                <option>Trên 10 Triệu</option>
-
-              </select>
-            </div>
-          </div>
-          <div class="search col-md-4">
-            <div class="form-group">
-              <label for="">Sắp xếp theo</label>
-              <select class="form-control" name="" id="">
-                <option>Giá từ thấp đến cao</option>
-                <option>Tên từ A-Z</option>
-                <option>Tên từ Z-A</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <!-- CONTENT -->
     <!-- Nike -->
     <div class="container" style="margin: 50px auto">
@@ -69,13 +23,22 @@
                   </router-link>
                 </div>
                 <div class="products-hot-body">
-                  <h4 class="card-title text-uppercase">
-                    <router-link
-                      :to="{ name: 'productDetails', params: { id: item._id } }"
+                  <div class="product-info">
+                    <h5 class="card-title text-uppercase">
+                      <router-link
+                        :to="{
+                          name: 'productDetails',
+                          params: { id: item._id },
+                        }"
+                      >
+                        {{ item.name }}
+                      </router-link>
+                    </h5>
+
+                    <i class="stock-info" style="font-size: 13px"
+                      >Số lượng: {{ item.numberInStock }}</i
                     >
-                      {{ item.name }}
-                    </router-link>
-                  </h4>
+                  </div>
                   <span class="card-text">
                     <div class="star">
                       <i class="bi bi-star-fill"></i>
@@ -327,5 +290,20 @@ export default {
 .price-old {
   text-decoration: line-through; /* Gạch ngang giá cũ */
   color: #9d9d9d;
+}
+.product-info {
+  display: flex;
+  align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.card-title {
+  flex: 1; /* Đảm bảo tiêu đề sản phẩm chiếm hết phần còn lại của hàng */
+  white-space: nowrap; /* Ngăn tiêu đề sản phẩm xuống dòng */
+  overflow: hidden; /* Ẩn phần nội dung vượt quá chiều rộng */
+  text-overflow: ellipsis; /* Hiển thị dấu "..." khi nội dung vượt quá */
+}
+
+.stock-info {
+  margin-left: 10px;
 }
 </style>

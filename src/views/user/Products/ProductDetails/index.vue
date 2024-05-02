@@ -44,6 +44,9 @@
                 </h3>
               </div>
             </div>
+            <i class="stock-info"
+              >Sản phẩm còn lại: {{ product.numberInStock }}</i
+            >
             <hr style="width: 70%" />
             <!-- Size -->
             <div class="product-detail-size">
@@ -72,6 +75,7 @@
                     <label class="btn" for="option5">{{
                       this.product.size_id ? this.product.size_id.name : ""
                     }}</label>
+                    <!-- <label class="btn" for="option5"> 39</label> -->
                   </div>
                 </div>
               </div>
@@ -191,12 +195,6 @@ export default {
     this.getAllProductById();
   },
   methods: {
-    increaseQuantity() {
-      if (this.quantity < 12) {
-        // Sử dụng maxlength của ô input là 12
-        this.quantity++;
-      }
-    },
     addCart() {
       if (this.user && this.user._id) {
         axios
@@ -215,11 +213,11 @@ export default {
               });
             } else {
               // Thêm thông báo lỗi
-              console.log("Thêm thất bại !", res.data.message[0].message);
+              console.log("Thêm thất bại !", res.data.message);
               this.$swal.fire({
                 position: "center",
                 icon: "error",
-                title: res.data.message[0].message,
+                title: res.data.message,
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -250,11 +248,11 @@ export default {
               router.push({ path: "/cart" });
             } else {
               // Thêm thông báo lỗi
-              console.log("Thêm thất bại !", res.data.message[0].message);
+              console.log("Thêm thất bại !", res.data);
               this.$swal.fire({
                 position: "center",
                 icon: "error",
-                title: res.data.message[0].message,
+                title: res.data.message,
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -276,12 +274,18 @@ export default {
             console.log("Thành công  !!!", this.product);
 
             this.dataAddCart.product_data[0].product_id = this.product._id;
-            console.log("dataaAddCart", this.dataAddCart);
+            console.log("dataAddCart", this.dataAddCart);
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    increaseQuantity() {
+      if (this.quantity < 12) {
+        // Sử dụng maxlength của ô input là 12
+        this.quantity++;
+      }
     },
     decreaseQuantity() {
       if (this.quantity > 1) {

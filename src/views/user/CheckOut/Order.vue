@@ -44,17 +44,6 @@
                 v-model="dataOrder.email"
               />
             </div>
-            <!-- <div>
-              <label for="gmail">Gmail:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                v-model="dataOrder.email"
-              />
-            </div> -->
-
             <div>
               <label for="diaChi"
                 >Địa chỉ nhận hàng (Số nhà, khu, ngõ, ngách, hẻm...):</label
@@ -195,7 +184,7 @@
               <img
                 src="../../../assets/Logo/QR.jpg"
                 alt=""
-                style="width: 50%"
+                style="width: 40%"
               />
               <p>
                 (quét mã QR trên App ngân hàng của bạn để tiện dụng và chính xác
